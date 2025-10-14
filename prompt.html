@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一个可以生成万千美女的提示词生成器</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#6B7280',
+                        accent: '#8B5CF6',
+                        neutral: '#F3F4F6',
+                        dark: '#1F2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            .transition-all-300 {
+                transition: all 0.3s ease;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+<!-- 顶部导航 -->
+<nav class="bg-white shadow-md fixed w-full z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <i class="fa fa-magic text-primary text-2xl mr-2"></i>
+                <span class="font-bold text-xl text-dark">提示词生成器</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="saveTemplateBtn" class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md text-sm font-medium transition-all-300">
+                    <i class="fa fa-save mr-1"></i> 保存模板
+                </button>
+                <button id="loadTemplateBtn" class="bg-secondary hover:bg-secondary/90 text-white px-4 py-2 rounded-md text-sm font-medium transition-all-300">
+                    <i class="fa fa-folder-open mr-1"></i> 加载模板
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- 主内容区 -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+
+    <!-- 输入表单 -->
+    <div class="mb-8">
+        <div class="bg-white rounded-xl p-6 card-shadow">
+            <h2 class="text-xl font-bold text-dark mb-6 flex items-center">
+                <i class="fa fa-edit text-primary mr-2"></i> 提示词配置
+            </h2>
+
+            <!-- 配置表单 -->
+            <form id="promptForm" class="space-y-6">
+                <!-- 场景配置 -->
+                <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                    <h3 class="font-bold text-lg text-dark mb-4">场景</h3>
+                    <div class="mb-4">
+                        <label for="scene" class="block text-sm font-medium text-gray-700 mb-1">场景描述</label>
+                        <input type="text" id="scene" name="scene" value="中国大学宿舍，千禧年，上铺"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                    </div>
+                </div>
+
+                <!-- 主体配置 -->
+                <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                    <h3 class="font-bold text-lg text-dark mb-4">主体</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mb-4">
+                            <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">性别表现</label>
+                            <div class="relative">
+                                <input type="text" id="gender" name="gender" value="女性" list="genderOptions"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <datalist id="genderOptions">
+                                    <option value="女性"></option>
+                                    <option value="男性"></option>
+                                    <option value="中性"></option>
+                                </datalist>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="age" class="block text-sm font-medium text-gray-700 mb-1">年龄段</label>
+                            <input type="text" id="age" name="age" value="19岁左右"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="race" class="block text-sm font-medium text-gray-700 mb-1">种族</label>
+                            <div class="relative">
+                                <input type="text" id="race" name="race" value="东亚" list="raceOptions"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <datalist id="raceOptions">
+                                    <option value="东亚"></option>
+                                    <option value="欧洲"></option>
+                                    <option value="非洲"></option>
+                                    <option value="美洲"></option>
+                                    <option value="其他"></option>
+                                </datalist>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="bodyType" class="block text-sm font-medium text-gray-700 mb-1">身材</label>
+                            <input type="text" id="bodyType" name="bodyType" value="苗条，腰线分明；身材比例自然"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="skinTone" class="block text-sm font-medium text-gray-700 mb-1">肤色</label>
+                            <div class="relative">
+                                <input type="text" id="skinTone" name="skinTone" value="浅中性色调" list="skinToneOptions"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <datalist id="skinToneOptions">
+                                    <option value="浅中性色调"></option>
+                                    <option value="深中性色调"></option>
+                                    <option value="冷色调"></option>
+                                    <option value="暖色调"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 发型配置 -->
+                    <div class="mt-5">
+                        <h4 class="font-semibold text-gray-700 mb-3">发型</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="mb-4">
+                                <label for="hairLength" class="block text-sm font-medium text-gray-700 mb-1">长度</label>
+                                <input type="text" id="hairLength" name="hairLength" value="前刘海加后马尾，不失女人的英气妩媚"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="hairStyle" class="block text-sm font-medium text-gray-700 mb-1">样式</label>
+                                <input type="text" id="hairStyle" name="hairStyle" value="刘海"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="hairColor" class="block text-sm font-medium text-gray-700 mb-1">颜色</label>
+                                <input type="text" id="hairColor" name="hairColor" value="黑色，有发丝"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 姿势配置 -->
+                    <div class="mt-5">
+                        <h4 class="font-semibold text-gray-700 mb-3">姿势</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="mb-4">
+                                <label for="posture" class="block text-sm font-medium text-gray-700 mb-1">站姿</label>
+                                <input type="text" id="posture" name="posture" value="坐在电脑桌旁边的黑色椅子上"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="rightHand" class="block text-sm font-medium text-gray-700 mb-1">右手</label>
+                                <input type="text" id="rightHand" name="rightHand" value="撑着床边"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="leftArm" class="block text-sm font-medium text-gray-700 mb-1">左臂</label>
+                                <input type="text" id="leftArm" name="leftArm" value="在躯干旁自然下垂"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="torso" class="block text-sm font-medium text-gray-700 mb-1">躯干</label>
+                                <input type="text" id="torso" name="torso" value="身体轻微后仰"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 着装配置 -->
+                    <div class="mt-5">
+                        <h4 class="font-semibold text-gray-700 mb-3">着装</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="mb-4">
+                                <label for="top" class="block text-sm font-medium text-gray-700 mb-1">上衣</label>
+                                <input type="text" id="top" name="top" value="亚麻男士白色衬衫低垂，扣子都是系上的"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="bottom" class="block text-sm font-medium text-gray-700 mb-1">下装</label>
+                                <input type="text" id="bottom" name="bottom" value="穿着米白色的长百褶裙"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="socks" class="block text-sm font-medium text-gray-700 mb-1">袜子</label>
+                                <input type="text" id="socks" name="socks" value="不体现"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div class="mb-4">
+                                <label for="accessories" class="block text-sm font-medium text-gray-700 mb-1">配饰</label>
+                                <input type="text" id="accessories" name="accessories" value="无"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 环境配置 -->
+                <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                    <h3 class="font-bold text-lg text-dark mb-4">环境</h3>
+
+                    <div class="mb-4">
+                        <label for="environmentDesc" class="block text-sm font-medium text-gray-700 mb-1">描述</label>
+                        <textarea id="environmentDesc" name="environmentDesc" rows="2"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">可以看到大学宿舍的下铺</textarea>
+                    </div>
+
+                    <!-- 陈设配置 -->
+                    <div class="mt-4">
+                        <h4 class="font-semibold text-gray-700 mb-3">陈设</h4>
+                        <div id="furnitureContainer" class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="">
+                                <button type="button" class="add-furniture bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all-300">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 灯光配置 -->
+                <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                    <h3 class="font-bold text-lg text-dark mb-4">灯光</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="mb-4">
+                            <label for="lightSource" class="block text-sm font-medium text-gray-700 mb-1">光源</label>
+                            <input type="text" id="lightSource" name="lightSource" value="比较暗，是来自宿舍的灯光"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="mb-4">
+                            <label for="lightQuality" class="block text-sm font-medium text-gray-700 mb-1">光线质感</label>
+                            <input type="text" id="lightQuality" name="lightQuality" value="千禧年有颗粒的画质"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="mb-4">
+                            <label for="whiteBalance" class="block text-sm font-medium text-gray-700 mb-1">白平衡 (K)</label>
+                            <input type="text" id="whiteBalance" name="whiteBalance" value="5200"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 相机配置 -->
+                <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                    <h3 class="font-bold text-lg text-dark mb-4">相机</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mb-4">
+                            <label for="cameraModel" class="block text-sm font-medium text-gray-700 mb-1">模式</label>
+                            <div class="relative">
+                                <input type="text" id="cameraModel" name="cameraModel" value="佳能相机" list="cameraModelOptions"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <datalist id="cameraModelOptions">
+                                    <option value="佳能相机"></option>
+                                    <option value="尼康相机"></option>
+                                    <option value="索尼相机"></option>
+                                    <option value="富士相机"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="focalLength" class="block text-sm font-medium text-gray-700 mb-1">等效焦距 (mm)</label>
+                            <input type="text" id="focalLength" name="focalLength" value="35"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+
+                        <!-- 曝光配置 -->
+                        <div class="md:col-span-2">
+                            <h4 class="font-semibold text-gray-700 mb-3">曝光</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div class="mb-4">
+                                    <label for="aperture" class="block text-sm font-medium text-gray-700 mb-1">光圈 (f)</label>
+                                    <input type="text" id="aperture" name="aperture" value="1.8"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="iso" class="block text-sm font-medium text-gray-700 mb-1">感光度 (ISO)</label>
+                                    <input type="text" id="iso" name="iso" value="100"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="shutterSpeed" class="block text-sm font-medium text-gray-700 mb-1">快门速度 (秒)</label>
+                                    <input type="text" id="shutterSpeed" name="shutterSpeed" value="0.01"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="exposureComp" class="block text-sm font-medium text-gray-700 mb-1">曝光补偿 (EV)</label>
+                                    <input type="text" id="exposureComp" name="exposureComp" value="-0.3"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="focus" class="block text-sm font-medium text-gray-700 mb-1">对焦</label>
+                            <input type="text" id="focus" name="focus" value="对焦于镜中影像的躯干和短裤"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+                        <div class="mb-4">
+                            <label for="depthOfField" class="block text-sm font-medium text-gray-700 mb-1">景深</label>
+                            <input type="text" id="depthOfField" name="depthOfField" value="人物大特写"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        </div>
+
+                        <!-- 构图配置 -->
+                        <div class="md:col-span-2">
+                            <h4 class="font-semibold text-gray-700 mb-3">构图</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="mb-4">
+                                    <label for="aspectRatio" class="block text-sm font-medium text-gray-700 mb-1">宽高比</label>
+                                    <div class="relative">
+                                        <input type="text" id="aspectRatio" name="aspectRatio" value="9:16" list="aspectRatioOptions"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                        <datalist id="aspectRatioOptions">
+                                            <option value="9:16"></option>
+                                            <option value="1:1"></option>
+                                            <option value="3:2"></option>
+                                            <option value="16:9"></option>
+                                            <option value="4:3"></option>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="angle" class="block text-sm font-medium text-gray-700 mb-1">角度</label>
+                                    <input type="text" id="angle" name="angle" value="特写"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                </div>
+                                <div class="mb-4 md:col-span-1">
+                                    <label for="compositionNote" class="block text-sm font-medium text-gray-700 mb-1">构图备注</label>
+                                    <input type="text" id="compositionNote" name="compositionNote" value="保持主体居中，人物为主体，所有的元素应该都作为背景有一定虚化"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 负面提示词 -->
+                <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                    <h3 class="font-bold text-lg text-dark mb-4">负面提示词</h3>
+
+                    <div id="negativePromptsContainer" class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="任何地方出现粉色/品红色">
+                            <button type="button" class="remove-negative-prompt bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all-300">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="美颜滤镜/磨皮皮肤；没有毛孔的外观">
+                            <button type="button" class="remove-negative-prompt bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all-300">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="夸张或扭曲的人体结构">
+                            <button type="button" class="remove-negative-prompt bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all-300">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="NSFW，透视面料，走光">
+                            <button type="button" class="remove-negative-prompt bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all-300">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="商标，品牌名，可读的用户界面文本">
+                            <button type="button" class="remove-negative-prompt bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all-300">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="虚假的人像模式模糊，CGI/插画感">
+                            <button type="button" class="remove-negative-prompt bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all-300">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" placeholder="添加更多负面提示词">
+                            <button type="button" class="add-negative-prompt bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all-300">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="flex justify-between">
+                    <button type="button" id="resetBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-md text-sm font-medium transition-all-300">
+                        <i class="fa fa-refresh mr-1"></i> 重置
+                    </button>
+                    <button type="button" id="generateBtn" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-md text-sm font-medium transition-all-300">
+                        <i class="fa fa-magic mr-1"></i> 生成提示词
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 生成结果区域（放置在底部） -->
+    <div class="bg-white rounded-xl p-6 card-shadow">
+        <h2 class="text-xl font-bold text-dark mb-6 flex items-center">
+            <i class="fa fa-file-text text-primary mr-2"></i> 生成结果
+        </h2>
+
+        <!-- 生成结果文本框 -->
+        <div class="mb-6">
+                <textarea id="generatedPrompt" rows="8" readonly
+                          class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary scrollbar-hide resize-none"></textarea>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="flex gap-4">
+            <button id="copyBtn" class="flex-1 bg-secondary hover:bg-secondary/90 text-white px-4 py-2 rounded-md text-sm font-medium transition-all-300">
+                <i class="fa fa-copy mr-1"></i> 复制
+            </button>
+            <button id="downloadBtn" class="flex-1 bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md text-sm font-medium transition-all-300">
+                <i class="fa fa-download mr-1"></i> 下载
+            </button>
+        </div>
+
+        <!-- 预览效果 -->
+        <div class="mt-8">
+            <h3 class="font-semibold text-gray-700 mb-3">预览效果</h3>
+            <div id="promptPreview" class="bg-gray-50 p-4 rounded-md shadow-sm h-64 overflow-y-auto scrollbar-hide">
+                <p class="text-gray-400 text-center italic">点击"生成提示词"按钮查看预览</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 加载中弹窗 -->
+<div id="loadingModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+    <div class="bg-white rounded-lg p-6 shadow-lg">
+        <div class="flex items-center">
+            <div class="animate-spin mr-3 text-primary">
+                <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
+            </div>
+            <p class="text-gray-700">生成中，请稍候...</p>
+        </div>
+    </div>
+</div>
+
+<!-- 提示弹窗 -->
+<div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-green-800 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 translate-y-20 transition-all duration-300 z-50 flex items-center">
+    <i id="toastIcon" class="fa fa-check-circle mr-2 text-green-400"></i>
+    <span id="toastMessage"></span>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 获取DOM元素
+        const promptForm = document.getElementById('promptForm');
+        const generateBtn = document.getElementById('generateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const generatedPrompt = document.getElementById('generatedPrompt');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const promptPreview = document.getElementById('promptPreview');
+        const loadingModal = document.getElementById('loadingModal');
+        const toast = document.getElementById('toast');
+        const toastIcon = document.getElementById('toastIcon');
+        const toastMessage = document.getElementById('toastMessage');
+        const saveTemplateBtn = document.getElementById('saveTemplateBtn');
+        const loadTemplateBtn = document.getElementById('loadTemplateBtn');
+        const furnitureContainer = document.getElementById('furnitureContainer');
+        const negativePromptsContainer = document.getElementById('negativePromptsContainer');
+
+        // 添加环境陈设
+        furnitureContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.add-furniture')) {
+                const newItem = document.createElement('div');
+                newItem.className = 'flex items-center gap-2';
+                newItem.innerHTML = `
+                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <button type="button" class="remove-furniture bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all-300">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    `;
+                furnitureContainer.appendChild(newItem);
+            } else if (e.target.closest('.remove-furniture')) {
+                const itemCount = furnitureContainer.querySelectorAll('div').length;
+                // 至少保留一个元素
+                if (itemCount > 1) {
+                    e.target.closest('div').remove();
+                } else {
+                    showToast('error', '至少需要保留一个环境陈设');
+                }
+            }
+        });
+
+        // 添加负面提示词
+        negativePromptsContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.add-negative-prompt')) {
+                const newItem = document.createElement('div');
+                newItem.className = 'flex items-center gap-2';
+                newItem.innerHTML = `
+                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" placeholder="输入负面提示词">
+                        <button type="button" class="remove-negative-prompt bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all-300">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    `;
+                negativePromptsContainer.appendChild(newItem);
+            } else if (e.target.closest('.remove-negative-prompt')) {
+                const itemCount = negativePromptsContainer.querySelectorAll('div').length;
+                // 至少保留一个元素
+                if (itemCount > 1) {
+                    e.target.closest('div').remove();
+                } else {
+                    showToast('error', '至少需要保留一个负面提示词');
+                }
+            }
+        });
+
+        // 生成提示词
+        generateBtn.addEventListener('click', function() {
+            // 显示加载中弹窗
+            loadingModal.classList.remove('hidden');
+
+            // 模拟生成过程
+            setTimeout(function() {
+                try {
+                    // 收集表单数据
+                    const scene = document.getElementById('scene').value;
+                    const gender = document.getElementById('gender').value;
+                    const age = document.getElementById('age').value;
+                    const race = document.getElementById('race').value;
+                    const bodyType = document.getElementById('bodyType').value;
+                    const skinTone = document.getElementById('skinTone').value;
+                    const hairLength = document.getElementById('hairLength').value;
+                    const hairStyle = document.getElementById('hairStyle').value;
+                    const hairColor = document.getElementById('hairColor').value;
+                    const posture = document.getElementById('posture').value;
+                    const rightHand = document.getElementById('rightHand').value;
+                    const leftArm = document.getElementById('leftArm').value;
+                    const torso = document.getElementById('torso').value;
+                    const top = document.getElementById('top').value;
+                    const bottom = document.getElementById('bottom').value;
+                    const socks = document.getElementById('socks').value;
+                    const accessories = document.getElementById('accessories').value;
+                    const environmentDesc = document.getElementById('environmentDesc').value;
+                    const lightSource = document.getElementById('lightSource').value;
+                    const lightQuality = document.getElementById('lightQuality').value;
+                    const whiteBalance = document.getElementById('whiteBalance').value;
+                    const cameraModel = document.getElementById('cameraModel').value;
+                    const focalLength = document.getElementById('focalLength').value;
+                    const aperture = document.getElementById('aperture').value;
+                    const iso = document.getElementById('iso').value;
+                    const shutterSpeed = document.getElementById('shutterSpeed').value;
+                    const exposureComp = document.getElementById('exposureComp').value;
+                    const focus = document.getElementById('focus').value;
+                    const depthOfField = document.getElementById('depthOfField').value;
+                    const aspectRatio = document.getElementById('aspectRatio').value;
+                    const angle = document.getElementById('angle').value;
+                    const compositionNote = document.getElementById('compositionNote').value;
+
+                    // 收集环境陈设
+                    const furnitureInputs = document.querySelectorAll('#furnitureContainer input');
+                    const furniture = Array.from(furnitureInputs).map(input => input.value).filter(value => value.trim() !== '');
+
+                    // 收集负面提示词
+                    const negativePromptInputs = document.querySelectorAll('#negativePromptsContainer input');
+                    const negativePrompts = Array.from(negativePromptInputs).map(input => input.value).filter(value => value.trim() !== '');
+
+                    // 验证必填字段
+                    if (!scene.trim()) {
+                        showToast('error', '场景描述不能为空');
+                        return;
+                    }
+
+                    // 构建提示词
+                    let prompt = `### **场景**\n${scene}\n\n---\n\n`;
+
+                    prompt += `### **主体**\n`;
+                    prompt += `* **性别表现**: ${gender}\n`;
+                    prompt += `* **年龄段**: ${age}\n`;
+                    prompt += `* **种族**: ${race}\n`;
+                    prompt += `* **身材**: ${bodyType}\n`;
+                    prompt += `* **肤色**: ${skinTone}\n`;
+                    prompt += `* **发型**:\n`;
+                    prompt += `    * **长度**: ${hairLength}\n`;
+                    prompt += `    * **样式**: ${hairStyle}\n`;
+                    prompt += `    * **颜色**: ${hairColor}\n`;
+                    prompt += `* **姿势**:\n`;
+                    prompt += `    * **站姿**: ${posture}\n`;
+                    prompt += `    * **右手**: ${rightHand}\n`;
+                    prompt += `    * **左臂**: ${leftArm}\n`;
+                    prompt += `    * **躯干**: ${torso}\n`;
+                    prompt += `* **着装**:\n`;
+                    prompt += `    * **上衣**: ${top}\n`;
+                    prompt += `    * **下装**: ${bottom}\n`;
+                    prompt += `    * **袜子**: ${socks}\n`;
+                    prompt += `    * **配饰**: ${accessories}\n\n`;
+
+                    prompt += `---\n\n`;
+
+                    prompt += `### **环境**\n`;
+                    prompt += `* **描述**: ${environmentDesc}\n`;
+                    if (furniture.length > 0) {
+                        prompt += `* **陈设**:\n`;
+                        furniture.forEach(item => {
+                            prompt += `    * ${item}\n`;
+                        });
+                    }
+                    prompt += `\n`;
+
+                    prompt += `---\n\n`;
+
+                    prompt += `### **灯光**\n`;
+                    prompt += `* **光源**: ${lightSource}\n`;
+                    prompt += `* **光线质感**: ${lightQuality}\n`;
+                    prompt += `* **白平衡**: ${whiteBalance}K\n\n`;
+
+                    prompt += `---\n\n`;
+
+                    prompt += `### **相机**\n`;
+                    prompt += `* **模式**: ${cameraModel}\n`;
+                    prompt += `* **等效焦距**: ${focalLength}mm\n`;
+                    prompt += `* **曝光**:\n`;
+                    prompt += `    * **光圈**: f/${aperture}\n`;
+                    prompt += `    * **感光度**: ISO ${iso}\n`;
+                    prompt += `    * **快门速度**: ${shutterSpeed}秒\n`;
+                    prompt += `    * **曝光补偿**: ${exposureComp}EV\n`;
+                    prompt += `* **对焦**: ${focus}\n`;
+                    prompt += `* **景深**: ${depthOfField}\n`;
+                    prompt += `* **构图**:\n`;
+                    prompt += `    * **宽高比**: ${aspectRatio}\n`;
+                    prompt += `    * **角度**: ${angle}\n`;
+                    prompt += `    * **备注**: ${compositionNote}\n\n`;
+
+                    prompt += `---\n\n`;
+
+                    prompt += `### **负面提示词**\n`;
+                    if (negativePrompts.length > 0) {
+                        negativePrompts.forEach(item => {
+                            prompt += `* ${item}\n`;
+                        });
+                    } else {
+                        prompt += `* 无\n`;
+                    }
+
+                    // 显示生成结果
+                    generatedPrompt.value = prompt;
+
+                    // 更新预览
+                    updatePromptPreview(prompt);
+
+                    // 隐藏加载中弹窗
+                    loadingModal.classList.add('hidden');
+
+                    // 滚动到生成结果区域
+                    document.querySelector('#generatedPrompt').scrollIntoView({ behavior: 'smooth' });
+
+                    // 显示成功提示
+                    showToast('success', '提示词生成成功');
+                } catch (error) {
+                    console.error('生成提示词时出错:', error);
+                    loadingModal.classList.add('hidden');
+                    showToast('error', '生成提示词失败');
+                }
+            }, 800);
+        });
+
+        // 重置表单
+        resetBtn.addEventListener('click', function() {
+            // 重置表单元素
+            document.getElementById('scene').value = '中国大学宿舍，千禧年，上铺';
+            document.getElementById('gender').value = '女性';
+            document.getElementById('age').value = '19岁左右';
+            document.getElementById('race').value = '东亚';
+            document.getElementById('bodyType').value = '苗条，腰线分明；身材比例自然';
+            document.getElementById('skinTone').value = '浅中性色调';
+            document.getElementById('hairLength').value = '前刘海加后马尾，不失女人的英气妩媚';
+            document.getElementById('hairStyle').value = '刘海';
+            document.getElementById('hairColor').value = '黑色，有发丝';
+            document.getElementById('posture').value = '坐在电脑桌旁边的黑色椅子上';
+            document.getElementById('rightHand').value = '撑着床边';
+            document.getElementById('leftArm').value = '在躯干旁自然下垂';
+            document.getElementById('torso').value = '身体轻微后仰';
+            document.getElementById('top').value = '亚麻男士白色衬衫低垂，扣子都是系上的';
+            document.getElementById('bottom').value = '穿着米白色的长百褶裙';
+            document.getElementById('socks').value = '不体现';
+            document.getElementById('accessories').value = '无';
+            document.getElementById('environmentDesc').value = '可以看到大学宿舍的下铺';
+            document.getElementById('lightSource').value = '比较暗，是来自宿舍的灯光';
+            document.getElementById('lightQuality').value = '千禧年有颗粒的画质';
+            document.getElementById('whiteBalance').value = '5200';
+            document.getElementById('cameraModel').value = '佳能相机';
+            document.getElementById('focalLength').value = '35';
+            document.getElementById('aperture').value = '1.8';
+            document.getElementById('iso').value = '100';
+            document.getElementById('shutterSpeed').value = '0.01';
+            document.getElementById('exposureComp').value = '-0.3';
+            document.getElementById('focus').value = '对焦于镜中影像的躯干和短裤';
+            document.getElementById('depthOfField').value = '人物大特写';
+            document.getElementById('aspectRatio').value = '9:16';
+            document.getElementById('angle').value = '特写';
+            document.getElementById('compositionNote').value = '保持主体居中，人物为主体，所有的元素应该都作为背景有一定虚化';
+
+            // 清空生成结果
+            generatedPrompt.value = '';
+            promptPreview.innerHTML = '<p class="text-gray-400 text-center italic">点击"生成提示词"按钮查看预览</p>';
+
+            // 清空环境陈设，只保留一个空输入框
+            furnitureContainer.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="">
+                        <button type="button" class="add-furniture bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all-300">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                `;
+
+            // 清空负面提示词，只保留一个空输入框
+            negativePromptsContainer.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" placeholder="输入负面提示词">
+                        <button type="button" class="add-negative-prompt bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all-300">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                `;
+
+            // 显示重置成功提示
+            showToast('success', '表单已重置');
+        });
+
+        // 复制结果
+        copyBtn.addEventListener('click', function() {
+            if (generatedPrompt.value.trim() === '') {
+                showToast('error', '没有可复制的内容');
+                return;
+            }
+
+            generatedPrompt.select();
+            document.execCommand('copy');
+
+            // 取消选中
+            window.getSelection().removeAllRanges();
+
+            showToast('success', '已复制到剪贴板');
+        });
+
+        // 下载结果
+        downloadBtn.addEventListener('click', function() {
+            if (generatedPrompt.value.trim() === '') {
+                showToast('error', '没有可下载的内容');
+                return;
+            }
+
+            const blob = new Blob([generatedPrompt.value], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '提示词_' + new Date().toISOString().slice(0, 10) + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast('success', '已下载提示词文件');
+        });
+
+        // 保存模板
+        saveTemplateBtn.addEventListener('click', function() {
+            try {
+                // 收集表单数据
+                const formData = {
+                    scene: document.getElementById('scene').value,
+                    gender: document.getElementById('gender').value,
+                    age: document.getElementById('age').value,
+                    race: document.getElementById('race').value,
+                    bodyType: document.getElementById('bodyType').value,
+                    skinTone: document.getElementById('skinTone').value,
+                    hairLength: document.getElementById('hairLength').value,
+                    hairStyle: document.getElementById('hairStyle').value,
+                    hairColor: document.getElementById('hairColor').value,
+                    posture: document.getElementById('posture').value,
+                    rightHand: document.getElementById('rightHand').value,
+                    leftArm: document.getElementById('leftArm').value,
+                    torso: document.getElementById('torso').value,
+                    top: document.getElementById('top').value,
+                    bottom: document.getElementById('bottom').value,
+                    socks: document.getElementById('socks').value,
+                    accessories: document.getElementById('accessories').value,
+                    environmentDesc: document.getElementById('environmentDesc').value,
+                    lightSource: document.getElementById('lightSource').value,
+                    lightQuality: document.getElementById('lightQuality').value,
+                    whiteBalance: document.getElementById('whiteBalance').value,
+                    cameraModel: document.getElementById('cameraModel').value,
+                    focalLength: document.getElementById('focalLength').value,
+                    aperture: document.getElementById('aperture').value,
+                    iso: document.getElementById('iso').value,
+                    shutterSpeed: document.getElementById('shutterSpeed').value,
+                    exposureComp: document.getElementById('exposureComp').value,
+                    focus: document.getElementById('focus').value,
+                    depthOfField: document.getElementById('depthOfField').value,
+                    aspectRatio: document.getElementById('aspectRatio').value,
+                    angle: document.getElementById('angle').value,
+                    compositionNote: document.getElementById('compositionNote').value,
+                    furniture: Array.from(document.querySelectorAll('#furnitureContainer input')).map(input => input.value),
+                    negativePrompts: Array.from(document.querySelectorAll('#negativePromptsContainer input')).map(input => input.value)
+                };
+
+                // 保存到本地存储
+                localStorage.setItem('promptTemplate', JSON.stringify(formData));
+                showToast('success', '模板已保存');
+            } catch (error) {
+                console.error('保存模板时出错:', error);
+                showToast('error', '保存模板失败');
+            }
+        });
+
+        // 加载模板
+        loadTemplateBtn.addEventListener('click', function() {
+            try {
+                // 从本地存储加载
+                const savedTemplate = localStorage.getItem('promptTemplate');
+                if (!savedTemplate) {
+                    showToast('error', '没有保存的模板');
+                    return;
+                }
+
+                const formData = JSON.parse(savedTemplate);
+
+                // 恢复表单数据
+                document.getElementById('scene').value = formData.scene || '';
+                document.getElementById('gender').value = formData.gender || '女性';
+                document.getElementById('age').value = formData.age || '';
+                document.getElementById('race').value = formData.race || '东亚';
+                document.getElementById('bodyType').value = formData.bodyType || '';
+                document.getElementById('skinTone').value = formData.skinTone || '浅中性色调';
+                document.getElementById('hairLength').value = formData.hairLength || '';
+                document.getElementById('hairStyle').value = formData.hairStyle || '';
+                document.getElementById('hairColor').value = formData.hairColor || '';
+                document.getElementById('posture').value = formData.posture || '';
+                document.getElementById('rightHand').value = formData.rightHand || '';
+                document.getElementById('leftArm').value = formData.leftArm || '';
+                document.getElementById('torso').value = formData.torso || '';
+                document.getElementById('top').value = formData.top || '';
+                document.getElementById('bottom').value = formData.bottom || '';
+                document.getElementById('socks').value = formData.socks || '';
+                document.getElementById('accessories').value = formData.accessories || '';
+                document.getElementById('environmentDesc').value = formData.environmentDesc || '';
+                document.getElementById('lightSource').value = formData.lightSource || '';
+                document.getElementById('lightQuality').value = formData.lightQuality || '';
+                document.getElementById('whiteBalance').value = formData.whiteBalance || '5200';
+                document.getElementById('cameraModel').value = formData.cameraModel || '佳能相机';
+                document.getElementById('focalLength').value = formData.focalLength || '35';
+                document.getElementById('aperture').value = formData.aperture || '1.8';
+                document.getElementById('iso').value = formData.iso || '100';
+                document.getElementById('shutterSpeed').value = formData.shutterSpeed || '0.01';
+                document.getElementById('exposureComp').value = formData.exposureComp || '-0.3';
+                document.getElementById('focus').value = formData.focus || '';
+                document.getElementById('depthOfField').value = formData.depthOfField || '';
+                document.getElementById('aspectRatio').value = formData.aspectRatio || '9:16';
+                document.getElementById('angle').value = formData.angle || '';
+                document.getElementById('compositionNote').value = formData.compositionNote || '';
+
+                // 恢复环境陈设
+                if (formData.furniture && Array.isArray(formData.furniture) && formData.furniture.length > 0) {
+                    const furnitureContainer = document.getElementById('furnitureContainer');
+                    furnitureContainer.innerHTML = '';
+
+                    formData.furniture.forEach((item, index) => {
+                        const newItem = document.createElement('div');
+                        newItem.className = 'flex items-center gap-2';
+                        const buttonType = index === 0 ? 'add-furniture' : 'remove-furniture';
+                        const iconClass = index === 0 ? 'fa-plus' : 'fa-minus';
+                        const buttonColor = index === 0 ? 'bg-green-500' : 'bg-red-500';
+
+                        newItem.innerHTML = `
+                                <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="${item || ''}">
+                                <button type="button" class="${buttonType} ${buttonColor} text-white p-2 rounded-md hover:bg-opacity-90 transition-all-300">
+                                    <i class="fa ${iconClass}"></i>
+                                </button>
+                            `;
+                        furnitureContainer.appendChild(newItem);
+                    });
+                } else {
+                    // 清空环境陈设，只保留一个空输入框
+                    const furnitureContainer = document.getElementById('furnitureContainer');
+                    furnitureContainer.innerHTML = `
+                            <div class="flex items-center gap-2">
+                                <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="">
+                                <button type="button" class="add-furniture bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all-300">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        `;
+                }
+
+                // 恢复负面提示词
+                if (formData.negativePrompts && Array.isArray(formData.negativePrompts) && formData.negativePrompts.length > 0) {
+                    const negativePromptsContainer = document.getElementById('negativePromptsContainer');
+                    negativePromptsContainer.innerHTML = '';
+
+                    formData.negativePrompts.forEach((item, index) => {
+                        const newItem = document.createElement('div');
+                        newItem.className = 'flex items-center gap-2';
+                        const buttonType = index === 0 ? 'add-negative-prompt' : 'remove-negative-prompt';
+                        const iconClass = index === 0 ? 'fa-plus' : 'fa-minus';
+                        const buttonColor = index === 0 ? 'bg-green-500' : 'bg-red-500';
+
+                        newItem.innerHTML = `
+                                <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="${item || ''}">
+                                <button type="button" class="${buttonType} ${buttonColor} text-white p-2 rounded-md hover:bg-opacity-90 transition-all-300">
+                                    <i class="fa ${iconClass}"></i>
+                                </button>
+                            `;
+                        negativePromptsContainer.appendChild(newItem);
+                    });
+                } else {
+                    // 清空负面提示词，只保留一个空输入框
+                    const negativePromptsContainer = document.getElementById('negativePromptsContainer');
+                    negativePromptsContainer.innerHTML = `
+                            <div class="flex items-center gap-2">
+                                <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" placeholder="输入负面提示词">
+                                <button type="button" class="add-negative-prompt bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all-300">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        `;
+                }
+
+                showToast('success', '模板已加载');
+            } catch (error) {
+                console.error('加载模板时出错:', error);
+                showToast('error', '加载模板失败');
+            }
+        });
+
+        // 更新提示词预览
+        function updatePromptPreview(prompt) {
+            // 简单的Markdown渲染
+            let html = prompt
+                .replace(/^### \*{2}(.*?)\*{2}$/gm, '<h3 class="font-bold text-lg text-dark mb-2 mt-3">$1</h3>')
+                .replace(/^\* \*{2}(.*?)\*{2}: (.*?)$/gm, '<p class="mb-1"><strong>$1:</strong> $2</p>')
+                .replace(/^    \* (.*?)$/gm, '<p class="mb-1 ml-6">• $1</p>')
+                .replace(/^\* (.*?)$/gm, '<p class="mb-1"><strong>•</strong> $1</p>')
+                .replace(/^---$/gm, '<hr class="my-4 border-gray-200">');
+
+            promptPreview.innerHTML = html;
+        }
+
+        // 显示提示弹窗
+        function showToast(type, message) {
+            // 设置图标和颜色
+            if (type === 'success') {
+                toastIcon.className = 'fa fa-check-circle mr-2 text-green-400';
+                toast.classList.add('bg-green-800');
+                toast.classList.remove('bg-red-800');
+            } else if (type === 'error') {
+                toastIcon.className = 'fa fa-exclamation-circle mr-2 text-red-400';
+                toast.classList.add('bg-red-800');
+                toast.classList.remove('bg-green-800');
+            }
+
+            // 设置消息
+            toastMessage.textContent = message;
+
+            // 显示弹窗
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            // 3秒后自动隐藏
+            setTimeout(function() {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    });
+</script>
+</body>
+</html>
