@@ -3,26 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一个可以生成万千美女的提示词生成器</title>
+    <title>AI 提示词生成器 - 智能创作助手</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- 自定义配置 -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3B82F6',
-                        secondary: '#6B7280',
-                        accent: '#8B5CF6',
-                        neutral: '#F3F4F6',
-                        dark: '#1F2937'
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            50: '#faf5ff',
+                            100: '#f3e8ff',
+                            200: '#e9d5ff',
+                            300: '#d8b4fe',
+                            400: '#c084fc',
+                            500: '#a855f7',
+                            600: '#9333ea',
+                            700: '#7e22ce',
+                            800: '#6b21a8',
+                            900: '#581c87',
+                        },
+                        success: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        warning: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        },
+                        danger: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
+                        }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        sans: ['Inter', 'Noto Sans SC', 'system-ui', 'sans-serif'],
                     },
+                    boxShadow: {
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+                        'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        'strong': '0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 2px 10px -2px rgba(0, 0, 0, 0.04)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    }
                 },
             }
         }
@@ -39,29 +117,330 @@
             .scrollbar-hide::-webkit-scrollbar {
                 display: none;
             }
-            .card-shadow {
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            }
             .transition-all-300 {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .transition-all-200 {
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            /* 自定义滚动条 */
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: #f1f5f9;
+                border-radius: 3px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 3px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
+
+            /* 渐变背景 */
+            .gradient-bg {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+            .gradient-text {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            /* 玻璃态效果 */
+            .glass {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            /* 输入框焦点效果 */
+            .input-focus {
+                transition: all 0.2s ease;
+            }
+            .input-focus:focus {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 20px -5px rgba(59, 130, 246, 0.3);
+            }
+
+            /* 按钮悬停效果 */
+            .btn-hover {
                 transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            .btn-hover::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s;
+            }
+            .btn-hover:hover::before {
+                left: 100%;
+            }
+
+            /* 浮动动画 */
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+            }
+
+            /* 发光动画 */
+            @keyframes glow {
+                from { box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+                to { box-shadow: 0 0 30px rgba(168, 85, 247, 0.5); }
+            }
+
+            /* 渐入动画 */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* 滑入动画 */
+            @keyframes slideInLeft {
+                from {
+                    opacity: 0;
+                    transform: translateX(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            /* 缩放动画 */
+            @keyframes scaleIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            /* 脉冲动画 */
+            @keyframes pulse {
+                0%, 100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.5;
+                }
+            }
+
+            /* 波纹动画 */
+            @keyframes ripple {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+
+            /* 旋转动画 */
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* 应用动画类 */
+            .animate-fadeInUp {
+                animation: fadeInUp 0.6s ease-out;
+            }
+
+            .animate-slideInLeft {
+                animation: slideInLeft 0.6s ease-out;
+            }
+
+            .animate-scaleIn {
+                animation: scaleIn 0.5s ease-out;
+            }
+
+            .animate-pulse-slow {
+                animation: pulse 3s ease-in-out infinite;
+            }
+
+            /* 交互效果 */
+            .interactive {
+                transition: all 0.3s ease;
+            }
+
+            .interactive:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            }
+
+            /* 加载动画 */
+            .loading-dots::after {
+                content: '';
+                animation: dots 1.5s steps(4, end) infinite;
+            }
+
+            @keyframes dots {
+                0%, 20% { content: ''; }
+                40% { content: '.'; }
+                60% { content: '..'; }
+                80%, 100% { content: '...'; }
+            }
+
+            /* 卡片悬停效果 */
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+            }
+
+            /* 标签样式 */
+            .tag {
+                display: inline-block;
+                padding: 0.25rem 0.75rem;
+                background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+                color: white;
+                border-radius: 9999px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                transition: all 0.2s ease;
+            }
+            .tag:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            }
+
+            /* datalist 优化样式 */
+            input[list] {
+                cursor: pointer;
+            }
+
+            input[list]:focus {
+                cursor: text;
+            }
+
+            /* 确保 datalist 下拉箭头不阻挡点击 */
+            .input-with-arrow {
+                position: relative;
+            }
+
+            .input-with-arrow .dropdown-arrow {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                pointer-events: none;
+                z-index: 10;
+            }
+
+            /* datalist 选项样式优化 */
+            datalist {
+                font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+            }
+        }
+
+        /* 全局字体设置 */
+        body {
+            font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+        }
+
+        /* 响应式文字大小 */
+        @media (max-width: 640px) {
+            html { font-size: 14px; }
+
+            /* 移动端导航优化 */
+            .nav-title h1 {
+                font-size: 1.1rem;
+            }
+            .nav-title p {
+                font-size: 0.7rem;
+            }
+
+            /* 移动端按钮优化 */
+            .btn-mobile {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            /* 移动端卡片间距 */
+            .mobile-card {
+                margin-bottom: 1rem;
+                padding: 1rem;
+            }
+
+            /* 移动端输入框优化 */
+            .input-mobile {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* 平板设备优化 */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .tablet-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 大屏幕优化 */
+        @media (min-width: 1024px) {
+            .desktop-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <!-- 背景装饰 -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style="animation-delay: 4s;"></div>
+    </div>
+
 <!-- 顶部导航 -->
-<nav class="bg-white shadow-md fixed w-full z-10">
+<nav class="glass shadow-soft fixed w-full z-50 border-b border-white/20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex items-center">
-                <i class="fa fa-magic text-primary text-2xl mr-2"></i>
-                <span class="font-bold text-xl text-dark">提示词生成器</span>
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center shadow-soft">
+                        <i class="fa fa-magic text-white text-lg"></i>
+                    </div>
+                    <div class="nav-title">
+                        <h1 class="font-bold text-xl gradient-text">AI 提示词生成器</h1>
+                        <p class="text-xs text-secondary-500">智能创作助手</p>
+                    </div>
+                </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button id="saveTemplateBtn" class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md text-sm font-medium transition-all-300">
+            <div class="flex items-center space-x-3">
+                <button id="saveTemplateBtn" class="btn-hover bg-gradient-to-r from-success-500 to-emerald-500 hover:from-success-600 hover:to-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-soft">
                     <i class="fa fa-save mr-1"></i> 保存模板
                 </button>
-                <button id="loadTemplateBtn" class="bg-secondary hover:bg-secondary/90 text-white px-4 py-2 rounded-md text-sm font-medium transition-all-300">
+                <button id="loadTemplateBtn" class="btn-hover bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-soft">
                     <i class="fa fa-folder-open mr-1"></i> 加载模板
                 </button>
             </div>
@@ -70,37 +449,95 @@
 </nav>
 
 <!-- 主内容区 -->
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 relative">
+
+    <!-- 页面标题区域 -->
+    <div class="text-center mb-10 animate-fadeInUp">
+        <div class="inline-flex items-center space-x-3 mb-4">
+            <span class="tag animate-scaleIn" style="animation-delay: 0.1s;">AI 创作</span>
+            <span class="tag animate-scaleIn" style="animation-delay: 0.2s;">智能提示词</span>
+            <span class="tag animate-scaleIn" style="animation-delay: 0.3s;">一键生成</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-3 animate-slideInLeft" style="animation-delay: 0.4s;">打造完美的AI创作提示词</h2>
+        <p class="text-secondary-600 text-lg max-w-2xl mx-auto animate-fadeInUp" style="animation-delay: 0.5s;">通过智能配置和随机生成，快速创建专业级的AI绘画提示词，让创意触手可及</p>
+    </div>
 
     <!-- 输入表单 -->
-    <div class="mb-8">
-        <div class="bg-white rounded-xl p-6 card-shadow">
-            <h2 class="text-xl font-bold text-dark mb-6 flex items-center">
-                <i class="fa fa-edit text-primary mr-2"></i> 提示词配置
-            </h2>
+    <div class="mb-8 animate-fadeInUp" style="animation-delay: 0.6s;">
+        <div class="glass rounded-2xl p-6 md:p-8 shadow-medium card-hover border border-white/50 interactive">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-secondary-800 flex items-center">
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fa fa-edit text-white text-sm"></i>
+                    </div>
+                    提示词配置
+                </h2>
+                <div class="flex items-center space-x-2">
+                    <span class="w-2 h-2 bg-success-500 rounded-full animate-pulse"></span>
+                    <span class="text-sm text-secondary-500">实时编辑</span>
+                </div>
+            </div>
 
             <!-- 配置表单 -->
-            <form id="promptForm" class="space-y-6">
+            <form id="promptForm" class="space-y-8">
                 <!-- 场景配置 -->
-                <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
-                    <h3 class="font-bold text-lg text-dark mb-4">场景</h3>
+                <div class="glass rounded-xl p-6 shadow-soft border border-white/50">
+                    <div class="flex items-center mb-4">
+                        <div class="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-md flex items-center justify-center mr-2">
+                            <i class="fa fa-image text-white text-xs"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-secondary-800">场景设定</h3>
+                        <span class="ml-auto text-xs text-secondary-500 bg-secondary-100 px-2 py-1 rounded-full">基础配置</span>
+                    </div>
                     <div class="mb-4">
-                        <label for="scene" class="block text-sm font-medium text-gray-700 mb-1">场景描述</label>
-                        <input type="text" id="scene" name="scene" value="中国大学宿舍，千禧年，上铺"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <label for="scene" class="block text-sm font-semibold text-secondary-700 mb-2 flex items-center">
+                            <i class="fa fa-map-marker text-primary-500 mr-1"></i>
+                            场景描述
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="scene" name="scene" value="中国大学宿舍，千禧年，上铺" list="sceneOptions" autocomplete="off"
+                                   class="input-focus w-full px-4 py-3 bg-white/80 backdrop-blur border border-secondary-200 rounded-xl shadow-soft focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 custom-scrollbar">
+                            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 pointer-events-none">
+                                <i class="fa fa-chevron-down text-sm"></i>
+                            </div>
+                            <datalist id="sceneOptions">
+                                <option value="中国大学宿舍，千禧年，上铺"></option>
+                                <option value="复古咖啡馆，午后时光"></option>
+                                <option value="日式庭院，樱花飞舞"></option>
+                                <option value="北欧风格卧室，清晨阳光"></option>
+                                <option value="工业风loft，夜晚灯光"></option>
+                                <option value="海边小屋，黄昏时分"></option>
+                                <option value="山顶观景台，日出时刻"></option>
+                                <option value="图书馆阅读角，安静午后"></option>
+                                <option value="复古照相馆，怀旧氛围"></option>
+                                <option value="城市天台，夜景璀璨"></option>
+                            </datalist>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 主体配置 -->
-                <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
-                    <h3 class="font-bold text-lg text-dark mb-4">主体</h3>
+                <div class="glass rounded-xl p-6 shadow-soft border border-white/50">
+                    <div class="flex items-center mb-6">
+                        <div class="w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-md flex items-center justify-center mr-2">
+                            <i class="fa fa-user text-white text-xs"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-secondary-800">主体特征</h3>
+                        <span class="ml-auto text-xs text-secondary-500 bg-primary-100 px-2 py-1 rounded-full">核心配置</span>
+                    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="mb-4">
-                            <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">性别表现</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label for="gender" class="block text-sm font-semibold text-secondary-700 flex items-center">
+                                <i class="fa fa-venus-mars text-primary-500 mr-1"></i>
+                                性别表现
+                            </label>
                             <div class="relative">
-                                <input type="text" id="gender" name="gender" value="女性" list="genderOptions"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <input type="text" id="gender" name="gender" value="女性" list="genderOptions" autocomplete="off"
+                                       class="input-focus w-full px-4 py-3 bg-white/80 backdrop-blur border border-secondary-200 rounded-xl shadow-soft focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 custom-scrollbar">
+                                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 pointer-events-none">
+                                    <i class="fa fa-chevron-down text-sm"></i>
+                                </div>
                                 <datalist id="genderOptions">
                                     <option value="女性"></option>
                                     <option value="男性"></option>
@@ -109,17 +546,40 @@
                             </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="age" class="block text-sm font-medium text-gray-700 mb-1">年龄段</label>
-                            <input type="text" id="age" name="age" value="19岁左右"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <div class="space-y-2">
+                            <label for="age" class="block text-sm font-semibold text-secondary-700 flex items-center">
+                                <i class="fa fa-birthday-cake text-primary-500 mr-1"></i>
+                                年龄段
+                            </label>
+                            <div class="relative">
+                                <input type="text" id="age" name="age" value="19岁左右" list="ageOptions" autocomplete="off"
+                                       class="input-focus w-full px-4 py-3 bg-white/80 backdrop-blur border border-secondary-200 rounded-xl shadow-soft focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 custom-scrollbar">
+                                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 pointer-events-none">
+                                    <i class="fa fa-chevron-down text-sm"></i>
+                                </div>
+                                <datalist id="ageOptions">
+                                    <option value="16-18岁"></option>
+                                    <option value="19岁左右"></option>
+                                    <option value="20-22岁"></option>
+                                    <option value="23-25岁"></option>
+                                    <option value="26-28岁"></option>
+                                    <option value="30岁左右"></option>
+                                    <option value="35岁左右"></option>
+                                </datalist>
+                            </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="race" class="block text-sm font-medium text-gray-700 mb-1">种族</label>
+                        <div class="space-y-2">
+                            <label for="race" class="block text-sm font-semibold text-secondary-700 flex items-center">
+                                <i class="fa fa-globe text-primary-500 mr-1"></i>
+                                种族
+                            </label>
                             <div class="relative">
-                                <input type="text" id="race" name="race" value="东亚" list="raceOptions"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <input type="text" id="race" name="race" value="东亚" list="raceOptions" autocomplete="off"
+                                       class="input-focus w-full px-4 py-3 bg-white/80 backdrop-blur border border-secondary-200 rounded-xl shadow-soft focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 custom-scrollbar">
+                                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 pointer-events-none">
+                                    <i class="fa fa-chevron-down text-sm"></i>
+                                </div>
                                 <datalist id="raceOptions">
                                     <option value="东亚"></option>
                                     <option value="欧洲"></option>
@@ -132,15 +592,31 @@
 
                         <div class="mb-4">
                             <label for="bodyType" class="block text-sm font-medium text-gray-700 mb-1">身材</label>
-                            <input type="text" id="bodyType" name="bodyType" value="苗条，腰线分明；身材比例自然"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                            <div class="relative">
+                                <input type="text" id="bodyType" name="bodyType" value="苗条，腰线分明；身材比例自然" list="bodyTypeOptions"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <datalist id="bodyTypeOptions">
+                                    <option value="苗条，腰线分明；身材比例自然"></option>
+                                    <option value="匀称健康，肌肉线条柔和"></option>
+                                    <option value="纤细娇小，骨架小巧"></option>
+                                    <option value="丰满有致，曲线优美"></option>
+                                    <option value="高挑修长，四肢比例协调"></option>
+                                    <option value="结实有力，运动型身材"></option>
+                                </datalist>
+                            </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="skinTone" class="block text-sm font-medium text-gray-700 mb-1">肤色</label>
+                        <div class="space-y-2">
+                            <label for="skinTone" class="block text-sm font-semibold text-secondary-700 flex items-center">
+                                <i class="fa fa-palette text-primary-500 mr-1"></i>
+                                肤色
+                            </label>
                             <div class="relative">
-                                <input type="text" id="skinTone" name="skinTone" value="浅中性色调" list="skinToneOptions"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <input type="text" id="skinTone" name="skinTone" value="浅中性色调" list="skinToneOptions" autocomplete="off"
+                                       class="input-focus w-full px-4 py-3 bg-white/80 backdrop-blur border border-secondary-200 rounded-xl shadow-soft focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 custom-scrollbar">
+                                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 pointer-events-none">
+                                    <i class="fa fa-chevron-down text-sm"></i>
+                                </div>
                                 <datalist id="skinToneOptions">
                                     <option value="浅中性色调"></option>
                                     <option value="深中性色调"></option>
@@ -157,18 +633,53 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="mb-4">
                                 <label for="hairLength" class="block text-sm font-medium text-gray-700 mb-1">长度</label>
-                                <input type="text" id="hairLength" name="hairLength" value="前刘海加后马尾，不失女人的英气妩媚"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <div class="relative">
+                                    <input type="text" id="hairLength" name="hairLength" value="前刘海加后马尾，不失女人的英气妩媚" list="hairLengthOptions"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <datalist id="hairLengthOptions">
+                                        <option value="前刘海加后马尾，不失女人的英气妩媚"></option>
+                                        <option value="齐肩短发，清爽干练"></option>
+                                        <option value="长发披肩，温柔飘逸"></option>
+                                        <option value="及腰长发，优雅动人"></option>
+                                        <option value="波波头，俏皮可爱"></option>
+                                        <option value="高马尾，活力四射"></option>
+                                        <option value="编发造型，精致复古"></option>
+                                    </datalist>
+                                </div>
                             </div>
                             <div class="mb-4">
                                 <label for="hairStyle" class="block text-sm font-medium text-gray-700 mb-1">样式</label>
-                                <input type="text" id="hairStyle" name="hairStyle" value="刘海"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <div class="relative">
+                                    <input type="text" id="hairStyle" name="hairStyle" value="刘海" list="hairStyleOptions"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <datalist id="hairStyleOptions">
+                                        <option value="刘海"></option>
+                                        <option value="空气刘海"></option>
+                                        <option value="斜刘海"></option>
+                                        <option value="齐刘海"></option>
+                                        <option value="中分"></option>
+                                        <option value="三七分"></option>
+                                        <option value="大波浪卷发"></option>
+                                        <option value="小卷毛"></option>
+                                        <option value="直发"></option>
+                                    </datalist>
+                                </div>
                             </div>
                             <div class="mb-4">
                                 <label for="hairColor" class="block text-sm font-medium text-gray-700 mb-1">颜色</label>
-                                <input type="text" id="hairColor" name="hairColor" value="黑色，有发丝"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <div class="relative">
+                                    <input type="text" id="hairColor" name="hairColor" value="黑色，有发丝" list="hairColorOptions"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <datalist id="hairColorOptions">
+                                        <option value="黑色，有发丝"></option>
+                                        <option value="深棕色，自然光泽"></option>
+                                        <option value="栗色，温暖色调"></option>
+                                        <option value="金棕色，阳光感"></option>
+                                        <option value="亚麻色，柔和清淡"></option>
+                                        <option value="酒红色，时尚亮眼"></option>
+                                        <option value="灰白色，高级质感"></option>
+                                    </datalist>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -179,8 +690,19 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="mb-4">
                                 <label for="posture" class="block text-sm font-medium text-gray-700 mb-1">站姿</label>
-                                <input type="text" id="posture" name="posture" value="坐在电脑桌旁边的黑色椅子上"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <div class="relative">
+                                    <input type="text" id="posture" name="posture" value="坐在电脑桌旁边的黑色椅子上" list="postureOptions"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <datalist id="postureOptions">
+                                        <option value="坐在电脑桌旁边的黑色椅子上"></option>
+                                        <option value="站立在窗前，望向远方"></option>
+                                        <option value="斜靠在沙发上，休闲放松"></option>
+                                        <option value="坐在床沿，沉思状"></option>
+                                        <option value="站在书架前，挑选书籍"></option>
+                                        <option value="坐在咖啡厅角落，安静阅读"></option>
+                                        <option value="站在镜子前，整理仪容"></option>
+                                    </datalist>
+                                </div>
                             </div>
                             <div class="mb-4">
                                 <label for="rightHand" class="block text-sm font-medium text-gray-700 mb-1">右手</label>
@@ -206,13 +728,35 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="mb-4">
                                 <label for="top" class="block text-sm font-medium text-gray-700 mb-1">上衣</label>
-                                <input type="text" id="top" name="top" value="亚麻男士白色衬衫低垂，扣子都是系上的"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <div class="relative">
+                                    <input type="text" id="top" name="top" value="亚麻男士白色衬衫低垂，扣子都是系上的" list="topOptions"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <datalist id="topOptions">
+                                        <option value="亚麻男士白色衬衫低垂，扣子都是系上的"></option>
+                                        <option value="修身的针织衫，贴合身形"></option>
+                                        <option value="宽松的T恤，休闲舒适"></option>
+                                        <option value="丝绸吊带衫，优雅性感"></option>
+                                        <option value="牛仔外套，帅气干练"></option>
+                                        <option value="毛衣开衫，温柔知性"></option>
+                                        <option value="白色衬衫，简约大方"></option>
+                                    </datalist>
+                                </div>
                             </div>
                             <div class="mb-4">
                                 <label for="bottom" class="block text-sm font-medium text-gray-700 mb-1">下装</label>
-                                <input type="text" id="bottom" name="bottom" value="穿着米白色的长百褶裙"
-                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                <div class="relative">
+                                    <input type="text" id="bottom" name="bottom" value="穿着米白色的长百褶裙" list="bottomOptions"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <datalist id="bottomOptions">
+                                        <option value="穿着米白色的长百褶裙"></option>
+                                        <option value="深色牛仔裤，修身显瘦"></option>
+                                        <option value="黑色短裙，俏皮可爱"></option>
+                                        <option value="阔腿裤，时尚大气"></option>
+                                        <option value="瑜伽裤，运动舒适"></option>
+                                        <option value="半身裙，优雅知性"></option>
+                                        <option value="短裤，活力十足"></option>
+                                    </datalist>
+                                </div>
                             </div>
                             <div class="mb-4">
                                 <label for="socks" class="block text-sm font-medium text-gray-700 mb-1">袜子</label>
@@ -421,66 +965,109 @@
                 </div>
 
                 <!-- 操作按钮 -->
-                <div class="flex justify-between">
-                    <button type="button" id="resetBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-md text-sm font-medium transition-all-300">
-                        <i class="fa fa-refresh mr-1"></i> 重置
-                    </button>
-                    <button type="button" id="generateBtn" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-md text-sm font-medium transition-all-300">
-                        <i class="fa fa-magic mr-1"></i> 生成提示词
-                    </button>
+                <div class="flex flex-col sm:flex-row justify-between items-center p-6 bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl border border-primary-100">
+                    <div class="mb-4 sm:mb-0">
+                        <h4 class="font-semibold text-secondary-800 mb-1">快速操作</h4>
+                        <p class="text-sm text-secondary-600">一键生成配置或开始创作</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                        <button type="button" id="randomGenerateBtn" class="btn-hover bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 hover:from-purple-600 hover:via-pink-600 hover:to-rose-600 text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-medium transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                            <i class="fa fa-dice mr-2"></i> 随机生成配置
+                        </button>
+                        <div class="flex gap-3">
+                            <button type="button" id="resetBtn" class="btn-hover bg-white/80 backdrop-blur border border-secondary-200 hover:bg-secondary-50 text-secondary-700 px-6 py-3 rounded-xl text-sm font-medium shadow-soft transition-all duration-300">
+                                <i class="fa fa-refresh mr-2"></i> 重置
+                            </button>
+                            <button type="button" id="generateBtn" class="btn-hover bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-medium transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                                <i class="fa fa-magic mr-2"></i> 生成提示词
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- 生成结果区域（放置在底部） -->
-    <div class="bg-white rounded-xl p-6 card-shadow">
-        <h2 class="text-xl font-bold text-dark mb-6 flex items-center">
-            <i class="fa fa-file-text text-primary mr-2"></i> 生成结果
-        </h2>
+    <div class="glass rounded-2xl p-6 md:p-8 shadow-medium card-hover border border-white/50 animate-fadeInUp interactive" style="animation-delay: 0.8s;">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-secondary-800 flex items-center">
+                <div class="w-8 h-8 bg-gradient-to-br from-success-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fa fa-file-text text-white text-sm"></i>
+                </div>
+                生成结果
+            </h2>
+            <div class="flex items-center space-x-2">
+                <span id="resultStatus" class="w-2 h-2 bg-secondary-300 rounded-full"></span>
+                <span id="resultStatusText" class="text-sm text-secondary-500">等待生成</span>
+            </div>
+        </div>
 
         <!-- 生成结果文本框 -->
         <div class="mb-6">
+            <div class="relative">
                 <textarea id="generatedPrompt" rows="8" readonly
-                          class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary scrollbar-hide resize-none"></textarea>
+                          class="w-full px-4 py-4 bg-white/60 backdrop-blur border border-secondary-200 rounded-xl shadow-soft focus:outline-none custom-scrollbar resize-none text-secondary-700 leading-relaxed" placeholder="提示词将在这里显示..."></textarea>
+                <div class="absolute top-3 right-3">
+                    <button id="clearResultBtn" class="text-secondary-400 hover:text-danger-500 transition-colors p-1">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- 操作按钮 -->
-        <div class="flex gap-4">
-            <button id="copyBtn" class="flex-1 bg-secondary hover:bg-secondary/90 text-white px-4 py-2 rounded-md text-sm font-medium transition-all-300">
-                <i class="fa fa-copy mr-1"></i> 复制
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <button id="copyBtn" class="btn-hover bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white px-6 py-3 rounded-xl text-sm font-medium shadow-soft transform transition-all duration-300 hover:scale-105 flex items-center justify-center">
+                <i class="fa fa-copy mr-2"></i> 复制到剪贴板
             </button>
-            <button id="downloadBtn" class="flex-1 bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md text-sm font-medium transition-all-300">
-                <i class="fa fa-download mr-1"></i> 下载
+            <button id="downloadBtn" class="btn-hover bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white px-6 py-3 rounded-xl text-sm font-medium shadow-soft transform transition-all duration-300 hover:scale-105 flex items-center justify-center">
+                <i class="fa fa-download mr-2"></i> 下载文件
             </button>
         </div>
 
         <!-- 预览效果 -->
-        <div class="mt-8">
-            <h3 class="font-semibold text-gray-700 mb-3">预览效果</h3>
-            <div id="promptPreview" class="bg-gray-50 p-4 rounded-md shadow-sm h-64 overflow-y-auto scrollbar-hide">
-                <p class="text-gray-400 text-center italic">点击"生成提示词"按钮查看预览</p>
+        <div class="border-t border-secondary-100 pt-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-secondary-800 flex items-center">
+                    <i class="fa fa-eye text-primary-500 mr-2"></i>
+                    实时预览
+                </h3>
+                <span class="text-xs text-secondary-500 bg-primary-50 px-2 py-1 rounded-full">Markdown渲染</span>
+            </div>
+            <div id="promptPreview" class="bg-white/40 backdrop-blur border border-secondary-100 rounded-xl p-6 shadow-sm h-80 overflow-y-auto custom-scrollbar">
+                <div class="flex flex-col items-center justify-center h-full text-secondary-400">
+                    <i class="fa fa-file-text-o text-4xl mb-3"></i>
+                    <p class="text-center italic">点击"生成提示词"按钮查看预览</p>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
 <!-- 加载中弹窗 -->
-<div id="loadingModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
-    <div class="bg-white rounded-lg p-6 shadow-lg">
-        <div class="flex items-center">
-            <div class="animate-spin mr-3 text-primary">
-                <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
+<div id="loadingModal" class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 hidden">
+    <div class="glass rounded-2xl p-8 shadow-strong border border-white/50 mx-4 max-w-sm w-full">
+        <div class="flex flex-col items-center text-center">
+            <div class="relative mb-4">
+                <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center">
+                    <i class="fa fa-magic text-white text-2xl"></i>
+                </div>
+                <div class="absolute inset-0 w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center animate-ping opacity-20"></div>
             </div>
-            <p class="text-gray-700">生成中，请稍候...</p>
+            <h3 class="text-lg font-semibold text-secondary-800 mb-2">正在生成提示词</h3>
+            <p class="text-secondary-600 mb-4">AI正在为你创作完美的提示词，请稍候...</p>
+            <div class="w-full bg-secondary-100 rounded-full h-2 overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-primary-500 to-accent-500 rounded-full animate-pulse" style="width: 60%;"></div>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- 提示弹窗 -->
-<div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-green-800 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 translate-y-20 transition-all duration-300 z-50 flex items-center">
-    <i id="toastIcon" class="fa fa-check-circle mr-2 text-green-400"></i>
-    <span id="toastMessage"></span>
+<div id="toast" class="fixed top-24 left-1/2 transform -translate-x-1/2 glass px-6 py-4 rounded-xl shadow-strong border border-white/50 opacity-0 -translate-y-4 transition-all duration-300 z-50 flex items-center">
+    <div id="toastIcon" class="mr-3"></div>
+    <span id="toastMessage" class="font-medium text-secondary-800"></span>
 </div>
 
 <!-- JavaScript -->
@@ -502,6 +1089,256 @@
         const loadTemplateBtn = document.getElementById('loadTemplateBtn');
         const furnitureContainer = document.getElementById('furnitureContainer');
         const negativePromptsContainer = document.getElementById('negativePromptsContainer');
+        const randomGenerateBtn = document.getElementById('randomGenerateBtn');
+        const clearResultBtn = document.getElementById('clearResultBtn');
+        const resultStatus = document.getElementById('resultStatus');
+        const resultStatusText = document.getElementById('resultStatusText');
+
+        // 随机选项数据
+        const randomOptions = {
+            scene: [
+                "中国大学宿舍，千禧年，上铺",
+                "复古咖啡馆，午后时光",
+                "日式庭院，樱花飞舞",
+                "北欧风格卧室，清晨阳光",
+                "工业风loft，夜晚灯光",
+                "海边小屋，黄昏时分",
+                "山顶观景台，日出时刻",
+                "图书馆阅读角，安静午后",
+                "复古照相馆，怀旧氛围",
+                "城市天台，夜景璀璨"
+            ],
+            gender: ["女性", "男性", "中性"],
+            age: ["16-18岁", "19岁左右", "20-22岁", "23-25岁", "26-28岁", "30岁左右", "35岁左右"],
+            race: ["东亚", "欧洲", "非洲", "美洲", "其他"],
+            bodyType: [
+                "苗条，腰线分明；身材比例自然",
+                "匀称健康，肌肉线条柔和",
+                "纤细娇小，骨架小巧",
+                "丰满有致，曲线优美",
+                "高挑修长，四肢比例协调",
+                "结实有力，运动型身材"
+            ],
+            skinTone: ["浅中性色调", "深中性色调", "冷色调", "暖色调"],
+            hairLength: [
+                "前刘海加后马尾，不失女人的英气妩媚",
+                "齐肩短发，清爽干练",
+                "长发披肩，温柔飘逸",
+                "及腰长发，优雅动人",
+                "波波头，俏皮可爱",
+                "高马尾，活力四射",
+                "编发造型，精致复古"
+            ],
+            hairStyle: ["刘海", "空气刘海", "斜刘海", "齐刘海", "中分", "三七分", "大波浪卷发", "小卷毛", "直发"],
+            hairColor: [
+                "黑色，有发丝",
+                "深棕色，自然光泽",
+                "栗色，温暖色调",
+                "金棕色，阳光感",
+                "亚麻色，柔和清淡",
+                "酒红色，时尚亮眼",
+                "灰白色，高级质感"
+            ],
+            posture: [
+                "坐在电脑桌旁边的黑色椅子上",
+                "站立在窗前，望向远方",
+                "斜靠在沙发上，休闲放松",
+                "坐在床沿，沉思状",
+                "站在书架前，挑选书籍",
+                "坐在咖啡厅角落，安静阅读",
+                "站在镜子前，整理仪容"
+            ],
+            rightHand: [
+                "撑着床边",
+                "拿着书本",
+                "轻抚头发",
+                "托着下巴",
+                "拿着咖啡杯",
+                "放在腰间",
+                "自然下垂"
+            ],
+            leftArm: [
+                "在躯干旁自然下垂",
+                "抱着书卷",
+                "轻抚桌面",
+                "叉在腰间",
+                "自然摆动",
+                "搭在椅背上",
+                "隐藏在身后"
+            ],
+            torso: [
+                "身体轻微后仰",
+                "身体前倾",
+                "身体挺直",
+                "身体微侧",
+                "身体放松",
+                "身体扭转",
+                "身体前倾思考"
+            ],
+            top: [
+                "亚麻男士白色衬衫低垂，扣子都是系上的",
+                "修身的针织衫，贴合身形",
+                "宽松的T恤，休闲舒适",
+                "丝绸吊带衫，优雅性感",
+                "牛仔外套，帅气干练",
+                "毛衣开衫，温柔知性",
+                "白色衬衫，简约大方"
+            ],
+            bottom: [
+                "穿着米白色的长百褶裙",
+                "深色牛仔裤，修身显瘦",
+                "黑色短裙，俏皮可爱",
+                "阔腿裤，时尚大气",
+                "瑜伽裤，运动舒适",
+                "半身裙，优雅知性",
+                "短裤，活力十足"
+            ],
+            environmentDesc: [
+                "可以看到大学宿舍的下铺",
+                "阳光透过窗户洒入室内",
+                "书架上摆满了书籍",
+                "背景是城市夜景",
+                "周围绿植环绕",
+                "室内光线柔和",
+                "远景是山峦起伏"
+            ],
+            lightSource: [
+                "比较暗，是来自宿舍的灯光",
+                "自然光从窗户照入",
+                "温暖的台灯光线",
+                "城市霓虹灯光",
+                "柔和的室内照明",
+                "午后的阳光",
+                "烛光摇曳"
+            ],
+            lightQuality: [
+                "千禧年有颗粒的画质",
+                "柔和朦胧的氛围感",
+                "清晰锐利的现代画质",
+                "复古胶片质感",
+                "梦幻般的光晕效果",
+                "电影感的质感",
+                "干净通透的画质"
+            ],
+            cameraModel: ["佳能相机", "尼康相机", "索尼相机", "富士相机"],
+            focalLength: ["24", "35", "50", "85", "135"],
+            aperture: ["1.4", "1.8", "2.0", "2.8", "4.0"],
+            iso: ["100", "200", "400", "800", "1600"],
+            shutterSpeed: ["0.001", "0.01", "0.1", "1", "30"],
+            exposureComp: ["-1.0", "-0.7", "-0.3", "0", "+0.3", "+0.7", "+1.0"],
+            aspectRatio: ["1:1", "3:2", "4:3", "9:16", "16:9"],
+            angle: ["特写", "中景", "全景", "俯视", "仰视", "平视"]
+        };
+
+        // 随机生成函数
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // 随机生成配置
+        randomGenerateBtn.addEventListener('click', function() {
+            // 场景
+            document.getElementById('scene').value = getRandomItem(randomOptions.scene);
+
+            // 主体基本信息
+            document.getElementById('gender').value = getRandomItem(randomOptions.gender);
+            document.getElementById('age').value = getRandomItem(randomOptions.age);
+            document.getElementById('race').value = getRandomItem(randomOptions.race);
+            document.getElementById('bodyType').value = getRandomItem(randomOptions.bodyType);
+            document.getElementById('skinTone').value = getRandomItem(randomOptions.skinTone);
+
+            // 发型
+            document.getElementById('hairLength').value = getRandomItem(randomOptions.hairLength);
+            document.getElementById('hairStyle').value = getRandomItem(randomOptions.hairStyle);
+            document.getElementById('hairColor').value = getRandomItem(randomOptions.hairColor);
+
+            // 姿势
+            document.getElementById('posture').value = getRandomItem(randomOptions.posture);
+            document.getElementById('rightHand').value = getRandomItem(randomOptions.rightHand);
+            document.getElementById('leftArm').value = getRandomItem(randomOptions.leftArm);
+            document.getElementById('torso').value = getRandomItem(randomOptions.torso);
+
+            // 着装
+            document.getElementById('top').value = getRandomItem(randomOptions.top);
+            document.getElementById('bottom').value = getRandomItem(randomOptions.bottom);
+            document.getElementById('socks').value = "不体现";
+            document.getElementById('accessories').value = "无";
+
+            // 环境
+            document.getElementById('environmentDesc').value = getRandomItem(randomOptions.environmentDesc);
+
+            // 灯光
+            document.getElementById('lightSource').value = getRandomItem(randomOptions.lightSource);
+            document.getElementById('lightQuality').value = getRandomItem(randomOptions.lightQuality);
+            document.getElementById('whiteBalance').value = getRandomNumber(4500, 6500).toString();
+
+            // 相机
+            document.getElementById('cameraModel').value = getRandomItem(randomOptions.cameraModel);
+            document.getElementById('focalLength').value = getRandomItem(randomOptions.focalLength);
+            document.getElementById('aperture').value = getRandomItem(randomOptions.aperture);
+            document.getElementById('iso').value = getRandomItem(randomOptions.iso);
+            document.getElementById('shutterSpeed').value = getRandomItem(randomOptions.shutterSpeed);
+            document.getElementById('exposureComp').value = getRandomItem(randomOptions.exposureComp);
+            document.getElementById('focus').value = "对焦于人物主体";
+            document.getElementById('depthOfField').value = "人物清晰，背景虚化";
+            document.getElementById('aspectRatio').value = getRandomItem(randomOptions.aspectRatio);
+            document.getElementById('angle').value = getRandomItem(randomOptions.angle);
+            document.getElementById('compositionNote').value = "保持主体居中，人物为主体，所有的元素应该都作为背景有一定虚化";
+
+            // 清空原有的环境陈设和负面提示词，添加随机内容
+            furnitureContainer.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="${getRandomItem(['书桌', '椅子', '床铺', '窗户', '书架', '台灯', '绿植'])}">
+                    <button type="button" class="add-furniture bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-all-300">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            `;
+
+            // 随机生成几个负面提示词
+            const randomNegativePrompts = [
+                "任何地方出现粉色/品红色",
+                "美颜滤镜/磨皮皮肤；没有毛孔的外观",
+                "夸张或扭曲的人体结构",
+                "NSFW，透视面料，走光",
+                "商标，品牌名，可读的用户界面文本",
+                "虚假的人像模式模糊，CGI/插画感",
+                "画质模糊，噪点过多",
+                "色彩失真，不自然的光线",
+                "构图呆板，缺乏艺术感"
+            ];
+
+            const selectedNegativePrompts = [];
+            for (let i = 0; i < 5; i++) {
+                const randomPrompt = getRandomItem(randomNegativePrompts);
+                if (!selectedNegativePrompts.includes(randomPrompt)) {
+                    selectedNegativePrompts.push(randomPrompt);
+                }
+            }
+
+            negativePromptsContainer.innerHTML = '';
+            selectedNegativePrompts.forEach((prompt, index) => {
+                const newItem = document.createElement('div');
+                newItem.className = 'flex items-center gap-2';
+                const buttonType = index === 0 ? 'add-negative-prompt' : 'remove-negative-prompt';
+                const iconClass = index === 0 ? 'fa-plus' : 'fa-minus';
+                const buttonColor = index === 0 ? 'bg-green-500' : 'bg-red-500';
+
+                newItem.innerHTML = `
+                    <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" value="${prompt}">
+                    <button type="button" class="${buttonType} ${buttonColor} text-white p-2 rounded-md hover:bg-opacity-90 transition-all-300">
+                        <i class="fa ${iconClass}"></i>
+                    </button>
+                `;
+                negativePromptsContainer.appendChild(newItem);
+            });
+
+            showToast('success', '随机配置生成完成');
+        });
 
         // 添加环境陈设
         furnitureContainer.addEventListener('click', function(e) {
@@ -551,6 +1388,9 @@
 
         // 生成提示词
         generateBtn.addEventListener('click', function() {
+            // 更新状态
+            updateResultStatus('loading', '正在生成');
+
             // 显示加载中弹窗
             loadingModal.classList.remove('hidden');
 
@@ -688,11 +1528,15 @@
                     // 滚动到生成结果区域
                     document.querySelector('#generatedPrompt').scrollIntoView({ behavior: 'smooth' });
 
+                    // 更新状态
+                    updateResultStatus('success', '生成完成');
+
                     // 显示成功提示
                     showToast('success', '提示词生成成功');
                 } catch (error) {
                     console.error('生成提示词时出错:', error);
                     loadingModal.classList.add('hidden');
+                    updateResultStatus('error', '生成失败');
                     showToast('error', '生成提示词失败');
                 }
             }, 800);
@@ -980,32 +1824,304 @@
             promptPreview.innerHTML = html;
         }
 
+        // 清空结果
+        clearResultBtn.addEventListener('click', function() {
+            generatedPrompt.value = '';
+            promptPreview.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-secondary-400">
+                    <i class="fa fa-file-text-o text-4xl mb-3"></i>
+                    <p class="text-center italic">点击"生成提示词"按钮查看预览</p>
+                </div>
+            `;
+            resultStatus.className = 'w-2 h-2 bg-secondary-300 rounded-full';
+            resultStatusText.textContent = '等待生成';
+            showToast('success', '已清空生成结果');
+        });
+
         // 显示提示弹窗
         function showToast(type, message) {
             // 设置图标和颜色
             if (type === 'success') {
-                toastIcon.className = 'fa fa-check-circle mr-2 text-green-400';
-                toast.classList.add('bg-green-800');
-                toast.classList.remove('bg-red-800');
+                toastIcon.innerHTML = '<div class="w-8 h-8 bg-gradient-to-br from-success-500 to-emerald-500 rounded-full flex items-center justify-center"><i class="fa fa-check text-white text-sm"></i></div>';
             } else if (type === 'error') {
-                toastIcon.className = 'fa fa-exclamation-circle mr-2 text-red-400';
-                toast.classList.add('bg-red-800');
-                toast.classList.remove('bg-green-800');
+                toastIcon.innerHTML = '<div class="w-8 h-8 bg-gradient-to-br from-danger-500 to-red-600 rounded-full flex items-center justify-center"><i class="fa fa-exclamation text-white text-sm"></i></div>';
             }
 
             // 设置消息
             toastMessage.textContent = message;
 
             // 显示弹窗
-            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.remove('-translate-y-4', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
 
             // 3秒后自动隐藏
             setTimeout(function() {
                 toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.add('-translate-y-4', 'opacity-0');
             }, 3000);
         }
+
+        // 更新结果状态
+        function updateResultStatus(status, text) {
+            resultStatus.className = `w-2 h-2 rounded-full ${
+                status === 'success' ? 'bg-success-500 animate-pulse' :
+                status === 'error' ? 'bg-danger-500 animate-pulse' :
+                status === 'loading' ? 'bg-warning-500 animate-pulse' :
+                'bg-secondary-300'
+            }`;
+            resultStatusText.textContent = text;
+        }
+
+        // 增强 datalist 功能
+        function enhanceDataLists() {
+            const inputs = document.querySelectorAll('input[list]');
+
+            inputs.forEach(input => {
+                const datalistId = input.getAttribute('list');
+                const datalist = document.getElementById(datalistId);
+
+                if (!datalist) return;
+
+                // 添加必要的属性
+                if (!input.hasAttribute('autocomplete')) {
+                    input.setAttribute('autocomplete', 'off');
+                }
+
+                // 确保选项值完全匹配
+                const options = datalist.querySelectorAll('option');
+                options.forEach(option => {
+                    const value = option.getAttribute('value');
+                    if (value && !option.textContent) {
+                        option.textContent = value;
+                    }
+                });
+
+                // 添加焦点事件，显示所有选项
+                input.addEventListener('focus', function() {
+                    // 强制浏览器显示 datalist
+                    this.click();
+                });
+
+                // 添加点击事件显示下拉列表
+                input.addEventListener('click', function() {
+                    // 显示下拉列表
+                    const currentValue = this.value;
+                    // 清空并重新设置值以触发下拉列表显示
+                    this.value = '';
+                    setTimeout(() => {
+                        this.value = currentValue;
+                    }, 10);
+                });
+
+                // 添加键盘导航支持
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        // 让浏览器处理键盘导航
+                    }
+
+                    // 按 Enter 或 Tab 确认选择
+                    if (e.key === 'Enter' || e.key === 'Tab') {
+                        e.preventDefault();
+                        this.blur();
+                    }
+                });
+
+                // 确保下拉箭头不会阻挡点击
+                const arrowIcon = this.parentElement.querySelector('.fa-chevron-down');
+                if (arrowIcon) {
+                    arrowIcon.parentElement.classList.add('pointer-events-none');
+                }
+            });
+        }
+
+        // 修复所有 datalist 输入框的属性
+        function fixDataListInputs() {
+            const inputs = document.querySelectorAll('input[list]');
+            inputs.forEach(input => {
+                // 添加 autocomplete="off" 如果没有的话
+                if (!input.hasAttribute('autocomplete')) {
+                    input.setAttribute('autocomplete', 'off');
+                }
+
+                // 确保有正确的类名
+                if (!input.classList.contains('custom-scrollbar')) {
+                    input.classList.add('custom-scrollbar');
+                }
+
+                // 修复旧样式的输入框
+                if (!input.classList.contains('input-focus')) {
+                    input.classList.add('input-focus');
+                }
+
+                // 添加必要的样式类
+                if (!input.classList.contains('bg-white/80')) {
+                    input.classList.add('bg-white/80', 'backdrop-blur', 'border-secondary-200', 'rounded-xl', 'shadow-soft');
+                }
+
+                // 修复父容器结构
+                const parent = input.parentElement;
+                if (!parent.querySelector('.fa-chevron-down')) {
+                    // 添加下拉箭头
+                    const arrowDiv = document.createElement('div');
+                    arrowDiv.className = 'absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 pointer-events-none';
+                    arrowDiv.innerHTML = '<i class="fa fa-chevron-down text-sm"></i>';
+                    parent.appendChild(arrowDiv);
+                }
+
+                // 修复标签样式
+                const label = input.parentElement.previousElementSibling;
+                if (label && label.tagName === 'LABEL') {
+                    if (!label.classList.contains('font-semibold')) {
+                        label.classList.add('font-semibold', 'text-secondary-700');
+                    }
+                }
+            });
+        }
+
+        // 批量修复HTML结构
+        function fixInputStructures() {
+            const inputsToFix = [
+                'bodyType', 'skinTone', 'hairLength', 'hairStyle', 'hairColor',
+                'posture', 'top', 'bottom', 'cameraModel', 'aspectRatio'
+            ];
+
+            inputsToFix.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    // 确保有必要的属性
+                    if (!input.hasAttribute('autocomplete')) {
+                        input.setAttribute('autocomplete', 'off');
+                    }
+
+                    // 更新样式类
+                    input.className = 'input-focus w-full px-4 py-3 bg-white/80 backdrop-blur border border-secondary-200 rounded-xl shadow-soft focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 custom-scrollbar';
+
+                    // 确保有下拉箭头
+                    const parent = input.parentElement;
+                    if (!parent.querySelector('.fa-chevron-down')) {
+                        const arrowDiv = document.createElement('div');
+                        arrowDiv.className = 'absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 pointer-events-none';
+                        arrowDiv.innerHTML = '<i class="fa fa-chevron-down text-sm"></i>';
+                        parent.appendChild(arrowDiv);
+                    }
+
+                    // 修复容器样式
+                    if (!parent.classList.contains('relative')) {
+                        parent.classList.add('relative');
+                    }
+                }
+            });
+        }
+
+        // 初始化增强功能
+        enhanceDataLists();
+        fixDataListInputs();
+        fixInputStructures();
+
+        // 为所有 datalist 输入框添加更好的交互
+        function addDataListInteraction() {
+            document.querySelectorAll('input[list]').forEach(input => {
+                const listId = input.getAttribute('list');
+                const datalist = document.getElementById(listId);
+
+                if (!datalist) return;
+
+                // 监听输入变化，提供自动完成
+                input.addEventListener('input', function() {
+                    const value = this.value.toLowerCase();
+                    const options = datalist.querySelectorAll('option');
+
+                    // 找到匹配的选项
+                    let matchedOption = null;
+                    options.forEach(option => {
+                        if (option.value.toLowerCase().includes(value)) {
+                            matchedOption = option.value;
+                        }
+                    });
+
+                    // 如果有精确匹配，不显示建议
+                    if (matchedOption && matchedOption.toLowerCase() === value) {
+                        return;
+                    }
+                });
+
+                // 双击时清空输入框以显示所有选项
+                input.addEventListener('dblclick', function() {
+                    this.value = '';
+                    this.focus();
+                });
+            });
+        }
+
+        addDataListInteraction();
+
+        // 强制修复所有 datalist 输入框
+        function forceFixDataListInputs() {
+            console.log('正在强制修复所有 datalist 输入框...');
+
+            // 延迟执行，确保DOM完全加载
+            setTimeout(() => {
+                const allInputs = document.querySelectorAll('input[list]');
+                console.log(`找到 ${allInputs.length} 个 datalist 输入框`);
+
+                allInputs.forEach((input, index) => {
+                    console.log(`修复输入框 ${index + 1}: ${input.id}`);
+
+                    // 强制设置属性
+                    input.setAttribute('autocomplete', 'off');
+
+                    // 强制设置样式
+                    input.style.cursor = 'pointer';
+
+                    // 确保有正确的类名
+                    if (!input.classList.contains('input-focus')) {
+                        input.classList.add('input-focus');
+                    }
+
+                    // 确保父容器有正确的结构
+                    const parent = input.parentElement;
+                    if (!parent.classList.contains('relative')) {
+                        parent.classList.add('relative');
+                    }
+
+                    // 确保有下拉箭头
+                    if (!parent.querySelector('.fa-chevron-down')) {
+                        const arrow = document.createElement('div');
+                        arrow.className = 'absolute right-3 top-1/2 transform -translate-y-1/2 text-secondary-400 pointer-events-none';
+                        arrow.innerHTML = '<i class="fa fa-chevron-down text-sm"></i>';
+                        parent.appendChild(arrow);
+                    }
+
+                    // 添加点击事件来强制显示下拉列表
+                    input.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log('点击输入框:', this.id);
+
+                        // 临时清空输入框来触发下拉列表
+                        const currentValue = this.value;
+                        this.value = '';
+
+                        // 短暂延迟后恢复值
+                        setTimeout(() => {
+                            this.value = currentValue;
+                            this.focus();
+                        }, 50);
+                    });
+
+                    // 添加焦点事件
+                    input.addEventListener('focus', function() {
+                        console.log('焦点到输入框:', this.id);
+                        this.click();
+                    });
+                });
+
+                console.log('所有 datalist 输入框修复完成');
+            }, 100);
+        }
+
+        // 执行强制修复
+        forceFixDataListInputs();
     });
 </script>
 </body>
