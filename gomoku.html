@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线五子棋游戏</title>
+    <title>开源技术小栈在线五子棋游戏</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <script>
@@ -53,7 +53,7 @@
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4 font-sans">
     <div class="max-w-6xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
         <div class="bg-primary text-white p-6 text-center">
-            <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold">在线五子棋</h1>
+            <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold">开源技术小栈在线五子棋</h1>
             <p class="text-secondary mt-2">多人实时对战</p>
         </div>
         
@@ -343,7 +343,7 @@
                 }
                 
                 // this.ws = new WebSocket('ws://localhost:8201');
-                this.ws = new WebSocket('ws://game.tinywan.com');
+                this.ws = new WebSocket('wss://game.tinywan.com');
                 
                 this.ws.onopen = () => {
                     this.connectionStatus.textContent = '已连接';
