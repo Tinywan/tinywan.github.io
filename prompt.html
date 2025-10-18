@@ -396,6 +396,35 @@
                 padding: 0.75rem;
                 font-size: 0.875rem;
             }
+
+            /* 安卓浏览器表单修复 */
+            input[list] {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                position: relative;
+            }
+
+            input[list]::-webkit-calendar-picker-indicator {
+                display: none;
+            }
+
+            input[list]::-webkit-list-button {
+                display: none;
+            }
+
+            /* 触摸设备优化 */
+            @media (hover: none) and (pointer: coarse) {
+                .input-focus {
+                    min-height: 48px; /* 触摸目标最小尺寸 */
+                    font-size: 16px;
+                }
+
+                .input-with-arrow .dropdown-arrow {
+                    pointer-events: auto;
+                    cursor: pointer;
+                }
+            }
         }
 
         /* 平板设备优化 */
@@ -1872,9 +1901,10 @@
             resultStatusText.textContent = text;
         }
 
-        // 增强 datalist 功能
+        // 增强 datalist 功能 - 安卓兼容版本
         function enhanceDataLists() {
             const inputs = document.querySelectorAll('input[list]');
+            const isAndroid = /android/i.test(navigator.userAgent);
 
             inputs.forEach(input => {
                 const datalistId = input.getAttribute('list');
@@ -1896,10 +1926,42 @@
                     }
                 });
 
+                // 安卓设备特殊处理
+                if (isAndroid) {
+                    // 创建自定义下拉按钮
+                    const dropdownBtn = document.createElement('button');
+                    dropdownBtn.type = 'button';
+                    dropdownBtn.innerHTML = '▼';
+                    dropdownBtn.style.cssText = `
+                        position: absolute;
+                        right: 8px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        background: none;
+                        border: none;
+                        color: #666;
+                        cursor: pointer;
+                        padding: 4px;
+                        font-size: 12px;
+                        z-index: 10;
+                    `;
+
+                    input.parentNode.style.position = 'relative';
+                    input.parentNode.appendChild(dropdownBtn);
+
+                    // 点击按钮显示选项
+                    dropdownBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showCustomDropdown(input, datalist);
+                    });
+                }
+
                 // 添加焦点事件，显示所有选项
                 input.addEventListener('focus', function() {
-                    // 强制浏览器显示 datalist
-                    this.click();
+                    if (!isAndroid) {
+                        this.click();
+                    }
                 });
 
                 // 添加点击事件显示下拉列表
@@ -1933,6 +1995,82 @@
                     arrowIcon.parentElement.classList.add('pointer-events-none');
                 }
             });
+        }
+
+        // 安卓自定义下拉菜单
+        function showCustomDropdown(input, datalist) {
+            // 移除已存在的下拉菜单
+            const existingDropdown = document.querySelector('.custom-datalist-dropdown');
+            if (existingDropdown) {
+                existingDropdown.remove();
+            }
+
+            // 创建自定义下拉菜单
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-datalist-dropdown';
+            dropdown.style.cssText = `
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                max-height: 200px;
+                overflow-y: auto;
+                z-index: 1000;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            `;
+
+            // 添加选项
+            const options = datalist.querySelectorAll('option');
+            options.forEach(option => {
+                const value = option.getAttribute('value') || option.textContent;
+                if (value) {
+                    const item = document.createElement('div');
+                    item.textContent = value;
+                    item.style.cssText = `
+                        padding: 10px;
+                        cursor: pointer;
+                        border-bottom: 1px solid #eee;
+                        font-size: 14px;
+                    `;
+
+                    item.addEventListener('click', function() {
+                        input.value = value;
+                        dropdown.remove();
+                        input.focus();
+                    });
+
+                    item.addEventListener('mouseenter', function() {
+                        this.style.backgroundColor = '#f0f0f0';
+                    });
+
+                    item.addEventListener('mouseleave', function() {
+                        this.style.backgroundColor = '';
+                    });
+
+                    dropdown.appendChild(item);
+                }
+            });
+
+            // 定位下拉菜单
+            const inputRect = input.getBoundingClientRect();
+            dropdown.style.top = (inputRect.bottom + window.scrollY) + 'px';
+            dropdown.style.left = (inputRect.left + window.scrollX) + 'px';
+            dropdown.style.width = inputRect.width + 'px';
+
+            document.body.appendChild(dropdown);
+
+            // 点击外部关闭
+            setTimeout(() => {
+                document.addEventListener('click', function closeDropdown(e) {
+                    if (!dropdown.contains(e.target) && e.target !== input) {
+                        dropdown.remove();
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                });
+            }, 100);
         }
 
         // 修复所有 datalist 输入框的属性
