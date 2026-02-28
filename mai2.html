@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>麦川千字诵 - 祥子</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'KaiTi', '楷体', 'STKaiti', 'FangSong', '仿宋', serif;
+            background: #f8f7f4;
+            color: #333;
+            line-height: 2.2;
+            overflow-x: hidden;
+        }
+
+        /* 水墨背景 */
+        .ink-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(180deg, #faf9f7 0%, #f5f4f1 50%, #faf9f7 100%);
+        }
+
+        /* 远山 */
+        .ink-background::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background:
+                radial-gradient(ellipse 1000px 180px at 30% 100%, rgba(100, 100, 100, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 800px 150px at 70% 100%, rgba(90, 90, 90, 0.06) 0%, transparent 65%);
+            opacity: 0.8;
+        }
+
+        /* 云雾 */
+        .ink-background::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background:
+                radial-gradient(ellipse 900px 400px at 40% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 60%),
+                radial-gradient(ellipse 700px 350px at 65% 45%, rgba(250, 250, 250, 0.4) 0%, transparent 55%);
+            opacity: 0.7;
+        }
+
+        /* 墨点 */
+        .ink-dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .ink-dots::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(80, 80, 80, 0.15) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 80% 30%, rgba(70, 70, 70, 0.12) 1px, transparent 1px),
+                radial-gradient(circle at 30% 70%, rgba(75, 75, 75, 0.13) 1.2px, transparent 1.2px),
+                radial-gradient(circle at 70% 75%, rgba(85, 85, 85, 0.1) 1px, transparent 1px);
+        }
+
+
+        /* 主容器 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* 头部 - 书法题字风格 */
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+        }
+
+        /* 印章装饰 */
+        .seal {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(200, 80, 70, 0.6);
+            background: rgba(200, 80, 70, 0.12);
+            transform: rotate(45deg);
+            top: 30px;
+            right: 10%;
+            opacity: 0.7;
+        }
+
+        .seal::after {
+            content: '祥';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 28px;
+            color: rgba(200, 80, 70, 0.7);
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 4em;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: normal;
+            letter-spacing: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+            writing-mode: horizontal-tb;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #666;
+            letter-spacing: 8px;
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+
+        /* 主内容区 - 竖排版式 */
+        .main-content {
+            background: rgba(255, 255, 255, 0.8);
+            margin: 40px 30px;
+            padding: 60px 50px;
+            border-radius: 0;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            border: 1px solid rgba(100, 100, 100, 0.1);
+        }
+
+        /* 装饰线条 */
+        .main-content::before,
+        .main-content::after {
+            content: '';
+            position: absolute;
+            left: 30px;
+            right: 30px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(100, 100, 100, 0.15), transparent);
+        }
+
+        .main-content::before {
+            top: 30px;
+        }
+
+        .main-content::after {
+            bottom: 30px;
+        }
+
+        /* 诗文内容 */
+        .poem-content {
+            text-align: center;
+        }
+
+        .poem-section {
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .poem-text {
+            font-size: 1.6em;
+            line-height: 2.5;
+            color: #333;
+            letter-spacing: 8px;
+            text-align: center;
+        }
+
+        .poem-text p {
+            margin-bottom: 8px;
+            opacity: 0.95;
+        }
+
+        /* 分隔符 */
+        .divider {
+            text-align: center;
+            margin: 60px 0;
+            opacity: 0.25;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '◆';
+            letter-spacing: 30px;
+            color: #666;
+            font-size: 0.8em;
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(100, 100, 100, 0.12), transparent);
+            z-index: -1;
+        }
+
+        /* 底部 */
+        footer {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: rgba(255, 255, 255, 0.6);
+            margin-top: 0;
+            border-top: 1px solid rgba(100, 100, 100, 0.08);
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .share-buttons {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .share-buttons button {
+            background: rgba(60, 60, 60, 0.8);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'KaiTi', '楷体', serif;
+            font-size: 15px;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+        }
+
+        .share-buttons button:hover {
+            background: #2a2a2a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .copyright {
+            color: #888;
+            font-size: 0.95em;
+            line-height: 2;
+            letter-spacing: 2px;
+        }
+
+        /* 响应式设计 - 平板 */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
+            header {
+                padding: 60px 15px 40px;
+            }
+
+            h1 {
+                font-size: 2.8em;
+                letter-spacing: 12px;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+                letter-spacing: 6px;
+            }
+
+            .seal {
+                width: 50px;
+                height: 50px;
+                right: 5%;
+            }
+
+            .seal::after {
+                font-size: 24px;
+            }
+
+            .main-content {
+                margin: 30px 10px;
+                padding: 40px 20px;
+            }
+
+            .poem-section {
+                margin-bottom: 40px;
+            }
+
+            .poem-text {
+                font-size: 1.3em;
+                line-height: 2.1;
+                letter-spacing: 3px;
+            }
+
+            .divider {
+                margin: 40px 0;
+            }
+
+            .share-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .share-buttons button {
+                width: 200px;
+            }
+        }
+
+        /* 响应式设计 - 手机 */
+        @media (max-width: 480px) {
+            header {
+                padding: 50px 10px 30px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+                letter-spacing: 8px;
+            }
+
+            .subtitle {
+                font-size: 1em;
+                letter-spacing: 4px;
+            }
+
+            .seal {
+                width: 40px;
+                height: 40px;
+                top: 20px;
+            }
+
+            .seal::after {
+                font-size: 20px;
+            }
+
+            .main-content {
+                margin: 20px 5px;
+                padding: 30px 15px;
+            }
+
+            .main-content::before,
+            .main-content::after {
+                left: 10px;
+                right: 10px;
+            }
+
+            .poem-section {
+                margin-bottom: 35px;
+            }
+
+            .poem-text {
+                font-size: 1.1em;
+                line-height: 2;
+                letter-spacing: 2px;
+            }
+
+            .divider {
+                margin: 30px 0;
+            }
+
+            footer {
+                padding: 40px 10px 30px;
+            }
+
+            .share-buttons button {
+                width: 180px;
+                padding: 10px 25px;
+                font-size: 14px;
+            }
+
+            .copyright {
+                font-size: 0.85em;
+            }
+        }
+
+        /* 打印样式 */
+        @media print {
+            footer {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .ink-background {
+                display: none;
+            }
+
+            .main-content {
+                box-shadow: none;
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 水墨背景 -->
+    <div class="ink-background"></div>
+    <div class="ink-dots"></div>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 头部 -->
+        <header>
+            <div class="seal"></div>
+            <h1>麦川千字诵</h1>
+            <div class="subtitle">陇上江南 · 人文流传</div>
+        </header>
+
+        <!-- 主内容 -->
+        <main class="main-content">
+            <div class="poem-content">
+                <div class="poem-section">
+                    <div class="poem-text">
+                        <p>秦岭西陲，陇上江南；三省交汇，</p>
+                        <p>山脉错连。西和形胜，仇池溯源；</p>
+                        <p>历史悠久，人文流传。何坝麦川，</p>
+                        <p>坐落期间。广阔平川，沃野上千，</p>
+                        <p>东西狭长，南北较宽，得天地利，</p>
+                        <p>县域少见。川中坦途，东西朝向，</p>
+                        <p>沿河新路，造福一方，往来商旅，</p>
+                        <p>较为繁忙，畅行川中，方便异常。</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="poem-section">
+                    <div class="poem-text">
+                        <p>旧时村落，散布川旁。麦川杨窑，</p>
+                        <p>昌河马寨，鱼山油坊，近川面广。</p>
+                        <p>乡民村屋，依山而建，沟深树密，</p>
+                        <p>雨过天晴，云雾缭绕，若隐似现。</p>
+                        <p>千八人口，孕育此间。村内分区，</p>
+                        <p>相因成习，上沟坪上，上庄窑上，</p>
+                        <p>下庄水泉，闻名便识。有姓十余，</p>
+                        <p>各有渊源，全村王姓，约有一半，</p>
+                        <p>周氏先祖，最早定居，其他诸姓，</p>
+                        <p>稍后来川，各家历史，代际口传。</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="poem-section">
+                    <div class="poem-text">
+                        <p>一村之内，婚姻嫁娶，互有往来，</p>
+                        <p>关系错综，虽非同宗，辈分井然。</p>
+                        <p>从古到今，民食为天，川中沃土，</p>
+                        <p>用以生产，靠天吃饭，人勤地丰，</p>
+                        <p>往昔麦浪，翻滚连片，麦田金黄，</p>
+                        <p>成片似毯，炎阳六月，麦穗饱满。</p>
+                        <p>夏收农忙，麦垛如山。刀落镰收，</p>
+                        <p>捆麦转场，互助收麦，共克时艰。</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="poem-section">
+                    <div class="poem-text">
+                        <p>家给人足，仓储殷实，十里八乡，</p>
+                        <p>富庶一方，遂有殊喻，声名在外。</p>
+                        <p>村分六社，比肩相连。左邻右舍，</p>
+                        <p>相亲友善，世代相守，和谐繁衍。</p>
+                        <p>一河中流，两岸生息。旧时河道，</p>
+                        <p>弯曲流变，原木为桥，青石成墩，</p>
+                        <p>两岸树木，郁郁葱葱，洗衣淘草，</p>
+                        <p>自然原生。春明时节，绿波荡漾，</p>
+                        <p>山水相连，有如桃源。新修河道，</p>
+                        <p>改弯取直，加宽变深，塑料小船，</p>
+                        <p>浮游其上，盛夏时节，儿童戏水，</p>
+                        <p>大人垂钓，三五人群，沿河走步，</p>
+                        <p>相约消遣，舒适安逸，连孔大桥，</p>
+                        <p>枢纽通道，倒印水中，随波浮动。</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="poem-section">
+                    <div class="poem-text">
+                        <p>村校育人，立德为先，建制规模，</p>
+                        <p>全镇靠前，为村育才，为党育人，</p>
+                        <p>工人教师，党政干部，企业老板，</p>
+                        <p>遍及百业，服务社会，成人成己。</p>
+                        <p>学随时变，生源锐减，抚育后代，</p>
+                        <p>更显为难，进城求学，多数人选，</p>
+                        <p>后生可畏，代有才人。时代发展，</p>
+                        <p>展露新颜，放眼平川，园区正建。</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="poem-section">
+                    <div class="poem-text">
+                        <p>产业基地，种养结合，畜牧农渔，</p>
+                        <p>全川尽显，外来资金，企业合办，</p>
+                        <p>基础设施，应建尽建。产业兴村，</p>
+                        <p>规划靠前，小楼别墅，书写巨变，</p>
+                        <p>乡村振兴，已成示范。时过境迁，</p>
+                        <p>生计多变，务农养家，已成陋见，</p>
+                        <p>打工进厂，趋向普遍，走南闯北，</p>
+                        <p>漂泊他乡，努力拼搏，各展所长，</p>
+                        <p>漂洋过海，声名远扬，川乡思绪，</p>
+                        <p>心田荡漾，年关岁末，回乡守望，</p>
+                        <p>家常俚语，互致安康。时代新风，</p>
+                        <p>正在重建，婚丧嫁娶，铺张不盼，</p>
+                        <p>俭朴持家，光景交赞，诗书为伴，</p>
+                        <p>小康必见。脱贫攻坚，摘帽换颜，</p>
+                        <p>共同富裕，村容美奂。文娱活动，</p>
+                        <p>愈发频繁，生态环境，美丽光灿。</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="poem-section">
+                    <div class="poem-text">
+                        <p>身居乡间，熟人常见，关心问候，</p>
+                        <p>日常挂念，通情达理，人心自安。</p>
+                        <p>幸福生活，家庭起源，我让你退，</p>
+                        <p>矛盾不现。兄弟叔侄，长幼有序，</p>
+                        <p>婆媳妯娌，比心换位，言语平和，</p>
+                        <p>烦恼消散，忍让谦和，和家之要，</p>
+                        <p>互帮互敬，温情长新，施恩莫念，</p>
+                        <p>受恩莫忘，岁月流逝，历久弥贵。</p>
+                        <p>张扬冷漠，人性之偏，固执己见，</p>
+                        <p>臆想不断，缺乏沟通，终成偏见。</p>
+                        <p>知行合一，方为首选，为仁由己，</p>
+                        <p>切莫别怨。村周山脉，互拥相簇，</p>
+                        <p>神山道场，左护右佑，五福小坪，</p>
+                        <p>香火不断，财禄福泽，为众期盼。</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="poem-section">
+                    <div class="poem-text">
+                        <p>改革发展，因民所利，古今交汇，</p>
+                        <p>于斯为盛，后进可期，勇毅不凡，</p>
+                        <p>营家兴业，就在当前。德为业基，</p>
+                        <p>循序渐进，造福桑梓，光大村望，</p>
+                        <p>文明新村，共有共创。</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 底部 -->
+    <footer>
+        <div class="footer-content">
+            <div class="share-buttons">
+                <button onclick="copyLink()">复制链接</button>
+            </div>
+            <div class="copyright">
+                <p>作者：祥子</p>
+                <p>陇上江南 · 人文流传 · 世代相守</p>
+                <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.7;">© 2026 麦川千字诵</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 复制链接
+        function copyLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('链接已复制到剪贴板！');
+            }).catch(() => {
+                alert('复制失败，请手动复制地址栏链接');
+            });
+        }
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            const sections = document.querySelectorAll('.poem-section');
+            sections.forEach((section, index) => {
+                section.style.animationDelay = (index * 0.15) + 's';
+            });
+        });
+
+        // 平滑滚动优化
+        document.addEventListener('DOMContentLoaded', () => {
+            document.documentElement.style.scrollBehavior = 'smooth';
+        });
+    </script>
+</body>
+</html>
