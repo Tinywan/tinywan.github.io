@@ -13,8 +13,8 @@
 
         body {
             font-family: 'KaiTi', '楷体', 'STKaiti', 'FangSong', '仿宋', serif;
-            background: #f8f8f5;
-            color: #2a2a2a;
+            background: #f8f7f4;
+            color: #333;
             line-height: 2.2;
             overflow-x: hidden;
         }
@@ -27,18 +27,10 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background:
-                linear-gradient(180deg,
-                    rgba(248, 248, 245, 0.95) 0%,
-                    rgba(240, 240, 235, 0.9) 20%,
-                    rgba(235, 235, 230, 0.85) 40%,
-                    rgba(230, 230, 225, 0.9) 60%,
-                    rgba(240, 240, 235, 0.95) 80%,
-                    rgba(248, 248, 245, 0.95) 100%
-                );
+            background: linear-gradient(180deg, #faf9f7 0%, #f5f4f1 50%, #faf9f7 100%);
         }
 
-        /* 山水装饰元素 */
+        /* 远山 */
         .ink-background::before {
             content: '';
             position: absolute;
@@ -47,24 +39,47 @@
             width: 100%;
             height: 40%;
             background:
-                radial-gradient(ellipse at 20% 100%, rgba(60, 60, 60, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 100%, rgba(80, 80, 80, 0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 100%, rgba(70, 70, 70, 0.07) 0%, transparent 55%);
-            opacity: 0.6;
+                radial-gradient(ellipse 1000px 180px at 30% 100%, rgba(100, 100, 100, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 800px 150px at 70% 100%, rgba(90, 90, 90, 0.06) 0%, transparent 65%);
+            opacity: 0.8;
         }
 
-        /* 云雾效果 */
+        /* 云雾 */
         .ink-background::after {
             content: '';
             position: absolute;
-            top: 20%;
+            top: 10%;
             left: 0;
             width: 100%;
-            height: 30%;
+            height: 50%;
             background:
-                radial-gradient(ellipse at 30% 50%, rgba(200, 200, 200, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 60%, rgba(180, 180, 180, 0.12) 0%, transparent 45%);
-            opacity: 0.8;
+                radial-gradient(ellipse 900px 400px at 40% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 60%),
+                radial-gradient(ellipse 700px 350px at 65% 45%, rgba(250, 250, 250, 0.4) 0%, transparent 55%);
+            opacity: 0.7;
+        }
+
+        /* 墨点 */
+        .ink-dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .ink-dots::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(80, 80, 80, 0.15) 1.5px, transparent 1.5px),
+                radial-gradient(circle at 80% 30%, rgba(70, 70, 70, 0.12) 1px, transparent 1px),
+                radial-gradient(circle at 30% 70%, rgba(75, 75, 75, 0.13) 1.2px, transparent 1.2px),
+                radial-gradient(circle at 70% 75%, rgba(85, 85, 85, 0.1) 1px, transparent 1px);
         }
 
 
@@ -87,12 +102,12 @@
             position: absolute;
             width: 60px;
             height: 60px;
-            border: 2px solid #a0522d;
-            background: rgba(160, 82, 45, 0.1);
+            border: 2px solid rgba(200, 80, 70, 0.6);
+            background: rgba(200, 80, 70, 0.12);
             transform: rotate(45deg);
             top: 30px;
             right: 10%;
-            opacity: 0.6;
+            opacity: 0.7;
         }
 
         .seal::after {
@@ -102,17 +117,17 @@
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
             font-size: 28px;
-            color: #a0522d;
+            color: rgba(200, 80, 70, 0.7);
             font-weight: bold;
         }
 
         h1 {
             font-size: 4em;
-            color: #2a2a2a;
+            color: #333;
             margin-bottom: 30px;
             font-weight: normal;
             letter-spacing: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
             writing-mode: horizontal-tb;
         }
 
@@ -126,13 +141,13 @@
 
         /* 主内容区 - 竖排版式 */
         .main-content {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             margin: 40px 30px;
             padding: 60px 50px;
             border-radius: 0;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
-            backdrop-filter: blur(20px);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
             position: relative;
+            border: 1px solid rgba(100, 100, 100, 0.1);
         }
 
         /* 装饰线条 */
@@ -143,7 +158,7 @@
             left: 30px;
             right: 30px;
             height: 1px;
-            background: linear-gradient(to right, transparent, rgba(60, 60, 60, 0.2), transparent);
+            background: linear-gradient(to right, transparent, rgba(100, 100, 100, 0.15), transparent);
         }
 
         .main-content::before {
@@ -179,36 +194,50 @@
         .poem-text {
             font-size: 2.2em;
             line-height: 2.5;
-            color: #2a2a2a;
+            color: #333;
             letter-spacing: 8px;
             text-align: center;
         }
 
         .poem-text p {
             margin-bottom: 8px;
-            opacity: 0.9;
+            opacity: 0.95;
         }
 
         /* 分隔符 */
         .divider {
             text-align: center;
             margin: 60px 0;
-            opacity: 0.3;
+            opacity: 0.25;
+            position: relative;
         }
 
         .divider::before {
-            content: '◆ ◆ ◆';
-            letter-spacing: 20px;
+            content: '◆';
+            letter-spacing: 30px;
             color: #666;
+            font-size: 0.8em;
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(100, 100, 100, 0.12), transparent);
+            z-index: -1;
         }
 
         /* 底部 */
         footer {
             text-align: center;
             padding: 60px 20px 40px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.6);
             margin-top: 0;
+            border-top: 1px solid rgba(100, 100, 100, 0.08);
         }
 
         .footer-content {
@@ -399,6 +428,7 @@
 <body>
     <!-- 水墨背景 -->
     <div class="ink-background"></div>
+    <div class="ink-dots"></div>
 
     <!-- 主容器 -->
     <div class="container">
@@ -414,14 +444,14 @@
             <div class="poem-content">
                 <div class="poem-section">
                     <div class="poem-text">
-                        <p>秦岭西陲，陇上江南；</p>
-                        <p>三省交汇，山脉错连。</p>
-                        <p>西和形胜，仇池溯源；</p>
-                        <p>历史悠久，人文流传。</p>
-                        <p>何坝麦川，坐落期间。</p>
-                        <p>广阔平川，沃野上千。</p>
-                        <p>东西狭长，南北较宽，</p>
-                        <p>得天地利，县域少见。</p>
+                        <p>秦岭西陲，陇上江南；三省交汇，</p>
+                        <p>山脉错连。西和形胜，仇池溯源；</p>
+                        <p>历史悠久，人文流传。何坝麦川，</p>
+                        <p>坐落期间。广阔平川，沃野上千，</p>
+                        <p>东西狭长，南北较宽，得天地利，</p>
+                        <p>县域少见。川中坦途，东西朝向，</p>
+                        <p>沿河新路，造福一方，往来商旅，</p>
+                        <p>较为繁忙，畅行川中，方便异常。</p>
                     </div>
                 </div>
 
@@ -429,16 +459,16 @@
 
                 <div class="poem-section">
                     <div class="poem-text">
-                        <p>川中坦途，东西最长；</p>
-                        <p>沿河新路，造福一方；</p>
-                        <p>往来商旅，较为繁忙；</p>
-                        <p>畅行川中，方便异常。</p>
-                        <p>旧时村落，散布川旁。</p>
-                        <p>麦川杨窑，昌河马寨，</p>
-                        <p>鱼山油坊，近川面广。</p>
-                        <p>乡民村屋，依山而建，</p>
-                        <p>沟深树密，雨过天晴，</p>
-                        <p>云雾缭绕，若隐似现。</p>
+                        <p>旧时村落，散布川旁。麦川杨窑，</p>
+                        <p>昌河马寨，鱼山油坊，近川面广。</p>
+                        <p>乡民村屋，依山而建，沟深树密，</p>
+                        <p>雨过天晴，云雾缭绕，若隐似现。</p>
+                        <p>千八人口，孕育此间。村内分区，</p>
+                        <p>相因成习，上沟坪上，上庄窑上，</p>
+                        <p>下庄水泉，闻名便识。有姓十余，</p>
+                        <p>各有渊源，全村王姓，约有一半，</p>
+                        <p>周氏先祖，最早定居，其他诸姓，</p>
+                        <p>稍后来川，各家历史，代际口传。</p>
                     </div>
                 </div>
 
@@ -446,18 +476,14 @@
 
                 <div class="poem-section">
                     <div class="poem-text">
-                        <p>千八人口，孕育此间。</p>
-                        <p>村内分区，据形定名。</p>
-                        <p>上沟坪上，上庄窑上，</p>
-                        <p>下庄水泉，相因成习。</p>
-                        <p>有姓十余，各有渊源。</p>
-                        <p>周氏先人，最早来川。</p>
-                        <p>全村王姓，约有一半。</p>
-                        <p>其余诸姓，陆续来川，</p>
-                        <p>各自历史，代际口传。</p>
-                        <p>一村之内，婚姻嫁娶，</p>
-                        <p>互有往来，关系错综，</p>
-                        <p>虽非同宗，辈分井然。</p>
+                        <p>一村之内，婚姻嫁娶，互有往来，</p>
+                        <p>关系错综，虽非同宗，辈分井然。</p>
+                        <p>从古到今，民食为天，川中沃土，</p>
+                        <p>用以生产，靠天吃饭，人勤地丰，</p>
+                        <p>往昔麦浪，翻滚连片，麦田金黄，</p>
+                        <p>成片似毯，炎阳六月，麦穗饱满。</p>
+                        <p>夏收农忙，麦垛如山。刀落镰收，</p>
+                        <p>捆麦转场，互助收麦，共克时艰。</p>
                     </div>
                 </div>
 
@@ -465,18 +491,20 @@
 
                 <div class="poem-section">
                     <div class="poem-text">
-                        <p>从古到今，川中沃土，</p>
-                        <p>用以生产，斯民所赖。</p>
-                        <p>人勤地丰，靠天吃饭。</p>
-                        <p>往昔麦浪，翻滚连片，</p>
-                        <p>麦田金黄，成片似毯。</p>
-                        <p>炎阳六月，麦穗饱满。</p>
-                        <p>夏收农忙，麦垛如山。</p>
-                        <p>刀落镰收，捆麦转场，</p>
-                        <p>互助收麦，共克时艰。</p>
-                        <p>家给人足，仓储殷实，</p>
-                        <p>十里八乡，富庶一方。</p>
-                        <p>遂有殊喻，声名在外。</p>
+                        <p>家给人足，仓储殷实，十里八乡，</p>
+                        <p>富庶一方，遂有殊喻，声名在外。</p>
+                        <p>村分六社，比肩相连。左邻右舍，</p>
+                        <p>相亲友善，世代相守，和谐繁衍。</p>
+                        <p>一河中流，两岸生息。旧时河道，</p>
+                        <p>弯曲流变，原木为桥，青石成墩，</p>
+                        <p>两岸树木，郁郁葱葱，洗衣淘草，</p>
+                        <p>自然原生。春明时节，绿波荡漾，</p>
+                        <p>山水相连，有如桃源。新修河道，</p>
+                        <p>改弯取直，加宽变深，塑料小船，</p>
+                        <p>浮游其上，盛夏时节，儿童戏水，</p>
+                        <p>大人垂钓，三五人群，沿河走步，</p>
+                        <p>相约消遣，舒适安逸，连孔大桥，</p>
+                        <p>枢纽通道，倒印水中，随波浮动。</p>
                     </div>
                 </div>
 
@@ -484,24 +512,14 @@
 
                 <div class="poem-section">
                     <div class="poem-text">
-                        <p>村分六社，比肩相连。</p>
-                        <p>左邻右舍，相亲友善。</p>
-                        <p>世代相守，和谐繁衍。</p>
-                        <p>一河中流，两岸生息。</p>
-                        <p>旧时河道，弯曲流变，</p>
-                        <p>原木为桥，青石成墩，</p>
-                        <p>两岸树木，郁郁葱葱，</p>
-                        <p>洗衣淘草，原生状态。</p>
-                        <p>春明时节，绿波荡漾。</p>
-                        <p>山水相连，有如桃源。</p>
-                        <p>新修河道，改弯取直，</p>
-                        <p>加宽变深，塑料小船，</p>
-                        <p>浮游其上，盛夏时节，</p>
-                        <p>儿童戏水，大人垂钓，</p>
-                        <p>三五人群，沿河走步，</p>
-                        <p>日常消遣，舒缓安逸。</p>
-                        <p>水泥大桥，架设其上，</p>
-                        <p>倒印水中，随波浮动。</p>
+                        <p>村校育人，立德为先，建制规模，</p>
+                        <p>全镇靠前，为村育才，为党育人，</p>
+                        <p>工人教师，党政干部，企业老板，</p>
+                        <p>遍及百业，服务社会，成人成己。</p>
+                        <p>学随时变，生源锐减，抚育后代，</p>
+                        <p>更显为难，进城求学，多数人选，</p>
+                        <p>后生可畏，代有才人。时代发展，</p>
+                        <p>展露新颜，放眼平川，园区正建。</p>
                     </div>
                 </div>
 
@@ -509,17 +527,22 @@
 
                 <div class="poem-section">
                     <div class="poem-text">
-                        <p>村校育人，立德为先。</p>
-                        <p>建制规模，全镇靠前。</p>
-                        <p>为村育才，为党育人，</p>
-                        <p>数十人员，分布广泛；</p>
-                        <p>工人教师，乡镇干部，</p>
-                        <p>乡长镇长，书记局长，</p>
-                        <p>硕士博士，为国效力，</p>
-                        <p>为党尽忠，陆续涌现。</p>
-                        <p>学随时变，生源锐减，</p>
-                        <p>抚育后代，更显为难，</p>
-                        <p>进城求学，多数人选。</p>
+                        <p>产业基地，种养结合，畜牧农渔，</p>
+                        <p>全川尽显，外来资金，企业合办，</p>
+                        <p>基础设施，应建尽建。产业兴村，</p>
+                        <p>规划靠前，小楼别墅，书写巨变，</p>
+                        <p>乡村振兴，已成示范。时过境迁，</p>
+                        <p>生计多变，务农养家，已成陋见，</p>
+                        <p>打工进厂，趋向普遍，走南闯北，</p>
+                        <p>漂泊他乡，努力拼搏，各展所长，</p>
+                        <p>漂洋过海，声名远扬，川乡思绪，</p>
+                        <p>心田荡漾，年关岁末，回乡守望，</p>
+                        <p>家常俚语，互致安康。时代新风，</p>
+                        <p>正在重建，婚丧嫁娶，铺张不盼，</p>
+                        <p>俭朴持家，光景交赞，诗书为伴，</p>
+                        <p>小康必见。脱贫攻坚，摘帽换颜，</p>
+                        <p>共同富裕，村容美奂。文娱活动，</p>
+                        <p>愈发频繁，生态环境，美丽光灿。</p>
                     </div>
                 </div>
 
@@ -527,15 +550,20 @@
 
                 <div class="poem-section">
                     <div class="poem-text">
-                        <p>时代发展，展露新颜，</p>
-                        <p>放眼平川，园区正建。</p>
-                        <p>产业基地，种养结合，</p>
-                        <p>畜牧农渔，全川尽显，</p>
-                        <p>外来资金，合作兴业，</p>
-                        <p>基础设施，应建尽建。</p>
-                        <p>产业兴村，位居靠前，</p>
-                        <p>乡村振兴，已成示范。</p>
-                        <p>小楼别墅，书写巨变。</p>
+                        <p>身居乡间，熟人常见，关心问候，</p>
+                        <p>日常挂念，通情达理，人心自安。</p>
+                        <p>幸福生活，家庭起源，我让你退，</p>
+                        <p>矛盾不现。兄弟叔侄，长幼有序，</p>
+                        <p>婆媳妯娌，比心换位，言语平和，</p>
+                        <p>烦恼消散，忍让谦和，和家之要，</p>
+                        <p>互帮互敬，温情长新，施恩莫念，</p>
+                        <p>受恩莫忘，岁月流逝，历久弥贵。</p>
+                        <p>张扬冷漠，人性之偏，固执己见，</p>
+                        <p>臆想不断，缺乏沟通，终成偏见。</p>
+                        <p>知行合一，方为首选，为仁由己，</p>
+                        <p>切莫别怨。村周山脉，互拥相簇，</p>
+                        <p>神山道场，左护右佑，五福小坪，</p>
+                        <p>香火不断，财禄福泽，为众期盼。</p>
                     </div>
                 </div>
 
@@ -543,65 +571,11 @@
 
                 <div class="poem-section">
                     <div class="poem-text">
-                        <p>时过境迁，生计多变，</p>
-                        <p>务农养家，早成陋见，</p>
-                        <p>外出务工，十分普遍，</p>
-                        <p>走南闯北，创业维艰，</p>
-                        <p>定居他乡，扎根海外，</p>
-                        <p>拼搏奋斗，敢为人先，</p>
-                        <p>故乡情愫，深藏心田。</p>
-                        <p>年关岁末，相聚回川，</p>
-                        <p>家常俚语，互致问安。</p>
-                        <p>时代新风，正在重建，</p>
-                        <p>婚丧嫁娶，铺张不盼，</p>
-                        <p>俭朴持家，日久兴旺，</p>
-                        <p>诗书传家，稳步小康。</p>
-                        <p>脱贫攻坚，摘帽换颜，</p>
-                        <p>共同富裕，村容美奂。</p>
-                        <p>文娱活动，愈发频繁，</p>
-                        <p>生态环境，美丽光灿。</p>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="poem-section">
-                    <div class="poem-text">
-                        <p>身居乡间，熟人常见，</p>
-                        <p>关心问候，日常挂念，</p>
-                        <p>通情达理，人心自安。</p>
-                        <p>幸福生活，家庭起源，</p>
-                        <p>我让你退，矛盾不现。</p>
-                        <p>兄弟叔侄，长幼有序，</p>
-                        <p>婆媳妯娌，比心换位，</p>
-                        <p>言语缓和，矛盾自消，</p>
-                        <p>忍让谦和，和家之要，</p>
-                        <p>互帮互敬，方显品格，</p>
-                        <p>施恩末念，受恩莫忘，</p>
-                        <p>时光流逝，历久弥坚。</p>
-                        <p>张扬冷漠，人性之偏，</p>
-                        <p>固执己见，臆想不断，</p>
-                        <p>缺乏沟通，终成偏见。</p>
-                        <p>知行合一，方为首选，</p>
-                        <p>为仁由己，切莫他怨。</p>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="poem-section">
-                    <div class="poem-text">
-                        <p>村周山脉，互拥相簇。</p>
-                        <p>神山道场，左护右佑。</p>
-                        <p>南有五福，香火鼎盛。</p>
-                        <p>北屹小平，道家仙观。</p>
-                        <p>发展所需，改革创新，</p>
-                        <p>麦川人文，代有传人。</p>
-                        <p>期籍后进，不畏艰难，</p>
-                        <p>营家兴业，就在当前。</p>
-                        <p>德为业基，由我做起，</p>
-                        <p>造福桑梓，光大村望，</p>
-                        <p>文明新村，共建共享。</p>
+                        <p>改革发展，因民所利，古今交汇，</p>
+                        <p>于斯为盛，后进可期，勇毅不凡，</p>
+                        <p>营家兴业，就在当前。德为业基，</p>
+                        <p>循序渐进，造福桑梓，光大村望，</p>
+                        <p>文明新村，共有共创。</p>
                     </div>
                 </div>
             </div>
