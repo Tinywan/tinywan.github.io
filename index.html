@@ -1,1232 +1,351 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP 2025 - 语言重生</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <!-- Lenis Smooth Scroll -->
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-        * {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-
-        html {
-            scroll-behavior: initial;
-        }
-
-        body {
-            background: #000;
-            overflow-x: hidden;
-            color: white;
-        }
-
-        /* Hero Styles */
-        .hero-container {
-            min-height: 100vh;
-            position: relative;
-            overflow: hidden;
-            background:
-                radial-gradient(ellipse at top left, rgba(139, 92, 246, 0.15), transparent 40%),
-                radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.15), transparent 40%),
-                radial-gradient(ellipse at bottom center, rgba(236, 72, 153, 0.1), transparent 50%),
-                radial-gradient(circle at center, rgba(139, 92, 246, 0.03), transparent 70%),
-                linear-gradient(180deg, #000 0%, #0a0014 50%, #000 100%);
-        }
-
-        .hero-grid {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image:
-                linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: grid-move 20s linear infinite;
-        }
-
-        @keyframes grid-move {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .gradient-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.4;
-            animation: orb-float 20s infinite ease-in-out;
-        }
-
-        .gradient-orb-1 {
-            width: 600px;
-            height: 600px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            top: -200px;
-            left: -200px;
-        }
-
-        .gradient-orb-2 {
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            bottom: -150px;
-            right: -150px;
-            animation-delay: -10s;
-        }
-
-        .gradient-orb-3 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: -5s;
-        }
-
-        @keyframes orb-float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(30px, -30px) scale(1.1);
-            }
-            66% {
-                transform: translate(-30px, 30px) scale(0.9);
-            }
-        }
-
-        .hero-title {
-            font-size: clamp(4rem, 14vw, 11rem);
-            font-weight: 850;
-            line-height: 1.1;
-            letter-spacing: -0.01em;
-            background: linear-gradient(135deg, #fff 0%, #fff 25%, #a78bfa 50%, #60a5fa 75%, #fff 100%);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradient-shift 8s ease infinite;
-            text-shadow: 0 0 80px rgba(139, 92, 246, 0.5);
-        }
-
-        .hero-title span {
-            display: block;
-        }
-
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.25rem, 3vw, 1.75rem);
-            font-weight: 200;
-            letter-spacing: 0.02em;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .floating-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(139, 92, 246, 0.1));
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 100px;
-            backdrop-filter: blur(20px);
-            animation: float-vertical 3s ease-in-out infinite;
-            box-shadow:
-                0 0 20px rgba(16, 185, 129, 0.2),
-                inset 0 0 20px rgba(16, 185, 129, 0.05);
-        }
-
-        @keyframes float-vertical {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .glow-line {
-            height: 1px;
-            background: linear-gradient(90deg,
-                transparent,
-                rgba(139, 92, 246, 0.5),
-                rgba(59, 130, 246, 0.8),
-                rgba(139, 92, 246, 0.5),
-                transparent
-            );
-            animation: glow-pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        .aurora-button {
-            position: relative;
-            padding: 1.25rem 3rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border: none;
-            border-radius: 100px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .aurora-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: left 0.5s;
-        }
-
-        .aurora-button:hover::before {
-            left: 100%;
-        }
-
-        .aurora-button::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 120%;
-            height: 120%;
-            background: inherit;
-            border-radius: inherit;
-            transform: translate(-50%, -50%);
-            filter: blur(20px);
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: -1;
-        }
-
-        .aurora-button:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.4);
-        }
-
-        .aurora-button:hover::after {
-            opacity: 0.5;
-        }
-
-        .glass-border {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 100px;
-            padding: 0.25rem;
-        }
-
-        .glass-card {
-            background: linear-gradient(135deg,
-                rgba(255, 255, 255, 0.05),
-                rgba(255, 255, 255, 0.02)
-            );
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                transparent,
-                rgba(139, 92, 246, 0.1),
-                transparent
-            );
-            transition: left 0.5s;
-        }
-
-        .glass-card:hover::before {
-            left: 100%;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            background: linear-gradient(135deg,
-                rgba(139, 92, 246, 0.1),
-                rgba(255, 255, 255, 0.05)
-            );
-            border-color: rgba(139, 92, 246, 0.3);
-            box-shadow:
-                0 20px 40px rgba(139, 92, 246, 0.2),
-                inset 0 0 20px rgba(139, 92, 246, 0.05);
-        }
-
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .glass-card:hover .feature-icon {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #a78bfa, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .code-block {
-            background: linear-gradient(135deg, rgba(10, 10, 25, 0.95), rgba(20, 10, 30, 0.95));
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 24px;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            font-family: var(--default-mono-font-family,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace);
-            box-shadow:
-                0 0 40px rgba(139, 92, 246, 0.1),
-                inset 0 0 40px rgba(139, 92, 246, 0.02);
-            min-height: 400px;
-        }
-
-        .code-block::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
-            animation: code-glow 10s ease-in-out infinite;
-        }
-
-        @keyframes code-glow {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
-        }
-
-        .code-block pre {
-            position: relative;
-            z-index: 1;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            letter-spacing: 0.3px;
-            font-weight: 400;
-            font-family: var(--default-mono-font-family,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace);
-            min-height: 320px;
-        }
-
-        .code-tab {
-            padding: 0.375rem 1rem;
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.75rem;
-            font-family: var(--default-mono-font-family,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace);
-            cursor: pointer;
-            border-radius: 0.5rem;
-            transition: all 0.2s;
-        }
-
-        .code-tab:hover {
-            color: rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .code-tab.active {
-            color: rgba(255, 255, 255, 0.9);
-            background: rgba(139, 92, 246, 0.2);
-        }
-
-        /* Code typing animation */
-        .code-line {
-            overflow: hidden;
-            opacity: 0;
-            animation: fadeInLine 0.3s forwards;
-            height: 1.6rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .code-line:empty {
-            height: 1.6rem;
-        }
-
-        @keyframes fadeInLine {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .typing-effect {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 2px solid rgba(139, 92, 246, 0.8);
-            animation: typing 0.8s steps(40) forwards, blink 0.5s infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes blink {
-            0%, 50% { border-right-color: rgba(139, 92, 246, 0.8); }
-            51%, 100% { border-right-color: transparent; }
-        }
-
-        /* Syntax highlighting with more vibrant colors */
-        .code-keyword {
-            color: #c792ea;
-            font-weight: 500;
-        }
-        .code-class {
-            color: #82aaff;
-            font-weight: 400;
-        }
-        .code-function {
-            color: #86e1fc;
-        }
-        .code-property {
-            color: #ffd580;
-        }
-        .code-string {
-            color: #c3e88d;
-        }
-        .code-variable {
-            color: #f78c6c;
-        }
-        .code-comment {
-            color: #7982a9;
-            font-style: italic;
-            opacity: 0.8;
-        }
-
-        .shimmer-text {
-            background: linear-gradient(90deg,
-                rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 1),
-                rgba(255, 255, 255, 0.8)
-            );
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 3s linear infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-
-        .section-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -0.02em;
-        }
-
-        .cta-gradient {
-            background:
-                radial-gradient(ellipse at center top, rgba(139, 92, 246, 0.3), transparent 50%),
-                radial-gradient(ellipse at center bottom, rgba(59, 130, 246, 0.2), transparent 50%),
-                linear-gradient(180deg, rgba(139, 92, 246, 0.05) 0%, transparent 100%);
-        }
-
-        .pulse-ring {
-            position: absolute;
-            border: 2px solid rgba(16, 185, 129, 0.5);
-            border-radius: 50%;
-            animation: pulse-ring-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse-ring-animation {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        .tool-hero-card {
-            opacity: 0;
-            transform: translateY(30px) scale(0.9);
-            animation: toolCardReveal 0.6s forwards;
-        }
-
-        .tool-hero-card:nth-child(1) { animation-delay: 0.1s; }
-        .tool-hero-card:nth-child(2) { animation-delay: 0.2s; }
-        .tool-hero-card:nth-child(3) { animation-delay: 0.3s; }
-        .tool-hero-card:nth-child(4) { animation-delay: 0.4s; }
-        .tool-hero-card:nth-child(5) { animation-delay: 0.5s; }
-        .tool-hero-card:nth-child(6) { animation-delay: 0.6s; }
-
-        @keyframes toolCardReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .start-option {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .start-option:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
-        }
-
-        .code-snippet {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius: 8px;
-            padding: 0.75rem;
-            font-family: var(--default-mono-font-family,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace);
-            transition: all 0.3s;
-        }
-
-        .start-option:hover .code-snippet {
-            border-color: rgba(139, 92, 246, 0.5);
-            background: rgba(139, 92, 246, 0.1);
-        }
-
-        .code-snippet code {
-            color: rgba(199, 146, 234, 0.9);
-        }
-    </style>
-</head>
-<body>
-    <!-- Hero Section -->
-    <section class="hero-container flex items-center justify-center">
-        <div class="hero-grid"></div>
-
-        <!-- Animated gradient orbs -->
-        <div class="gradient-orb gradient-orb-1"></div>
-        <div class="gradient-orb gradient-orb-2"></div>
-        <div class="gradient-orb gradient-orb-3"></div>
-
-        <!-- Content -->
-        <div class="relative z-10 text-center px-6 max-w-7xl mx-auto">
-            <div class="hero-content">
-                <!-- Main title -->
-                <h1 class="hero-title mt-20 mb-10">
-                    <span class="block mb-4">为什么选择</span>
-                    <span class="block">2025年的PHP？</span>
-                </h1>
-
-                <!-- Subtitle -->
-                <p class="hero-subtitle mb-4">
-                    这个驱动着77%网站的语言已经
-                </p>
-                <p class="hero-subtitle mb-12">
-                    <span class="shimmer-text font-semibold">完全重生。</span>
-                </p>
-
-                <!-- Tools Grid -->
-                <div class="mt-16 mb-16">
-                    <p class="text-xs text-white/40 uppercase tracking-widest mb-8 font-medium">由世界级工具驱动</p>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-5xl mx-auto">
-                        <div class="tool-hero-card glass-card p-6 text-center group">
-                            <i data-lucide="package" class="w-8 h-8 text-purple-400 mx-auto mb-3"></i>
-                            <h4 class="font-bold text-white text-sm mb-1">Composer</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">PHP版的<br/>Cargo / npm</p>
-                        </div>
-                        <div class="tool-hero-card glass-card p-6 text-center group">
-                            <i data-lucide="test-tube" class="w-8 h-8 text-emerald-400 mx-auto mb-3"></i>
-                            <h4 class="font-bold text-white text-sm mb-1">Pest</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">Jest风格的<br/>测试框架</p>
-                        </div>
-                        <div class="tool-hero-card glass-card p-6 text-center group">
-                            <i data-lucide="wrench" class="w-8 h-8 text-blue-400 mx-auto mb-3"></i>
-                            <h4 class="font-bold text-white text-sm mb-1">Rector</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">自动化<br/>重构工具</p>
-                        </div>
-                        <div class="tool-hero-card glass-card p-6 text-center group">
-                            <i data-lucide="search" class="w-8 h-8 text-violet-400 mx-auto mb-3"></i>
-                            <h4 class="font-bold text-white text-sm mb-1">PHPStan</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">类似TypeScript的<br/>类型安全</p>
-                        </div>
-                        <div class="tool-hero-card glass-card p-6 text-center group">
-                            <i data-lucide="heart" class="w-8 h-8 text-pink-400 mx-auto mb-3"></i>
-                            <h4 class="font-bold text-white text-sm mb-1">Laravel</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">PHP版的<br/>Rails / Next.js</p>
-                        </div>
-                        <div class="tool-hero-card glass-card p-6 text-center group">
-                            <i data-lucide="server" class="w-8 h-8 text-cyan-400 mx-auto mb-3"></i>
-                            <h4 class="font-bold text-white text-sm mb-1">FrankenPHP</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">Bun / Deno风格的<br/>服务器</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CTA -->
-                <div class="flex justify-center mb-16">
-                    <button class="aurora-button group">
-                        <span class="flex items-center gap-2">
-                            开始构建
-                            <svg class="w-5 h-5 transition-transform group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                            </svg>
-                        </span>
-                    </button>
-                </div>
-
-                <!-- Scroll indicator -->
-                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-                    <div class="flex flex-col items-center gap-2 text-white/40">
-                        <span class="text-xs uppercase tracking-widest">滚动</span>
-                        <div class="w-px h-12 bg-gradient-to-b from-white/40 to-transparent"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why PHP Section -->
-    <section class="why-section relative py-32 px-6" style="background: #000; min-height: 100vh;">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="section-title text-white mb-6">
-                    语言的<span class="gradient-text">进化</span>
-                </h2>
-                <p class="text-xl text-white/40 max-w-2xl mx-auto">
-                    现代PHP不仅仅是更好。它与过去已经面目全非。
-                </p>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="space-y-6">
-                    <div class="why-card glass-card p-8">
-                        <h3 class="text-2xl font-bold mb-4 text-white">开箱即用™</h3>
-                        <p class="text-white/60 leading-relaxed">
-                            无需构建步骤。无需转译。无需打包。随处部署，
-                            无限扩展。PHP的实用简洁性是其超能力。
-                        </p>
-                    </div>
-
-                    <div class="why-card glass-card p-8">
-                        <h3 class="text-2xl font-bold mb-4 text-white">全球规模验证</h3>
-                        <p class="text-white/60 leading-relaxed">
-                            Facebook、Wikipedia、WordPress — 每日数十亿次请求。
-                            当您需要大规模可靠性时，PHP不负众望。
-                        </p>
-                    </div>
-
-                    <div class="why-card glass-card p-8">
-                        <h3 class="text-2xl font-bold mb-4 text-white">现代语言特性</h3>
-                        <p class="text-white/60 leading-relaxed">
-                            JIT编译、纤程、枚举、属性、只读属性。
-                            PHP 8.4在表达力上媲美TypeScript和Rust。
-                        </p>
-                    </div>
-                </div>
-
-                <div class="code-block" id="code-editor">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 bg-red-500 rounded-full opacity-80 hover:opacity-100 transition-opacity"></div>
-                            <div class="w-3 h-3 bg-yellow-500 rounded-full opacity-80 hover:opacity-100 transition-opacity"></div>
-                            <div class="w-3 h-3 bg-green-500 rounded-full opacity-80 hover:opacity-100 transition-opacity"></div>
-                        </div>
-                        <div class="flex gap-4">
-                            <button class="code-tab active" data-tab="immutable">Immutable.php</button>
-                            <button class="code-tab" data-tab="routing">routes.php</button>
-                            <button class="code-tab" data-tab="testing">UserTest.php</button>
-                        </div>
-                    </div>
-                    <pre class="overflow-x-auto"><code id="code-content" style="font-family: var(--default-mono-font-family,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace);"></code></pre>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section relative py-32 px-6" style="background: #000; min-height: 100vh;">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="section-title text-white mb-6">
-                    工程<span class="gradient-text">卓越性</span>
-                </h2>
-                <p class="text-xl text-white/40 max-w-3xl mx-auto">
-                    以定义优秀软件的原则构建。
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="feature-card glass-card p-8 group">
-                    <div class="feature-icon">
-                        <i data-lucide="lock" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">类型安全优先</h3>
-                    <p class="text-white/60 leading-relaxed mb-4">
-                        PHPStan最高级别在运行前捕获错误。Pest PHP确保
-                        100%类型覆盖率。在PHP中获得TypeScript级别的信心。
-                    </p>
-                    <code class="text-sm text-purple-400 font-mono">PHPStan 最高级别 • Pest 类型覆盖</code>
-                </div>
-
-                <div class="feature-card glass-card p-8 group">
-                    <div class="feature-icon">
-                        <i data-lucide="zap" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">3倍更快</h3>
-                    <p class="text-white/60 leading-relaxed mb-4">
-                        JIT编译带来前所未有的性能。
-                        比Python、Ruby和Node.js更快。
-                    </p>
-                    <code class="text-sm text-cyan-400 font-mono">PHP 8.4 + OPcache</code>
-                </div>
-
-                <div class="feature-card glass-card p-8 group">
-                    <div class="feature-icon">
-                        <i data-lucide="users" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">PHP基金会</h3>
-                    <p class="text-white/60 leading-relaxed mb-4">
-                        由行业巨头支持。年度发布如期而至。
-                        专业的核心团队确保PHP的光明未来。
-                    </p>
-                    <code class="text-sm text-emerald-400 font-mono">年度发布 • 长期支持</code>
-                </div>
-
-                <div class="feature-card glass-card p-8 group">
-                    <div class="feature-icon">
-                        <i data-lucide="target" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">零容忍</h3>
-                    <p class="text-white/60 leading-relaxed mb-4">
-                        最大严格性。无代码异味。
-                        不妥协。只有纯净代码。
-                    </p>
-                    <code class="text-sm text-pink-400 font-mono">100% 覆盖率</code>
-                </div>
-
-                <div class="feature-card glass-card p-8 group">
-                    <div class="feature-icon">
-                        <i data-lucide="cpu" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">自动化质量</h3>
-                    <p class="text-white/60 leading-relaxed mb-4">
-                        预提交钩子和CI/CD确保
-                        整个团队的一致性。
-                    </p>
-                    <code class="text-sm text-yellow-400 font-mono">composer test</code>
-                </div>
-
-                <div class="feature-card glass-card p-8 group">
-                    <div class="feature-icon">
-                        <i data-lucide="layers" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">现代异步</h3>
-                    <p class="text-white/60 leading-relaxed mb-4">
-                        Revolt PHP和AMPHP驱动真正的异步。纤程实现
-                        Go风格的并发。处理数千个连接。
-                    </p>
-                    <code class="text-sm text-blue-400 font-mono">Revolt PHP • AMPHP • 纤程</code>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Start Today Section -->
-    <section class="ecosystem-section relative py-32 px-6" style="background: #000; min-height: auto;">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="section-title text-white mb-6">
-                    <span class="gradient-text">今天</span>就开始
-                </h2>
-                <p class="text-xl text-white/40 max-w-3xl mx-auto">
-                    一个命令。零配置。生产就绪。
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                <!-- Laravel Option -->
-                <div class="start-option glass-card p-8 group cursor-pointer">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-lg flex items-center justify-center">
-                            <i data-lucide="heart" class="w-5 h-5 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">Laravel</h3>
-                    </div>
-                    <p class="text-white/60 mb-6 text-sm leading-relaxed">
-                        全栈框架，功能齐全。认证、数据库等功能一应俱全。
-                    </p>
-                    <div class="code-snippet">
-                        <code class="text-xs">composer create-project laravel/laravel app</code>
-                    </div>
-                </div>
-
-                <!-- Symfony Option -->
-                <div class="start-option glass-card p-8 group cursor-pointer">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                            <i data-lucide="box" class="w-5 h-5 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">Symfony</h3>
-                    </div>
-                    <p class="text-white/60 mb-6 text-sm leading-relaxed">
-                        适用于复杂应用程序的高性能框架。模块化和灵活。
-                    </p>
-                    <div class="code-snippet">
-                        <code class="text-xs">symfony new my_project --webapp</code>
-                    </div>
-                </div>
-
-                <!-- Slim Option -->
-                <div class="start-option glass-card p-8 group cursor-pointer">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
-                            <i data-lucide="zap" class="w-5 h-5 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">Slim</h3>
-                    </div>
-                    <p class="text-white/60 mb-6 text-sm leading-relaxed">
-                        适用于API和微服务的微框架。快速和极简。
-                    </p>
-                    <div class="code-snippet">
-                        <code class="text-xs">composer create-project slim/slim-skeleton app</code>
-                    </div>
-                </div>
-
-                <!-- WordPress Option -->
-                <div class="start-option glass-card p-8 group cursor-pointer">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-violet-500 rounded-lg flex items-center justify-center">
-                            <i data-lucide="globe" class="w-5 h-5 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">WordPress</h3>
-                    </div>
-                    <p class="text-white/60 mb-6 text-sm leading-relaxed">
-                        驱动43%网站的CMS。可扩展和用户友好。
-                    </p>
-                    <div class="code-snippet">
-                        <code class="text-xs">wp core download && wp core install</code>
-                    </div>
-                </div>
-
-                <!-- API Platform Option -->
-                <div class="start-option glass-card p-8 group cursor-pointer">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-lg flex items-center justify-center">
-                            <i data-lucide="cloud" class="w-5 h-5 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">API Platform</h3>
-                    </div>
-                    <p class="text-white/60 mb-6 text-sm leading-relaxed">
-                        分钟内构建REST和GraphQL API。基于Symfony构建。
-                    </p>
-                    <div class="code-snippet">
-                        <code class="text-xs">composer create-project api-platform/api-platform</code>
-                    </div>
-                </div>
-
-                <!-- Vanilla PHP Option -->
-                <div class="start-option glass-card p-8 group cursor-pointer">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg flex items-center justify-center">
-                            <i data-lucide="code" class="w-5 h-5 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white">Webman</h3>
-                    </div>
-                    <p class="text-white/60 mb-6 text-sm leading-relaxed">
-                        超高性能可扩展PHP框架。一样的写法，十倍的性能！
-                    </p>
-                    <div class="code-snippet">
-                        <code class="text-xs">composer create-project workerman/webman:~2.0</code>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center">
-                <p class="text-white/40 text-sm">
-                    或在浏览器中立即试用
-                    <a href="#" class="text-purple-400 hover:text-purple-300 transition-colors">php.new</a>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section relative py-32 px-6 cta-gradient overflow-hidden">
-        <div class="gradient-orb gradient-orb-1" style="opacity: 0.2;"></div>
-        <div class="gradient-orb gradient-orb-2" style="opacity: 0.2;"></div>
-
-        <div class="relative z-10 max-w-5xl mx-auto text-center">
-            <h2 class="section-title text-white mb-8">
-                用
-                <span class="block mt-2">
-                    <span class="hero-title" style="font-size: clamp(3rem, 10vw, 8rem);">现代PHP</span>
-                </span>
-                构建未来
-            </h2>
-
-            <p class="text-xl md:text-2xl text-white/60 mb-12 max-w-3xl mx-auto">
-                加入复兴。编写类型安全、极速、优美的代码。
-            </p>
-
-            <button class="aurora-button text-lg">
-                今天就开始构建
-            </button>
-
-            <div class="mt-20 flex justify-center gap-8 text-white/40">
-                <a href="#" class="hover:text-purple-400 transition-colors">GitHub</a>
-                <a href="#" class="hover:text-purple-400 transition-colors">文档</a>
-                <a href="#" class="hover:text-purple-400 transition-colors">社区</a>
-                <a href="#" class="hover:text-purple-400 transition-colors">博客</a>
-            </div>
-
-            <div class="mt-12 text-sm text-white/30">
-                Copyright © 2025 github.tinywan.com All Rights Reserved
-            </div>
-        </div>
-    </section>
-
+    <title>万少波-互联网简历</title>
+    <meta name="keywords" content="tinywan，Tinywan，ShaoBo，wan，Wan，Tinywan 杂货摊，wanwan756684177，Github，Wiot,iot">
+    <meta name="description" content="Hi!，我是Tinywan，一只程序猿，毕业于二流院校，目前在杭州工作，联系邮箱：756684177@qq.com">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="dist/css/style.min.css">
+    <link rel="stylesheet" href="dist/css/fontello.min.css">
     <script>
-        // Wait for DOM to load
-        window.addEventListener('DOMContentLoaded', function() {
-            // Initialize Lucide icons
-            lucide.createIcons();
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-            // Ensure all sections are visible
-            document.querySelectorAll('section').forEach(section => {
-                section.style.opacity = '1';
-                section.style.visibility = 'visible';
-            });
+        ga('create', 'UA-48084758-4', 'auto');
+        ga('send', 'pageview');
 
-            // Ensure all cards are visible
-            document.querySelectorAll('.glass-card, .feature-card, .why-card, .tool-card').forEach(card => {
-                card.style.opacity = '1';
-                card.style.visibility = 'visible';
-            });
-
-            // Tool cards are animated via CSS
-        });
-
-        // Initialize Lenis smooth scrolling
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smooth: true,
-            smoothWheel: true
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Initialize GSAP
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero animations
-        const heroTimeline = gsap.timeline();
-
-        heroTimeline
-            .from(".floating-badge", {
-                y: -30,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out"
-            })
-            .from(".hero-title", {
-                y: 100,
-                opacity: 0,
-                duration: 1.5,
-                ease: "power4.out"
-            }, "-=0.5")
-            .from(".hero-subtitle", {
-                y: 30,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power3.out"
-            }, "-=0.8")
-            .from(".glow-line", {
-                scaleX: 0,
-                opacity: 0,
-                duration: 1,
-                ease: "power2.inOut"
-            }, "-=0.5")
-            .from(".aurora-button, .glass-border", {
-                y: 20,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "power2.out"
-            }, "-=0.3");
-
-        // TEMPORARILY DISABLED TO FIX VISIBILITY ISSUES
-        /*
-        // Set initial visibility for all cards
-        gsap.set(".why-card, .feature-card, .tool-card", {opacity: 1});
-
-        // Why cards animation
-        gsap.from(".why-card", {
-            scrollTrigger: {
-                trigger: ".why-section",
-                start: "top 80%",
-                toggleActions: "play none none none"
-            },
-            y: 60,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: "power2.out"
-        });
-
-        // Feature cards animation
-        gsap.from(".feature-card", {
-            scrollTrigger: {
-                trigger: ".features-section",
-                start: "top 80%",
-                toggleActions: "play none none none"
-            },
-            y: 60,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power2.out"
-        });
-
-        // Tool cards animation
-        gsap.from(".tool-card", {
-            scrollTrigger: {
-                trigger: ".ecosystem-section",
-                start: "top 80%",
-                toggleActions: "play none none none"
-            },
-            scale: 0.8,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.05,
-            ease: "back.out(1.7)"
-        });
-        */
-
-        // TEMPORARILY DISABLED TO FIX VISIBILITY ISSUES
-        /*
-        // Code block animation
-        gsap.from(".code-block", {
-            scrollTrigger: {
-                trigger: ".code-block",
-                start: "top 80%"
-            },
-            scale: 0.9,
-            opacity: 0,
-            duration: 1,
-            ease: "power2.out"
-        });
-
-        // CTA animation
-        gsap.from(".cta-section h2", {
-            scrollTrigger: {
-                trigger: ".cta-section",
-                start: "top 80%"
-            },
-            y: 60,
-            opacity: 0,
-            duration: 1.2,
-            ease: "power3.out"
-        });
-        */
-
-        // Parallax effect for gradient orbs
-        gsap.to(".gradient-orb-1", {
-            scrollTrigger: {
-                trigger: ".hero-container",
-                scrub: 1,
-                start: "top top",
-                end: "bottom top"
-            },
-            y: -100,
-            x: -50,
-            ease: "none"
-        });
-
-        gsap.to(".gradient-orb-2", {
-            scrollTrigger: {
-                trigger: ".hero-container",
-                scrub: 1,
-                start: "top top",
-                end: "bottom top"
-            },
-            y: 100,
-            x: 50,
-            ease: "none"
-        });
-
-        // Code examples for different tabs
-        const codeExamples = {
-            immutable: [
-                '<span class="code-keyword">readonly class</span> <span class="code-class">UserDTO</span>',
-                '{',
-                '    <span class="code-keyword">public function</span> <span class="code-function">__construct</span>(',
-                '        <span class="code-keyword">public readonly</span> <span class="code-class">UuidInterface</span> <span class="code-variable">$id</span>,',
-                '        <span class="code-keyword">public readonly</span> <span class="code-class">string</span> <span class="code-variable">$email</span>,',
-                '        <span class="code-keyword">public readonly</span> <span class="code-class">CarbonImmutable</span> <span class="code-variable">$createdAt</span>,',
-                '    ) {}',
-                '',
-                '    <span class="code-keyword">public function</span> <span class="code-function">withEmail</span>(<span class="code-class">string</span> <span class="code-variable">$email</span>): <span class="code-class">self</span>',
-                '    {',
-                '        <span class="code-comment">// Returns new instance, original unchanged</span>',
-                '        <span class="code-keyword">return new</span> <span class="code-class">self</span>(',
-                '            <span class="code-variable">$this</span>-><span class="code-property">id</span>,',
-                '            <span class="code-variable">$email</span>,',
-                '            <span class="code-variable">$this</span>-><span class="code-property">createdAt</span>,',
-                '        );',
-                '    }',
-                '}'
-            ],
-            routing: [
-                '<span class="code-keyword">use</span> <span class="code-class">App\\Http\\Controllers\\UserController</span>;',
-                '<span class="code-keyword">use</span> <span class="code-class">Illuminate\\Support\\Facades\\Route</span>;',
-                '',
-                '<span class="code-comment">// Clean, expressive routing with middleware</span>',
-                '<span class="code-class">Route</span>::<span class="code-function">middleware</span>([<span class="code-string">\'auth:sanctum\'</span>])',
-                '    -><span class="code-function">prefix</span>(<span class="code-string">\'api/v1\'</span>)',
-                '    -><span class="code-function">group</span>(<span class="code-keyword">function</span> () {',
-                '',
-                '        <span class="code-class">Route</span>::<span class="code-function">apiResource</span>(<span class="code-string">\'users\'</span>, <span class="code-class">UserController</span>::<span class="code-keyword">class</span>);',
-                '',
-                '        <span class="code-class">Route</span>::<span class="code-function">post</span>(<span class="code-string">\'users/{user}/avatar\'</span>, ',
-                '            [<span class="code-class">UserController</span>::<span class="code-keyword">class</span>, <span class="code-string">\'uploadAvatar\'</span>]',
-                '        )-><span class="code-function">name</span>(<span class="code-string">\'users.avatar\'</span>);',
-                '',
-                '        <span class="code-class">Route</span>::<span class="code-function">get</span>(<span class="code-string">\'users/{user}/posts\'</span>, ',
-                '            [<span class="code-class">UserController</span>::<span class="code-keyword">class</span>, <span class="code-string">\'posts\'</span>]',
-                '        )-><span class="code-function">can</span>(<span class="code-string">\'view\'</span>, <span class="code-string">\'user\'</span>);',
-                '    });'
-            ],
-            testing: [
-                '<span class="code-keyword">use</span> <span class="code-class">App\\Models\\User</span>;',
-                '<span class="code-keyword">use</span> <span class="code-keyword">function</span> <span class="code-class">Pest\\Laravel\\{actingAs, get, assertDatabaseHas}</span>;',
-                '',
-                '<span class="code-function">it</span>(<span class="code-string">\'can create a user with valid data\'</span>, <span class="code-keyword">function</span> () {',
-                '    <span class="code-variable">$admin</span> = <span class="code-class">User</span>::<span class="code-function">factory</span>()-><span class="code-function">admin</span>()-><span class="code-function">create</span>();',
-                '',
-                '    <span class="code-function">actingAs</span>(<span class="code-variable">$admin</span>)',
-                '        -><span class="code-function">post</span>(<span class="code-string">\'/api/users\'</span>, [',
-                '            <span class="code-string">\'name\'</span> => <span class="code-string">\'John Doe\'</span>,',
-                '            <span class="code-string">\'email\'</span> => <span class="code-string">\'john@example.com\'</span>,',
-                '        ])',
-                '        -><span class="code-function">assertCreated</span>();',
-                '',
-                '    <span class="code-function">assertDatabaseHas</span>(<span class="code-string">\'users\'</span>, [',
-                '        <span class="code-string">\'email\'</span> => <span class="code-string">\'john@example.com\'</span>,',
-                '    ]);',
-                '})-><span class="code-function">group</span>(<span class="code-string">\'api\', \'auth\'</span>);'
-            ]
-        };
-
-        let currentTab = 'immutable';
-
-        function typeCode(tabName = 'immutable') {
-            const codeContent = document.getElementById('code-content');
-            if (!codeContent) return;
-
-            const codeLines = codeExamples[tabName] || codeExamples.immutable;
-            codeContent.innerHTML = '';
-            let lineIndex = 0;
-
-            function typeLine() {
-                if (lineIndex < codeLines.length) {
-                    const line = codeLines[lineIndex];
-                    const lineElement = document.createElement('div');
-                    lineElement.className = 'code-line';
-                    lineElement.style.animationDelay = `${lineIndex * 0.05}s`;
-                    lineElement.innerHTML = line || '';
-                    codeContent.appendChild(lineElement);
-                    lineIndex++;
-                    setTimeout(typeLine, 50);
-                }
-            }
-
-            typeLine();
-        }
-
-        // Tab switching
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabs = document.querySelectorAll('.code-tab');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Update active tab
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-
-                    // Type new code
-                    const tabName = tab.dataset.tab;
-                    currentTab = tabName;
-                    typeCode(tabName);
-                });
-            });
-        });
-
-        // Start typing animation when code block is in view
-        const codeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    typeCode(currentTab);
-                    codeObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        const codeEditor = document.getElementById('code-editor');
-        if (codeEditor) {
-            codeObserver.observe(codeEditor);
-        }
     </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <ul class="main-info">
+                <li class="someRight">
+                    <dt><i class="icon-bookmark"></i>Basic Info. 基本信息</dt>
+                    <dd>
+                        <span>常用ID:</span> Tinywan
+                    </dd>
+                    <dd><span>个人信息:</span> 万少波 / 男</dd>
+                    <dd><span>工作时间:</span> 2015年至今</dd>
+                    <dd><span>教育经历:</span> 本科 / 计算机科学与技术专业 / 甘肃政法大学</dd>
+                    <dd>
+                        <span>个人主页:</span> <a href="https://www.tinywan.com" target="_blank">https://www.tinywan.com</a>
+                    </dd>
+                    <dd>
+                        <span>GitHub:</span> <a href="https://github.com/Tinywan"
+                            target="_blank">https://github.com/Tinywan</a>
+                    </dd>
+                </li>
+                <li class="someRight">
+                    <dt><i class="icon-bookmark"></i>Personal Profile. 个人简介</dt>
+                    <h3>工作职责</h3>
+                    <dd>
+                    目前担任沃土股份技术经理，负责互联网教育培训产品的研发与架构设计。主导过多个省级/国家级平台的技术规划，包括：
+                    <br/>
+                    · 国家人社部就业创业和职业培训在线服务平台<br/>
+                    · 北京市职业技能提升行动管理平台（千万级学员数据）<br/>
+                    · 江西省补贴性线上职业技能培训管理平台<br/>
+                    · 马兰花创业培训技术服务管理平台及教学服务系列平台
+                    </dd>
+                    <br/>
+                    <h3>职业技能</h3>
+                    <dd>
+                        1. 熟练PHP、Java、JavaScript等主流开发语言，擅长面向对象编程和设计模式。<br />
+                        2. 熟练掌握 MySQL 主从复制、分表分库、读写分离，Redis 数据结构与持久化机制，精通消息队列（RabbitMQ/RocketMQ）、Socket 编程、多进程/协程调度、锁机制，具备分布式系统设计能力。<br />
+                        3. 熟练运用 Workerman、ThinkPHP、Laravel、Swoole 等框架，深入理解 HTTP/WebSocket/TCPIP 协议，熟悉 RESTful API 设计，理解微服务架构思想。<br />
+                        4. 具备高并发、高可用系统设计经验，掌握流量控制、缓存策略、异步化改造等性能优化方法，能够独立完成 Linux 服务器环境部署与运维。<br />
+                        5. 具备从 0 到 1 搭建系统架构及项目重构经验，擅长根据业务需求制定合理的技术方案。
+                    </dd>
+                </li>
+                <li>
+                    <dt><i class="icon-bookmark"></i>Experience. 项目与工作经验</dt>
+                    <h3>沃土股份（2019.6 ~ 至今）</h3>
+                    <ul class="exp">
+                        <li>
+                            <div class="circle"></div>
+                            <h3>电商实训2.0实训平台</h3>
+                            <h5>项目地址：<a href="https://shop.busionline.com/"
+                                    target="_blank">https://shop.busionline.com</a></h5>
+                            <h5>我的职责：</h5>
+                            <p>
+                                1. 系统底层架构<br />
+                                2. 前后端JWT身份认证和授权策略的拟定<br />
+                                3. 统一使用阿里云云效进行代码的CI/CD操作<br />
+                            </p>
+                            <h5>工作亮点展示：</h5>
+                            <p>
+                                1. AI直播：旨在帮助用户进行直播策划、实施和推广，提供全方位的直播辅助服务。电商实训系统增加[AI直播创业]功能，任务清单式展示，AI能力辅助学员完成各项任务。<br />
+                                2. 使用阿里百炼大模型，对用户推荐项目。视频直播视频内容切片（FFmpeg切割）分析，大模型推理分析总结<br />
+                                3. 直播带货消息系统，引入全双工（Full-Duplex）通信Websocket，打破传统的定时刷新和死轮训耗资源问题，实现了服务端主动推送功能，成功解决直播功能落地问题<br />
+                            </p>
+                            <h5>应用技术：</h5>
+                            <p>
+                                基于超高性能可扩展PHP框架webman、RPC远程调用、WebSocket、RocketMQ、强大和高效Casbin权限访问库。
+                            </p>
+                        </li>
+                        <li>
+                            <div class="circle"></div>
+                            <h3>马兰花网络创业培训管理平台</h3>
+                            <h5>项目地址：<a href="https://www.busionline.com/"
+                                    target="_blank">https://www.busionline.com</a></h5>
+                            <h5>我的职责：</h5>
+                            <p>
+                                1. 系统底层架构<br />
+                                2. 前后端分离以及前后端框架的落地，基于标准的RESTFUL，制定接口规范和文档，前后端接口授权机制，身份认证和授权策略的拟定<br />
+                                3. 推荐技术部门使用一站式软件研发管理协作平台Coding<br />
+                                4. 阿里云直播、点播以及OSS存储对接，直播带货引入前言技术Websocket技术<br />
+                            </p>
+                            <h5>工作亮点展示：</h5>
+                            <p>
+                                1. 针对创培项目设计并实施了前后端分离。这是一套完全从零开始的新架构项目。使前后端人员并行开发（前端只负责调用接口获取数据、实现页面和交互，后端只负责提供接口和接口的内在实现）、接口复用（PC端、H5、小程序）、定位问题（快速定位问题所处的位置并针对性的debug）等，部门开发效率提高了80％<br />
+                                2. 通过使用 OAuth2.0授权机制 和 Casbin元模型策略，实现了接口认证和授权，将系统安全性和转化率提高了60％<br />
+                                3.直播带货消息系统，引入全双工（Full-Duplex）通信Websocket，打破传统的定时刷新和死轮训耗资源问题，实现了服务端主动推送功能，成功解决直播功能落地问题<br />
+                                4. 制定团队代码规范，使团队有良好的代码习惯，代码结构清晰、命名规范、逻辑性强、冗余率低、注释清晰，提升团队开发人员协作能力，开发效率提升80%<br />
+                            </p>
+                            <h5>应用技术：</h5>
+                            <p>
+                                Workerman、Crontab计划任务、阿里云直播、点播、OSS存储、Auth2.0、Redis、ThinkPHP6、MySQL关系数据库、Git、RESTful、JWT、人脸识别、OCR、RocketMQ、强大和高效Casbin权限访问库。
+                            </p>
+                        </li>
+                        <li>
+                            <div class="circle"></div>
+                            <h3>国家创业培训技术服务管理平台2.0</h3>
+                            <h5>项目地址：<a href="https://chinajob.mohrss.gov.cn:8001"
+                                    target="_blank">http://chinajob.mohrss.gov.cn:8001</a></h5>
+                            <h5>项目描述:</h5>
+                            <p>管理系统是网创培训项目的管理工具。面向主管部门、培训机构、培训讲师、评分专家和学员五类使用人群，实现网创培训无纸化、信息化、高效管理和后续跟踪服务的目标</p>
+                            <h5>我的职责：</h5>
+                            <p>
+                                1. 系统底层架构：负责设计和规划整个系统的基础架构。这包括确定系统的组件、模块和层次结构，选择合适的技术栈和框架，以及确保系统的可扩展性、可维护性和性能。<br />
+                                2. 数据库设计：作为数据库设计师，您负责设计和规划系统的数据库结构。这包括确定数据库的表结构、字段和关系，选择合适的数据库引擎和优化策略，以及确保数据库的数据完整性、一致性和安全性。<br />
+                            </p>
+                            <h5>应用技术：</h5>
+                            <p>
+                                应用技术：PHP7.4、ThinkPHP6、MySQL5.7、redis5.0〔缓存和队列〕、Git、React、RocketMQ、Supervisor〔进程管理〕
+                            </p>
+                        </li>
+                        <li>
+                            <div class="circle"></div>
+                            <h3>工学一体化教师培训管理服务平台1.0</h3>
+                            <h5>项目地址：<a href="https://chinajob.mohrss.gov.cn:8003"
+                                    target="_blank">http://chinajob.mohrss.gov.cn:8003</a></h5>
+                            <h5>项目描述:</h5>
+                            <p>管理系统是网创培训项目的管理工具。面向主管部门、培训机构、培训讲师、评分专家和学员五类使用人群，实现网创培训无纸化、信息化、高效管理和后续跟踪服务的目标</p>
+                            <h5>我的职责：</h5>
+                            <p>
+                                1. 系统底层架构：负责设计和规划整个系统的基础架构。这包括确定系统的组件、模块和层次结构，选择合适的技术栈和框架，以及确保系统的可扩展性、可维护性和性能。<br />
+                                2. 数据库设计：作为数据库设计师，您负责设计和规划系统的数据库结构。这包括确定数据库的表结构、字段和关系，选择合适的数据库引擎和优化策略，以及确保数据库的数据完整性、一致性和安全性。<br />
+                            </p>
+                            <h5>应用技术：</h5>
+                            <p>
+                                应用技术：PHP7.4、ThinkPHP6、MySQL5.7、redis5.0〔缓存和队列〕、Git、React、RocketMQ、Supervisor〔进程管理〕
+                            </p>
+                        </li>
+                        <li>
+                            <div class="circle"></div>
+                            <h3>北京市职业技能提升行动管理平台</h3>
+                            <h5>项目地址：<a href="https://www.bjjnts.cn/" target="_blank">https://www.bjjnts.cn/</a></h5>
+                            <h5>项目描述:</h5>
+                            <p>为应对新冠肺炎疫情防控常态化新形势，把职业技能培训作为保持就业稳定的重要举措，支持企业职工参与线上线下技能提升培训推动技能培训线上公共服务平台建设。</p>
+                            <p>北京市人力资源和社会保障局通过引入优质线上管理平台的方式，打造了北京市职业技能提升行动管理平台，
+                                并通过征集“互联网+职业技能培训”在线培训平台及数字课程资源接入管理平台的方式，形成“1+X”平台管理服务模式。
+                            </p>
+                            <h5>工作亮点展示：</h5>
+                            <p>
+                                1. 北京项目优化底层架构以及语言版本升级，系统性能从150QPS提升到200QPS，服务器由35台减少到28台<br />
+                                2. 通过MySQL的索引、锁和事务解决在线支付并发同步和异步通知问题，抗住北京千万级点播数据并发，学员学习无异常感知<br />
+                                3.
+                                引入非关系型数据库Redis队里处理削峰填谷（异步持久化到DB）、异步任务（针对腾讯乐享百万级直播数据的异步推送和拉取）、缓存数据处理（针对点播已完成[热冷数据]数据缓存，避免多次DB查询），完成北京亿万级学员学习记录无丢失，无误录，并且为后期筛选学员刷课行为、准确记录学员课时奠定了基础<br />
+                                4. 制定团队代码规范，使团队有良好的代码习惯，代码结构清晰、命名规范、逻辑性强、冗余率低、注释清晰，提升团队开发人员协作能力，开发效率提升80%<br />
+                            </p>
+                            <h5>我的职责：</h5>
+                            <p>
+                                1. 直播、点播API接口规范化输出，成功对接10余家点播课程资源以及腾讯乐享与钉钉授客学堂直播能力接入<br />
+                                2. 北京人社1540补贴申请〔FTP数据同步〕<br />
+                                3. 第三方服务商直播数据打通〔钉钉、腾讯乐享等〕<br />
+                                4. 开放平台和移动端接口需求、规范、研发和设计规范以及文档编写<br />
+                                5. 阿里云服务产品对接〔短信、OSS存储、云市场等〕<br />
+                                6. 人脸识别和卡证识别接口〔百度云〕<br />
+                                7. 博飞1540临时性补贴申报平台对接<br />
+                                8. 京训钉小程序接口以及开发文档<br />
+                                9. 直付通能力接入，成功上线线上支付，完成结算、分账等功能<br />
+                            </p>
+                            <h5>应用技术：</h5>
+                            <p>
+                                FTP〔申报文件传送〕、加密〔非对称加密算法国密2〕、crontab计划任务〔定时发送、拉取、备份、清理申报文件〕、
+                                命令行cli〔守护进程〕、OSS存储〔整个系统静态资源、备份北京人社对比结果（未解密）〕、auth2.0〔钉钉服务商直播数据同步〕、
+                                Layui前端框架〔页面表单、数据交互同异步处理〕、redis〔延迟消息队列、API接口限流、缓存相关云服务接口数据〕
+                                、ThinkPHP5框架、MySQL关系数据库、Git版本控制、RESTful API〔开放平台和小程序接口〕、Json web token (JWT)〔接口身份认证〕、
+                                人脸识别〔课程观看〕、OCR。
+                            </p>
+                        </li>
+                    </ul>
+                    <h3>阿麦直播（2015.10 ~ 2019.6）</h3>
+                    <ul class="exp">
+                        <li>
+                            <div class="circle"></div>
+                            <h3>阿麦流媒体平台</h3>
+                            <h5>项目描述:</h5>
+                            <p>阿麦直播系统是公司自主研发的一套基于微信的在线直播系统，主要面向的客户是婚礼公司，大型活动举办方，医院等，为客户提供直播技术支持。</p>
+                            <h5>核心功能：</h5>
+                            <a href="javascript:void(0);">1.互动直播</a>
+                            <p></p>
+                            <p>用户能独立建立直播 室，直播室支持不低于720P rtmp推流。可以自定义直播主题，log，背景图片。与用户测试阿麦的直播 平台功能基本相同。</p>
+                            <a href="javascript:void(0);">2.视频点播</a>
+                            <p></p>
+                            <h5>我的职责：</h5>
+                            <p>
+                                整个直播流媒体系统搭建〔安装Linux系统、网络配置、Nginx编译及相关模块编译安装、Lua脚本编写、FFmpeg的shell脚本〕
+                            </p>
+                            <h5>应用技术：</h5>
+                            <p>
+                                Phalcon框架、MySQL关系数据库、Shell脚本〔转码、视频剪辑、合并〕、Workerman〔TCP长连接、socket消息通讯、消息推送〕、Redis〔缓存、直播间消息存储〕、Websocket〔直播间消息传送〕
+                            </p>
+                        </li>
+                        <li>
+                            <div class="circle"></div>
+                            <h3>三三集团视频会议直播系统</h3>
+                            <h5>项目描述:</h5>
+                            <p>一套基于集团内容的直播系统，主要面向集团内部员工培训和视频会议等，为集团内部员工提供直播和点播技术支持。</p>
+                            <h5>核心功能：</h5>
+                            <a href="javascript:void(0);">1.互动直播</a>
+                            <p></p>
+                            <p>用户能独立建立直播 室，直播室支持不低于720P rtmp推流。可以自定义直播主题，log，背景图片。与用户测试阿麦的直播 平台功能基本相同。</p>
+                            <a href="javascript:void(0);">2.视频点播</a>
+                            <p></p>
+                            <p>直播结束后能生成录像，能对录像在线剪切并发布录像。录像文件能通过链接地址或回顾菜单中观看。</p>
+                            <h5>我的职责：</h5>
+                            <p>
+                                整个直播流媒体系统搭建〔安装Linux系统、网络配置、Nginx编译及相关模块编译安装、Lua脚本编写、FFmpeg的shell脚本〕
+                            </p>
+                            <h5>应用技术：</h5>
+                            <p>
+                                Phalcon框架、MySQL关系数据库、Redis〔直播流分发、域名黑白名单〕、Lua脚本〔直播流分发、串流权限、推流和播流防盗链〕、Shell脚本〔转码、视频剪辑、合并〕、FFmpeg工具〔拉流、推流、转码〕、Nginx服务〔RTMP直播服务、四层和七层负载均衡、流代理、流转发〕、Linux系统〔内网、公网配置、服务支撑〕、交换机〔物理主机负载配置〕。
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <dt><i class="icon-bookmark"></i>Skill. 个人项目</dt>
+                    <ul class="exp">
+                        <li>
+                            <div class="circle"></div>
+                            <h4>
+                                H5-dash-hls-rtmp-webrtc
+                                <a href="https://github.com/Tinywan/H5-dash-hls-rtmp-webrtc" target="_blank"><i
+                                        class="icon-link"></i>源代码</a>
+                                <iframe
+                                    src="https://ghbtns.com/github-btn.html?user=Tinywan&repo=H5-dash-hls-rtmp-webrtc&type=star&count=true"
+                                    frameborder="0" scrolling="0" width="100px" height="20px">
+                                </iframe>
+                                <iframe
+                                    src="https://ghbtns.com/github-btn.html?user=Tinywan&repo=H5-dash-hls-rtmp-webrtc&type=fork&count=true"
+                                    frameborder="0" scrolling="0" width="100px" height="20px">
+                                </iframe>
+                            </h4>
+                            <p>传统直播：HTML5播放器、M3U8直播/点播、RTMP直播、低延迟、推流/播流地址鉴权。🍏 实时直播：WebRTC</p>
+                        </li>
+
+                        <li>
+                            <div class="circle"></div>
+                            <h4>
+                                Lua-nginx-redis
+                                <a href="https://github.com/Tinywan/lua-nginx-redis" target="_blank"><i
+                                        class="icon-link"></i>源代码</a>
+                                <iframe
+                                    src="https://ghbtns.com/github-btn.html?user=Tinywan&repo=lua-nginx-redis&type=star&count=true"
+                                    frameborder="0" scrolling="0" width="100px" height="20px">
+                                </iframe>
+                                <iframe
+                                    src="https://ghbtns.com/github-btn.html?user=Tinywan&repo=lua-nginx-redis&type=fork&count=true"
+                                    frameborder="0" scrolling="0" width="100px" height="20px">
+                                </iframe>
+                            </h4>
+                            <p>Redis、Lua、Nginx、OpenResty开发、Lua案例、Nginx基础总结等
+                            </p>
+                        </li>
+
+                        <li>
+                            <div class="circle"></div>
+                            <h4>
+                                webman-jwt
+                                <a href="https://github.com/Tinywan/webman-jwt" target="_blank"><i
+                                        class="icon-link"></i>源代码</a>
+                                        <iframe
+                                        src="https://ghbtns.com/github-btn.html?user=Tinywan&repo=webman-jwt&type=star&count=true"
+                                        frameborder="0" scrolling="0" width="100px" height="20px">
+                                    </iframe>
+                                    <iframe
+                                    src="https://ghbtns.com/github-btn.html?user=Tinywan&repo=webman-jwt&type=fork&count=true"
+                                    frameborder="0" scrolling="0" width="100px" height="20px">
+                                </iframe>
+                            </h4>
+                            <p> 一个支持 JSON Web Token (JWT) for webman 插件的认证（认证）库
+                            </p>
+                        </li>
+                        <li>
+                            <div class="circle"></div>
+                            <h4>
+                                webman-permission
+                                <a href="https://github.com/php-casbin/webman-permission" target="_blank"><i
+                                        class="icon-link"></i>源代码</a>
+                                        <iframe
+                                        src="https://ghbtns.com/github-btn.html?user=php-casbin&repo=webman-permission&type=star&count=true"
+                                        frameborder="0" scrolling="0" width="100px" height="20px">
+                                    </iframe>
+                                    <iframe
+                                    src="https://ghbtns.com/github-btn.html?user=php-casbin&repo=webman-permission&type=fork&count=true"
+                                    frameborder="0" scrolling="0" width="100px" height="20px">
+                                </iframe>
+                            </h4>
+                            <p> 一个授权库，支持访问控制模型，如 ACL、RBAC、ABAC 用于 webman 插件
+                            </p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <dt><i class="icon-bookmark"></i>Other. 其他</dt>
+                    <h3>所获奖项</h3>
+                    <ul class="exp">
+                        <p><a href="#" target="_blank"><i class="icon-bookmark"></i>2013.10</a>&nbsp;&nbsp;&nbsp;国家励志奖学金
+                            <a href="#" target="_blank">&nbsp;&nbsp;国家级</a>
+                        </p>
+                        <p><a href="#" target="_blank"><i
+                                    class="icon-bookmark"></i>2012.12</a>&nbsp;&nbsp;&nbsp;全国信息技术应用水平大赛三等奖<a href="#"
+                                target="_blank">&nbsp;&nbsp;省级</a>
+                        </p>
+                        <p><a href="#" target="_blank"><i
+                                    class="icon-bookmark"></i>2011.12</a>&nbsp;&nbsp;&nbsp;“兰州电信”杯第二届校园网页设计大赛一等奖<a
+                                href="#" target="_blank">&nbsp;&nbsp;校级</a></p>
+                        <p><a href="#" target="_blank"><i
+                                    class="icon-bookmark"></i>2011.06</a>&nbsp;&nbsp;&nbsp;“神州数码”杯首届校园网页设计大赛二等奖<a
+                                href="#" target="_blank">&nbsp;&nbsp;校级</a></p>
+                        <p><a href="#" target="_blank"><i
+                                    class="icon-bookmark"></i>2010.12</a>&nbsp;&nbsp;&nbsp;获得“甘肃省大学生三下乡”个人优秀称号<a
+                                href="#" target="_blank">&nbsp;&nbsp;校级</a></p>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <p>
+            Copyright © 2023 <a href="www.tinywan.com">github.tinywan.com</a> All Rights Reserved 浙ICP备17041164号
+        </p>
+    </footer>
 </body>
+
 </html>
