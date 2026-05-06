@@ -192,6 +192,12 @@ footer p {
     color: #616161
 }
 
+h2 {
+    font-size: 20px;
+    color: #004d40;
+    margin: 0 0 15px 5px
+}
+
 h3 {
     font-size: 19px;
     color: #004d40;
