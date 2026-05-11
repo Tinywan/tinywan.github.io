@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>杭州→兰州→新疆 1大1小带娃15天慢游行程表（5.24-6.8）</title>
+<style>
+  :root {
+    --sand: #d4a574;
+    --sand-light: #f2e4d0;
+    --terracotta: #c67b4b;
+    --earth: #8b5e3c;
+    --earth-dark: #5c3a1e;
+    --turquoise: #1a8b8b;
+    --turquoise-light: #e0f2f1;
+    --sky-deep: #1a2f4a;
+    --sky-blue: #2c5f8a;
+    --gold: #c8963e;
+    --gold-light: #fdf3e0;
+    --parchment: #faf6f0;
+    --parchment-dark: #efe8dc;
+    --sunset: #e07b5a;
+    --text: #3d2e22;
+    --text-muted: #8c7b6e;
+    --card: #fffdf9;
+    --border: #e5dbce;
+    --shadow: 0 2px 16px rgba(139,94,60,0.08);
+    --shadow-lg: 0 8px 32px rgba(139,94,60,0.10);
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--parchment);
+    background-image:
+      radial-gradient(ellipse at 0% 0%, rgba(26,139,139,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(198,123,75,0.06) 0%, transparent 50%);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Decorative pattern stripe ── */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(90deg,
+      var(--terracotta) 0px, var(--terracotta) 8px,
+      var(--gold) 8px, var(--gold) 12px,
+      var(--turquoise) 12px, var(--turquoise) 20px,
+      var(--sand) 20px, var(--sand) 24px
+    );
+    z-index: 999;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(170deg, #1a2f4a 0%, #2c1f14 40%, #3d2817 70%, #4a2f1a 100%);
+    color: #fff;
+    text-align: center;
+    padding: 70px 20px 55px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 80%, rgba(26,139,139,0.18) 0%, transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(198,123,75,0.20) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(200,150,62,0.06) 0%, transparent 60%);
+    animation: heroPulse 10s ease-in-out infinite alternate;
+  }
+  @keyframes heroPulse {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+  /* Mountain silhouette */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background:
+      linear-gradient(135deg, transparent 25%, #1a2f4a 25%, #1a2f4a 30%, transparent 30%),
+      linear-gradient(225deg, transparent 20%, #2c1f14 20%, #2c1f14 35%, transparent 35%),
+      linear-gradient(315deg, transparent 30%, #3d2817 30%, #3d2817 40%, transparent 40%);
+    opacity: 0.4;
+  }
+  .hero h1 {
+    font-size: 2.3em;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .hero .subtitle {
+    margin-top: 10px;
+    font-size: 1.1em;
+    opacity: 0.85;
+    position: relative;
+    z-index: 1;
+  }
+  .hero .badges {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .hero .badge {
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 7px 18px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ═══════════ Route Timeline (redesigned) ═══════════ */
+  .timeline-wrap {
+    margin: -20px 0 40px;
+    position: relative;
+    z-index: 2;
+    padding: 20px 0;
+  }
+  .timeline-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 0;
+    align-items: stretch;
+    padding: 16px 0 20px;
+  }
+
+  .tl-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 72px;
+    padding: 0 6px;
+    position: relative;
+  }
+  .tl-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--turquoise);
+    border: 3px solid var(--parchment);
+    box-shadow: 0 0 0 2px var(--turquoise);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+  }
+  .tl-dot.start { background: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+  .tl-dot.end { background: var(--sunset); box-shadow: 0 0 0 2px var(--sunset); }
+  .tl-city {
+    font-weight: 700;
+    font-size: 0.95em;
+    color: var(--earth-dark);
+    white-space: nowrap;
+    text-align: center;
+  }
+  .tl-date {
+    font-size: 0.75em;
+    color: var(--text-muted);
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .tl-line {
+    min-width: 14px;
+    max-width: 30px;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--sand) 0, var(--sand) 4px, transparent 4px, transparent 8px);
+    align-self: center;
+    flex: 1;
+  }
+  .tl-line.flight {
+    background: repeating-linear-gradient(90deg, var(--turquoise) 0, var(--turquoise) 3px, transparent 3px, transparent 7px);
+  }
+
+  /* ── Phase Section ── */
+  .phase {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 32px;
+    overflow: hidden;
+    border: none;
+    position: relative;
+  }
+
+  .phase-header {
+    padding: 24px 30px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-header::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+  }
+  .phase-lanzhou .phase-header { background: linear-gradient(135deg, #c67b4b 0%, #a0522d 100%); }
+  .phase-kashgar .phase-header { background: linear-gradient(135deg, #1a8b8b 0%, #0d6b6b 100%); }
+  .phase-south .phase-header { background: linear-gradient(135deg, #e07b5a 0%, #c0553a 100%); }
+  .phase-ili .phase-header { background: linear-gradient(135deg, #5b9a5b 0%, #3d7a3d 100%); }
+  .phase-north .phase-header { background: linear-gradient(135deg, #4a5a8a 0%, #2e3d6e 100%); }
+
+  .phase-icon {
+    font-size: 2em;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  }
+  .phase-title {
+    font-weight: 700;
+    font-size: 1.2em;
+    letter-spacing: 0.04em;
+  }
+  .phase-date {
+    font-size: 0.82em;
+    opacity: 0.8;
+    margin-top: 3px;
+  }
+
+  /* ── Day Card ── */
+  .day-card {
+    padding: 20px 30px 24px;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .day-card:last-child { border-bottom: none; }
+  .day-card:hover { background: #fffdf6; }
+  .day-card:nth-child(even) { background: #fdfaf6; }
+  .day-card:nth-child(even):hover { background: #fef9ef; }
+
+  .day-meta {
+    text-align: center;
+    padding-top: 4px;
+  }
+  .day-number {
+    font-size: 1.5em;
+    font-weight: 800;
+    color: var(--terracotta);
+    line-height: 1;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  .day-date {
+    font-size: 0.82em;
+    color: var(--earth-dark);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .day-weekday {
+    font-size: 0.72em;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  .day-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .day-schedule {
+    font-size: 0.95em;
+    line-height: 1.75;
+    color: #4a3525;
+  }
+  .day-schedule .time {
+    font-weight: 700;
+    color: var(--terracotta);
+  }
+
+  .day-hotel, .day-tips {
+    font-size: 0.87em;
+    padding: 12px 16px;
+    border-radius: 8px;
+    line-height: 1.6;
+  }
+  .day-hotel {
+    background: #fdf6ee;
+    border-left: 4px solid var(--terracotta);
+    color: #5c3a1e;
+  }
+  .day-tips {
+    background: #f5faf9;
+    border-left: 4px solid var(--turquoise);
+    color: #3d5e5e;
+  }
+
+  /* ── Tags ── */
+  .day-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .day-tag {
+    font-size: 0.76em;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: var(--parchment-dark);
+    color: var(--earth);
+  }
+  .day-tag.transport { background: #e8f0fe; color: #1565c0; }
+  .day-tag.ticket { background: #fce4ec; color: #c62828; }
+
+  /* ── Info Grid ── */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 640px) { .info-grid { grid-template-columns: 1fr; } }
+
+  .info-box {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px 28px;
+    border: none;
+    border-top: 4px solid var(--sand);
+    position: relative;
+  }
+  .info-box:nth-child(1) { border-top-color: var(--turquoise); }
+  .info-box:nth-child(2) { border-top-color: var(--terracotta); }
+  .info-box:nth-child(3) { border-top-color: var(--gold); }
+  .info-box:nth-child(4) { border-top-color: #5b9a5b; }
+
+  .info-box h3 {
+    font-size: 1em;
+    color: var(--earth-dark);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-box ul { list-style: none; padding: 0; }
+  .info-box li {
+    padding: 5px 0 5px 22px;
+    position: relative;
+    font-size: 0.92em;
+  }
+  .info-box li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    font-size: 0.5em;
+    color: var(--turquoise);
+    top: 10px;
+  }
+
+  /* ── Checklist ── */
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding-left: 0;
+  }
+  .checklist li::before { display: none; }
+  .checklist input[type=checkbox] {
+    margin-top: 3px;
+    accent-color: var(--terracotta);
+    width: 17px; height: 17px;
+    flex-shrink: 0;
+  }
+
+  /* ── Footer ── */
+  .footer-note {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.82em;
+    padding: 40px 0 10px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+  .footer-note::before {
+    content: '◆ ◆ ◆';
+    display: block;
+    letter-spacing: 0.5em;
+    margin-bottom: 12px;
+    color: var(--sand);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.6em; }
+    .hero { padding: 50px 16px 40px; }
+    .timeline-scroll { flex-wrap: wrap; justify-content: center; gap: 4px 0; }
+    .tl-node { min-width: 52px; padding: 0 2px; }
+    .tl-city { font-size: 0.72em; }
+    .tl-date { font-size: 0.65em; }
+    .tl-line { min-width: 4px; max-width: 10px; }
+    .day-card { grid-template-columns: 1fr; gap: 8px; }
+    .day-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      text-align: left;
+    }
+    .day-number { font-size: 1.3em; }
+  }
+
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    body::before { display: none; }
+    .hero { background: #2c1f14 !important; -webkit-print-color-adjust: exact; padding: 30px 20px; }
+    .container { max-width: 100%; padding: 0 10px; }
+    .phase, .info-box, .day-card { box-shadow: none; break-inside: avoid; }
+    .phase-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .day-card:hover, .day-card:nth-child(even) { background: transparent; }
+    .timeline-scroll { overflow-x: visible; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>杭州 → 兰州 → 新疆</h1>
+  <p class="subtitle">1 大 1 小 · 带娃 15 天慢游 · 丝绸之路亲子行</p>
+  <div class="badges">
+    <span class="badge">5 月 24 日 — 6 月 8 日</span>
+    <span class="badge">全程 15 天</span>
+    <span class="badge">每日车程 ≤ 5h</span>
+    <span class="badge">喀什进 · 禾木出</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ═══════════ Route Timeline ═══════════ -->
+<div class="timeline-wrap">
+  <div class="timeline-scroll">
+    <div class="tl-node">
+      <div class="tl-dot start"></div>
+      <div class="tl-city">杭州</div>
+      <div class="tl-date">5.24</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">兰州</div>
+      <div class="tl-date">5.25-26</div>
+    </div>
+    <div class="tl-line flight"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">喀什</div>
+      <div class="tl-date">5.27-28</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">库车</div>
+      <div class="tl-date">5.29</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">巴音布鲁克</div>
+      <div class="tl-date">5.30</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">那拉提</div>
+      <div class="tl-date">5.31</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">伊宁</div>
+      <div class="tl-date">6.1</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">赛里木湖</div>
+      <div class="tl-date">6.2</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">奎屯</div>
+      <div class="tl-date">6.3</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">魔鬼城</div>
+      <div class="tl-date">6.4</div>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-city">吐鲁番</div>
+      <div class="tl-date">6.5-6</div>
+    </div>
+    <div class="tl-line flight"></div>
+    <div class="tl-node">
+      <div class="tl-dot end"></div>
+      <div class="tl-city">禾木</div>
+      <div class="tl-date">6.7-8</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ Summary Boxes ═══════════ -->
+<div class="info-grid">
+  <div class="info-box">
+    <h3>🚂 交通总览</h3>
+    <ul>
+      <li>杭州 → 兰州：高铁二等座（约 6-7h，¥500/人，儿童半价）</li>
+      <li>兰州 → 喀什：9C7263 直飞（12:15-16:25，4h10min，¥787/人）</li>
+      <li>新疆段：全程包车小轿车，随停随走</li>
+      <li>吐鲁番 → 乌鲁木齐：D8807 高铁（¥51.5）</li>
+      <li>乌鲁木齐 → 阿勒泰：CZ6843 航班</li>
+    </ul>
+  </div>
+  <div class="info-box">
+    <h3>🧥 穿衣指南</h3>
+    <ul>
+      <li><strong>兰州：</strong>长袖 + 薄外套</li>
+      <li><strong>南疆（喀什/库车/吐鲁番）：</strong>短袖 + 防晒帽，早晚薄外套</li>
+      <li><strong>草原/湖泊（巴音布鲁克/那拉提/赛里木湖）：</strong>冲锋衣 + 薄羽绒服</li>
+      <li><strong>北疆（禾木）：</strong>厚外套，早晚温差极大</li>
+    </ul>
+  </div>
+  <div class="info-box">
+    <h3>🍜 饮食建议</h3>
+    <ul>
+      <li>兰州以面食为主，口味清淡适合孩子</li>
+      <li>新疆偏牛羊肉，给小孩备零食、牛奶</li>
+      <li>常备感冒药、肠胃药、儿童退烧药</li>
+      <li>随身带保温杯保证温水供应</li>
+    </ul>
+  </div>
+  <div class="info-box">
+    <h3>🏡 住宿提醒</h3>
+    <ul>
+      <li>所有民宿/酒店提前 <strong>7-10 天</strong>预订</li>
+      <li>预订时备注「1大1小」</li>
+      <li>确认是否有儿童床、供暖/空调</li>
+      <li>高铁、飞机票提前 <strong>15 天</strong>购票</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════ Phase: 兰州 ═══════════ -->
+<section class="phase phase-lanzhou">
+  <div class="phase-header">
+    <div class="phase-icon">🏙️</div>
+    <div>
+      <div class="phase-title">第一段 · 兰州</div>
+      <div class="phase-date">5 月 24 日 — 26 日 · 2 晚连住同酒店</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta">
+      <div class="day-number">D1</div>
+      <div class="day-date">5.24</div>
+      <div class="day-weekday">周六</div>
+    </div>
+    <div class="day-body">
+      <div class="day-schedule">
+        <span class="time">全天</span> 杭州出发 → 抵达兰州，傍晚休整，逛黄河边夜景，品尝当地清淡小吃
+      </div>
+      <div class="day-tags">
+        <span class="day-tag transport">高铁约 6-7h / ¥500</span>
+      </div>
+      <div class="day-hotel">🏨 <strong>如家快捷酒店（庆阳路店）</strong>——地理位置优越，周边小吃街和景区，方便带娃出行</div>
+      <div class="day-tips">💡 长途出行后不赶路，给孩子充足休息；黄河边散步注意安全</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D2</div><div class="day-date">5.25</div><div class="day-weekday">周日</div></div>
+    <div class="day-body">
+      <div class="day-schedule">
+        <span class="time">上午</span> 黄河母亲雕塑、中山桥（步行游览）<br>
+        <span class="time">下午</span> 甘肃省博物馆（儿童友好展区）<br>
+        <span class="time">晚上</span> 正宁路小吃街（选清淡小吃）
+      </div>
+      <div class="day-hotel">🏨 同 D1 酒店（连续入住，避免换房折腾孩子）</div>
+      <div class="day-tips">💡 博物馆控制音量，避免孩子奔跑；小吃街选卫生清淡食物</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D3</div><div class="day-date">5.26</div><div class="day-weekday">周一</div></div>
+    <div class="day-body">
+      <div class="day-schedule">
+        <span class="time">上午</span> 五泉山公园（平缓山路，带娃散步）<br>
+        <span class="time">下午</span> 张掖路步行街（买伴手礼）<br>
+        <span class="time">傍晚</span> 休整，准备次日飞喀什
+      </div>
+      <div class="day-hotel">🏨 同 D1 酒店（连续入住）</div>
+      <div class="day-tips">💡 五泉山紧跟孩子，避免陡峭路段；傍晚早休息，为次日航班储备精力</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Phase: 喀什 ═══════════ -->
+<section class="phase phase-kashgar">
+  <div class="phase-header">
+    <div class="phase-icon">🕌</div>
+    <div>
+      <div class="phase-title">第二段 · 喀什古城</div>
+      <div class="phase-date">5 月 27 日 — 28 日 · 2 晚连住民宿</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D4</div><div class="day-date">5.27</div><div class="day-weekday">周二</div></div>
+    <div class="day-body">
+      <div class="day-schedule">
+        <span class="time">12:15</span> 兰州中川机场出发（9C7263）<br>
+        <span class="time">16:25</span> 抵达喀什，打车 15 分钟到古城<br>
+        <span class="time">傍晚</span> 喀什古城（开城仪式、艾提尕尔清真寺、百年老茶馆）<br>
+        <span class="time">晚上</span> 古城夜市
+      </div>
+      <div class="day-tags">
+        <span class="day-tag ticket">✈ 9C7263 兰州→喀什 ¥787</span>
+      </div>
+      <div class="day-hotel">🏨 <strong>喀什古城蜜语民宿 / 古城里居</strong>——独立卫浴、步行可达夜市，老板可安排古城向导</div>
+      <div class="day-tips">💡 适应新疆时差，步行为主；飞机上备零食和温水</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D5</div><div class="day-date">5.28</div><div class="day-weekday">周三</div></div>
+    <div class="day-body">
+      <div class="day-schedule"><span class="time">全天</span> 喀什深度慢游：古城、东大巴扎、高台民居</div>
+      <div class="day-hotel">🏨 同 D4 民宿（连续入住）</div>
+      <div class="day-tips">💡 全天休整让小孩适应新疆环境；大巴扎人多紧跟孩子</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Phase: 南疆穿越 ═══════════ -->
+<section class="phase phase-south">
+  <div class="phase-header">
+    <div class="phase-icon">🏜️</div>
+    <div>
+      <div class="phase-title">第三段 · 南疆穿越</div>
+      <div class="phase-date">5 月 29 日 — 31 日 · 喀什 → 库车 → 巴音布鲁克 → 那拉提</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D6</div><div class="day-date">5.29</div><div class="day-weekday">周四</div></div>
+    <div class="day-body">
+      <div class="day-schedule">喀什 → 库车，沿途欣赏戈壁风光（边走边停）</div>
+      <div class="day-tags"><span class="day-tag transport">包车 3-5h</span></div>
+      <div class="day-hotel">🏨 <strong>库车天缘国际酒店 / 库车丽都酒店</strong>——房间宽敞，有儿童床</div>
+      <div class="day-tips">💡 沿途多次停车休息；戈壁日照强做好防晒</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D7</div><div class="day-date">5.30</div><div class="day-weekday">周五</div></div>
+    <div class="day-body">
+      <div class="day-schedule">库车 → 巴音布鲁克（独库南段），游玩草原、九曲十八弯、天鹅湖</div>
+      <div class="day-tags"><span class="day-tag transport">包车 3-5h</span></div>
+      <div class="day-hotel">🏨 <strong>巴音布鲁克龙兴酒店 / 草原牧家民宿</strong>——有供暖（5 月较冷），靠近景区</div>
+      <div class="day-tips">💡 海拔高、5 月较冷，穿冲锋衣+薄羽绒服；避免剧烈运动预防高反</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D8</div><div class="day-date">5.31</div><div class="day-weekday">周六</div></div>
+    <div class="day-body">
+      <div class="day-schedule">巴音布鲁克 → 那拉提草原，全天游玩空中草原、河谷草原</div>
+      <div class="day-tags"><span class="day-tag transport">包车 ≤ 3h</span></div>
+      <div class="day-hotel">🏨 <strong>那拉提空中草原酒店 / 那拉提牧云谷民宿</strong>——有儿童游乐区，可提供草原特色餐</div>
+      <div class="day-tips">💡 草原平缓适合小孩散步拍照；早晚凉及时增减衣物</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Phase: 伊犁 ═══════════ -->
+<section class="phase phase-ili">
+  <div class="phase-header">
+    <div class="phase-icon">🌿</div>
+    <div>
+      <div class="phase-title">第四段 · 伊犁河谷</div>
+      <div class="phase-date">6 月 1 日 — 3 日 · 伊宁 → 赛里木湖 → 奎屯</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D9</div><div class="day-date">6.1</div><div class="day-weekday">周日</div></div>
+    <div class="day-body">
+      <div class="day-schedule">那拉提 → 伊宁，沿途草原、花海边走边玩</div>
+      <div class="day-tags"><span class="day-tag transport">包车 3-5h</span></div>
+      <div class="day-hotel">🏨 <strong>伊宁天缘国际酒店 / 伊宁蓝心酒店</strong>——靠近喀赞其民俗村</div>
+      <div class="day-tips">💡 抵达后品尝当地美食，小孩充分休整；昼夜温差大注意保暖</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D10</div><div class="day-date">6.2</div><div class="day-weekday">周一</div></div>
+    <div class="day-body">
+      <div class="day-schedule">伊宁 → 赛里木湖 → 果子沟大桥，环湖慢逛、拍照</div>
+      <div class="day-tags"><span class="day-tag transport">包车 3-5h</span></div>
+      <div class="day-hotel">🏨 <strong>赛里木湖印象民宿 / 果子沟牧居民宿</strong>——有供暖，观景好</div>
+      <div class="day-tips">💡 赛里木湖残雪未化，早晚凉加外套；湖边风大避免孩子长时间停留</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D11</div><div class="day-date">6.3</div><div class="day-weekday">周二</div></div>
+    <div class="day-body">
+      <div class="day-schedule">赛里木湖 → 安集海大峡谷 → 奎屯</div>
+      <div class="day-tags"><span class="day-tag transport">包车 3-5h</span></div>
+      <div class="day-hotel">🏨 <strong>奎屯天北酒店 / 奎屯金泽酒店</strong>——配套完善，周边超市餐厅齐全</div>
+      <div class="day-tips">💡 奎屯吃住配套完善适合休整；大峡谷地势险峻不让孩子靠近边缘</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Phase: 北疆 ═══════════ -->
+<section class="phase phase-north">
+  <div class="phase-header">
+    <div class="phase-icon">🏔️</div>
+    <div>
+      <div class="phase-title">第五段 · 北疆收官</div>
+      <div class="phase-date">6 月 4 日 — 8 日 · 魔鬼城 → 吐鲁番 → 禾木</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D12</div><div class="day-date">6.4</div><div class="day-weekday">周三</div></div>
+    <div class="day-body">
+      <div class="day-schedule">奎屯 → 乌尔禾世界魔鬼城，傍晚进景区看日落</div>
+      <div class="day-tags"><span class="day-tag transport">包车 3-5h</span></div>
+      <div class="day-hotel">🏨 <strong>乌尔禾龙达酒店 / 魔鬼城周边民宿</strong>——距离景区近</div>
+      <div class="day-tips">💡 避开正午暴晒，傍晚光线适宜拍照；魔鬼城风大给孩子戴帽子</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D13</div><div class="day-date">6.5</div><div class="day-weekday">周四</div></div>
+    <div class="day-body">
+      <div class="day-schedule">乌尔禾 → 吐鲁番，傍晚抵达</div>
+      <div class="day-tags"><span class="day-tag transport">包车 3-5h</span></div>
+      <div class="day-hotel">🏨 <strong>吐鲁番华景酒店 / 吐鲁番绿洲酒店</strong>——有空调，靠近火焰山</div>
+      <div class="day-tips">💡 吐鲁番气温高，清晨出发中途多休息；给孩子备降温用品多喝水</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D14</div><div class="day-date">6.6</div><div class="day-weekday">周五</div></div>
+    <div class="day-body">
+      <div class="day-schedule"><span class="time">上午</span> 火焰山（避开高温）<br><span class="time">下午</span> 葡萄沟</div>
+      <div class="day-hotel">🏨 同 D13 酒店（连续入住）</div>
+      <div class="day-tips">💡 火焰山上午较凉爽，葡萄沟阴凉；做好防晒，备驱蚊用品</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D15</div><div class="day-date">6.7</div><div class="day-weekday">周六</div></div>
+    <div class="day-body">
+      <div class="day-schedule">吐鲁番 → 乌鲁木齐（高铁）→ 飞阿勒泰</div>
+      <div class="day-tags">
+        <span class="day-tag ticket">🚄 D8807 吐鲁番北→乌市 ¥51.5</span>
+        <span class="day-tag ticket">✈ CZ6843 乌市→阿勒泰</span>
+      </div>
+      <div class="day-hotel">🏨 <strong>阿勒泰金都酒店 / 阿勒泰蓝湾酒店</strong>——靠近机场，有接送服务</div>
+      <div class="day-tips">⚠️ 高铁与飞机衔接需预留至少 3 小时中转时间</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-meta"><div class="day-number">D16</div><div class="day-date">6.8</div><div class="day-weekday">周日</div></div>
+    <div class="day-body">
+      <div class="day-schedule">阿勒泰 → 禾木村，游玩木屋、白桦林、田园风光</div>
+      <div class="day-tags"><span class="day-tag transport">包车 3-5h</span></div>
+      <div class="day-hotel">🏨 <strong>禾木归巢民宿 / 禾木白桦林民宿</strong>——木屋风格，有供暖，靠近禾木河</div>
+      <div class="day-tips">💡 可增加 1 天观看晨雾；禾木早晚温差大备厚外套。行程圆满结束 🎉</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ Packing Checklist ═══════════ -->
+<div class="info-grid">
+  <div class="info-box">
+    <h3>🎒 打包清单（大人）</h3>
+    <ul class="checklist">
+      <li><input type="checkbox"> 身份证、户口本（儿童）</li>
+      <li><input type="checkbox"> 冲锋衣 1 件 + 薄羽绒服 1 件</li>
+      <li><input type="checkbox"> 长袖 3 件 + 短袖 3 件 + 长裤 2 条</li>
+      <li><input type="checkbox"> 防晒帽 + 太阳镜 + 防晒霜 SPF50</li>
+      <li><input type="checkbox"> 舒适运动鞋 + 拖鞋</li>
+      <li><input type="checkbox"> 充电宝 + 车载充电器</li>
+      <li><input type="checkbox"> 常用药品包（感冒、肠胃、创可贴）</li>
+    </ul>
+  </div>
+  <div class="info-box">
+    <h3>🧒 打包清单（小孩）</h3>
+    <ul class="checklist">
+      <li><input type="checkbox"> 户口本 / 身份证</li>
+      <li><input type="checkbox"> 冲锋衣 1 件 + 薄羽绒服 1 件</li>
+      <li><input type="checkbox"> 长袖 4 件 + 短袖 4 件 + 长裤 3 条</li>
+      <li><input type="checkbox"> 儿童防晒帽 + 儿童防晒霜</li>
+      <li><input type="checkbox"> 保温杯 + 零食 + 牛奶</li>
+      <li><input type="checkbox"> 儿童常用药（退烧、感冒、肠胃）</li>
+      <li><input type="checkbox"> 驱蚊用品 + 湿巾</li>
+      <li><input type="checkbox"> 孩子喜欢的玩具/绘本（长途消遣）</li>
+    </ul>
+  </div>
+</div>
+
+<p class="footer-note">丝绸之路亲子行 · 杭州 → 兰州 → 新疆 · 1 大 1 小慢游</p>
+
+</div>
+</body>
+</html>
