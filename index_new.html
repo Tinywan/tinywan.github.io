@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>万少波 - 技术经理 - 杭州</title>
     <meta name="keywords" content="tinywan，Tinywan，ShaoBo，wan，Wan，Tinywan 杂货摊，wanwan756684177，Github，Wiot,iot">
-    <meta name="description" content="万少波（Tinywan）- 沃土股份技术经理，11年后端研发经验，专注高并发分布式系统设计">
+    <meta name="description" content="万少波（Tinywan）- 沃土股份技术经理，10年+ PHP全栈架构师，深耕职业教育数字化与音视频直播领域">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="dist/css/style.min.css">
     <link rel="stylesheet" href="dist/css/fontello.min.css">
@@ -20,7 +20,6 @@
         a { color: #2563eb; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        /* Layout */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -48,8 +47,9 @@
         .header .desc {
             font-size: 15px;
             color: #cbd5e1;
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto 24px;
+            line-height: 1.8;
         }
         .header .links {
             display: flex;
@@ -57,14 +57,10 @@
             gap: 24px;
             font-size: 14px;
         }
-        .header .links a {
-            color: #60a5fa;
-        }
+        .header .links a { color: #60a5fa; }
 
         /* Section */
-        .section {
-            margin-bottom: 48px;
-        }
+        .section { margin-bottom: 48px; }
         .section-title {
             font-size: 22px;
             font-weight: 600;
@@ -88,10 +84,7 @@
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .info-item {
-            display: flex;
-            flex-direction: column;
-        }
+        .info-item { display: flex; flex-direction: column; }
         .info-label {
             font-size: 12px;
             color: #888;
@@ -99,10 +92,7 @@
             letter-spacing: 0.5px;
             margin-bottom: 4px;
         }
-        .info-value {
-            font-size: 15px;
-            color: #1a1a2e;
-        }
+        .info-value { font-size: 15px; color: #1a1a2e; }
 
         /* Card */
         .card {
@@ -112,49 +102,46 @@
             margin-bottom: 20px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a1a2e;
-            margin-bottom: 4px;
-        }
-        .card-meta {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 16px;
-        }
-        .card-desc {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 12px;
+        .card-desc { font-size: 14px; color: #555; margin-bottom: 12px; }
+
+        /* Profile Summary */
+        .profile-summary {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.9;
+            margin-bottom: 24px;
         }
 
-        /* Skills */
-        .skill-list {
+        /* Skills Grid */
+        .skills-grid {
             display: grid;
-            gap: 12px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
         }
-        .skill-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
+        @media (max-width: 640px) {
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+        .skill-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .skill-card h4 {
             font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 8px;
         }
-        .skill-icon {
-            width: 6px;
-            height: 6px;
-            background: #2563eb;
-            border-radius: 50%;
-            margin-top: 7px;
-            flex-shrink: 0;
+        .skill-card p {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.6;
         }
 
         /* Tech Tags */
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .tech-tag {
             padding: 4px 12px;
             background: #f1f5f9;
@@ -162,6 +149,24 @@
             font-size: 12px;
             color: #64748b;
         }
+
+        /* Company */
+        .company { margin-bottom: 40px; }
+        .company-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .company-name { font-size: 20px; font-weight: 600; color: #1a1a2e; }
+        .company-period {
+            font-size: 13px;
+            color: #888;
+            padding: 4px 12px;
+            background: #f1f5f9;
+            border-radius: 20px;
+        }
+        .company-title { font-size: 14px; color: #2563eb; }
 
         /* Project */
         .project {
@@ -178,12 +183,8 @@
             color: #1a1a2e;
             margin-bottom: 4px;
         }
-        .project .link {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 12px;
-        }
-        .project .section-label {
+        .project .link { font-size: 13px; color: #888; margin-bottom: 12px; }
+        .project .label {
             font-size: 13px;
             font-weight: 600;
             color: #1a1a2e;
@@ -191,38 +192,43 @@
             margin-bottom: 8px;
         }
 
-        /* Company */
-        .company {
-            margin-bottom: 40px;
+        /* Duty List */
+        .duty-list {
+            margin: 12px 0;
+            padding-left: 0;
+            list-style: none;
         }
-        .company-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .company-name {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1a1a2e;
-        }
-        .company-period {
-            font-size: 13px;
-            color: #888;
-            padding: 4px 12px;
-            background: #f1f5f9;
-            border-radius: 20px;
-        }
-        .company-title {
+        .duty-list li {
             font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .duty-list li::before {
+            content: "●";
+            position: absolute;
+            left: 0;
             color: #2563eb;
+            font-size: 10px;
+        }
+
+        /* HighLight */
+        .highlight {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+        .highlight p {
+            font-size: 14px;
+            color: #1e40af;
+            line-height: 1.7;
         }
 
         /* Awards */
-        .award-list {
-            display: grid;
-            gap: 12px;
-        }
+        .award-list { display: grid; gap: 12px; }
         .award-item {
             display: flex;
             align-items: center;
@@ -232,16 +238,8 @@
             border-radius: 10px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .award-year {
-            font-size: 13px;
-            color: #888;
-            min-width: 70px;
-        }
-        .award-name {
-            font-size: 15px;
-            color: #1a1a2e;
-            font-weight: 500;
-        }
+        .award-year { font-size: 13px; color: #888; min-width: 70px; }
+        .award-name { font-size: 15px; color: #1a1a2e; font-weight: 500; }
         .award-level {
             font-size: 12px;
             color: #2563eb;
@@ -265,19 +263,10 @@
             color: #1a1a2e;
             margin-bottom: 6px;
         }
-        .github-card h4 a {
-            color: #1a1a2e;
-        }
-        .github-card h4 a:hover {
-            color: #2563eb;
-        }
-        .github-card p {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 12px;
-        }
+        .github-card h4 a { color: #1a1a2e; }
+        .github-card h4 a:hover { color: #2563eb; }
+        .github-card p { font-size: 13px; color: #666; margin-bottom: 12px; }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 40px 24px;
@@ -287,7 +276,6 @@
             margin-top: 60px;
         }
 
-        /* Responsive */
         @media (max-width: 640px) {
             .header h1 { font-size: 32px; }
             .header .links { flex-direction: column; gap: 8px; }
@@ -302,7 +290,9 @@
     <div class="header">
         <h1>万少波</h1>
         <div class="role">技术经理 · 杭州</div>
-        <div class="desc">11年互联网后端研发经验，专注于高并发分布式系统设计与大规模在线教育平台架构</div>
+        <div class="desc">
+            10年+ PHP全栈架构师，现任沃土股份技术经理，深耕职业教育数字化与音视频直播领域，具备丰富的技术团队管理与大型项目全生命周期管控经验。主导人社部、北京市等5+国家级/省级千万级学员职业培训平台的架构设计与落地，支撑亿级学习数据高并发稳定运行。
+        </div>
         <div class="links">
             <a href="https://github.com/Tinywan">GitHub</a>
             <span style="color: #475569;">|</span>
@@ -348,53 +338,48 @@
         <div class="section">
             <h2 class="section-title"><i class="icon-bookmark"></i>Personal Profile · 个人简介</h2>
             <div class="card">
-                <h3 style="font-size: 15px; font-weight: 600; color: #1a1a2e; margin-bottom: 12px;">工作职责</h3>
-                <p class="card-desc">目前担任沃土股份技术经理，负责互联网教育培训产品的研发与架构设计。主导过多个省级/国家级平台的技术规划：</p>
-                <ul style="font-size: 14px; color: #555; margin-left: 20px; margin-bottom: 20px;">
-                    <li>国家人社部就业创业和职业培训在线服务平台</li>
-                    <li>北京市职业技能提升行动管理平台（千万级学员数据）</li>
-                    <li>江西省补贴性线上职业技能培训管理平台</li>
-                    <li>马兰花创业培训技术服务管理平台及教学服务系列平台</li>
-                </ul>
+                <div class="profile-summary">
+                    擅长 PHP 常驻内存高性能架构、分布式高可用系统设计、直播流媒体系统搭建、AI 大模型业务落地，具备从 0 到 1 搭建政务级系统架构、带领研发团队落地复杂业务项目的全链路能力。主导搭建团队技术管理体系与人才培养机制，推动研发流程标准化、自动化，大幅提升团队交付效率，主导的多个项目通过国家等保三级测评，累计服务超千万学员。
+                </div>
 
-                <h3 style="font-size: 15px; font-weight: 600; color: #1a1a2e; margin-bottom: 12px; margin-top: 24px;">核心技能</h3>
-                <div class="skill-list">
-                    <div class="skill-item">
-                        <span class="skill-icon"></span>
-                        PHP / Java / JavaScript 主流开发语言，擅长面向对象编程和设计模式
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h4>PHP 常驻内存架构</h4>
+                        <p>Workerman / Swoole / SwooleFramework 高性能框架，协程调度、进程管理、内存优化</p>
                     </div>
-                    <div class="skill-item">
-                        <span class="skill-icon"></span>
-                        MySQL 主从复制、分表分库、读写分离，Redis 数据结构与持久化，精通消息队列、Socket编程、协程
+                    <div class="skill-card">
+                        <h4>分布式高可用系统</h4>
+                        <p>MySQL 分表分库 / Redis 集群 / 消息队列 / 熔断限流 / 多级缓存 / 高并发优化</p>
                     </div>
-                    <div class="skill-item">
-                        <span class="skill-icon"></span>
-                        Workerman / Swoole / ThinkPHP / Laravel 框架，RESTful API 设计，微服务架构
+                    <div class="skill-card">
+                        <h4>直播流媒体系统</h4>
+                        <p>Nginx-RTMP / FFmpeg 转码切片 / WebRTC / RTSP / RTMP / HLS / DASH / 全双工消息</p>
                     </div>
-                    <div class="skill-item">
-                        <span class="skill-icon"></span>
-                        高并发/高可用系统设计，流量控制、缓存策略、异步化改造，Linux 运维
-                    </div>
-                    <div class="skill-item">
-                        <span class="skill-icon"></span>
-                        从0到1搭建系统架构及项目重构经验
+                    <div class="skill-card">
+                        <h4>AI 大模型落地</h4>
+                        <p>阿里百炼 / 百度千帆 / 大模型推理 / AI 直播辅助 / 内容审核 / 智能推荐</p>
                     </div>
                 </div>
 
-                <div style="margin-top: 20px;">
+                <div style="margin-top: 24px;">
                     <div class="tech-tags">
                         <span class="tech-tag">PHP</span>
-                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Swoole</span>
+                        <span class="tech-tag">Workerman</span>
+                        <span class="tech-tag">Webman</span>
+                        <span class="tech-tag">ThinkPHP</span>
+                        <span class="tech-tag">Laravel</span>
                         <span class="tech-tag">MySQL</span>
                         <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">MongoDB</span>
                         <span class="tech-tag">RabbitMQ</span>
                         <span class="tech-tag">RocketMQ</span>
                         <span class="tech-tag">WebSocket</span>
-                        <span class="tech-tag">Swoole</span>
-                        <span class="tech-tag">Workerman</span>
-                        <span class="tech-tag">ThinkPHP</span>
-                        <span class="tech-tag">Laravel</span>
+                        <span class="tech-tag">WebRTC</span>
+                        <span class="tech-tag">FFmpeg</span>
                         <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">K8s</span>
+                        <span class="tech-tag">CI/CD</span>
                     </div>
                 </div>
             </div>
@@ -412,16 +397,31 @@
                     <span class="company-title">技术经理</span>
                 </div>
 
+                <div class="highlight">
+                    <p>
+                        带领 10 人研发团队，搭建团队技术规范、Code Review 机制、CI/CD 自动化部署流程，建立人才培养体系，输出多名核心骨干开发，团队交付效率提升 80%。负责公司核心教育产品的底层架构设计与技术规划，主导互联网教育培训产品的全链路研发与迭代，把控技术选型、项目进度与交付质量。负责国家级 / 省级政务培训平台的技术方案设计与合规落地，对接人社、财政等主管部门政策要求，保障系统安全与数据合规。
+                    </p>
+                </div>
+
                 <div class="project">
-                    <h4>电商实训2.0平台</h4>
+                    <h4>电商实训 2.0 实训平台</h4>
                     <div class="link"><a href="https://shop.busionline.com" target="_blank">shop.busionline.com</a></div>
-                    <div class="section-label">职责</div>
-                    <p class="card-desc">系统底层架构 / JWT身份认证 / 阿里云CI/CD</p>
-                    <div class="section-label">亮点</div>
-                    <p class="card-desc">AI直播能力 / 阿里百炼大模型 / FFmpeg视频切片 / WebSocket全双工通信</p>
-                    <div class="section-label">技术</div>
-                    <div class="tech-tags">
-                        <span class="tech-tag">Webman</span>
+                    <div class="label">我的职责</div>
+                    <ul class="duty-list">
+                        <li>系统底层架构设计与落地</li>
+                        <li>前后端 JWT 身份认证和授权策略的拟定</li>
+                        <li>统一使用阿里云云效完成代码 CI/CD 自动化部署落地</li>
+                    </ul>
+                    <div class="highlight">
+                        <p>
+                            落地 AI 直播创业功能，通过任务清单式设计 + 阿里百炼大模型能力，为学员直播策划、实施、推广提供全流程 AI 辅助服务<br>
+                            基于 FFmpeg 完成直播视频内容切片分析，结合大模型实现内容推理总结，提升直播内容审核与复盘效率<br>
+                            基于 WebSocket 搭建直播带货全双工消息系统，替代传统轮询方案，实现服务端主动推送，大幅降低服务器资源消耗
+                        </p>
+                    </div>
+                    <div class="tech-tags" style="margin-top: 12px;">
+                        <span class="tech-tag">webman</span>
+                        <span class="tech-tag">RPC</span>
                         <span class="tech-tag">WebSocket</span>
                         <span class="tech-tag">RocketMQ</span>
                         <span class="tech-tag">Casbin</span>
@@ -429,30 +429,73 @@
                 </div>
 
                 <div class="project">
-                    <h4>马兰花创业培训管理平台</h4>
+                    <h4>马兰花网络创业培训管理平台</h4>
                     <div class="link"><a href="https://www.busionline.com" target="_blank">busionline.com</a></div>
-                    <div class="section-label">职责</div>
-                    <p class="card-desc">前后端分离架构 / RESTful规范 / OAuth2.0 + Casbin权限控制</p>
-                    <div class="section-label">亮点</div>
-                    <p class="card-desc">前后端分离效率提升80% / 系统安全性和转化率提高60%</p>
-                    <div class="section-label">技术</div>
-                    <div class="tech-tags">
+                    <div class="label">我的职责</div>
+                    <ul class="duty-list">
+                        <li>系统 0-1 底层架构设计与技术选型</li>
+                        <li>落地前后端分离架构，制定 RESTful 接口规范与文档，拟定前后端接口授权、身份认证与权限管控策略</li>
+                        <li>推动团队落地一站式软件研发管理协作平台 Coding，规范研发全流程</li>
+                        <li>负责阿里云直播、点播、OSS 存储对接，落地 WebSocket 直播带货消息系统</li>
+                    </ul>
+                    <div class="highlight">
+                        <p>
+                            完成 0-1 前后端分离架构落地，实现前后端并行开发、多端接口复用，大幅提升问题排查效率，部门研发效率提升 80%<br>
+                            基于 OAuth2.0 授权机制与 Casbin 元模型策略，完成接口认证与权限体系搭建，系统安全性与业务转化率提升 60%
+                        </p>
+                    </div>
+                    <div class="tech-tags" style="margin-top: 12px;">
                         <span class="tech-tag">Workerman</span>
+                        <span class="tech-tag">Crontab</span>
+                        <span class="tech-tag">阿里云直播/点播/OSS</span>
+                        <span class="tech-tag">OAuth2.0</span>
+                        <span class="tech-tag">Redis</span>
                         <span class="tech-tag">ThinkPHP6</span>
+                        <span class="tech-tag">MySQL</span>
                         <span class="tech-tag">JWT</span>
                         <span class="tech-tag">人脸识别</span>
                         <span class="tech-tag">OCR</span>
+                        <span class="tech-tag">RocketMQ</span>
+                        <span class="tech-tag">Casbin</span>
                     </div>
                 </div>
 
                 <div class="project">
-                    <h4>国家创业培训技术服务管理平台2.0</h4>
+                    <h4>国家创业培训技术服务管理平台 2.0</h4>
                     <div class="link"><a href="https://chinajob.mohrss.gov.cn:8001" target="_blank">chinajob.mohrss.gov.cn:8001</a></div>
-                    <div class="section-label">描述</div>
-                    <p class="card-desc">面向主管部门、培训机构、培训讲师、评分专家、学员五类用户，实现无纸化、信息化管理</p>
-                    <div class="section-label">技术</div>
-                    <div class="tech-tags">
+                    <div class="label">项目描述</div>
+                    <p class="card-desc">面向主管部门、培训机构、培训讲师、评分专家和学员五类人群，实现创业培训无纸化、信息化、高效管理与全流程跟踪的政务级管理系统</p>
+                    <div class="label">我的职责</div>
+                    <ul class="duty-list">
+                        <li>系统底层架构设计，确定系统组件、模块与层级结构，完成技术栈与框架选型，保障系统的可扩展性、可维护性与高性能</li>
+                        <li>核心数据库设计，完成表结构、字段与关系设计，制定数据库优化策略，保障数据完整性、一致性与安全性</li>
+                    </ul>
+                    <div class="tech-tags" style="margin-top: 12px;">
                         <span class="tech-tag">PHP7.4</span>
+                        <span class="tech-tag">ThinkPHP6</span>
+                        <span class="tech-tag">MySQL5.7</span>
+                        <span class="tech-tag">Redis5.0</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">RocketMQ</span>
+                        <span class="tech-tag">Supervisor</span>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <h4>工学一体化教师培训管理服务平台 1.0</h4>
+                    <div class="link"><a href="https://chinajob.mohrss.gov.cn:8003" target="_blank">chinajob.mohrss.gov.cn:8003</a></div>
+                    <div class="label">项目描述</div>
+                    <p class="card-desc">面向职业教育全角色的网创培训管理工具，实现培训全流程无纸化、信息化管理与跟踪服务</p>
+                    <div class="label">我的职责</div>
+                    <ul class="duty-list">
+                        <li>系统底层架构设计与技术规划，保障系统可扩展性与高可用性</li>
+                        <li>核心数据库结构设计与性能优化，支撑培训全流程数据闭环管理</li>
+                    </ul>
+                    <div class="tech-tags" style="margin-top: 12px;">
+                        <span class="tech-tag">PHP7.4</span>
+                        <span class="tech-tag">ThinkPHP6</span>
+                        <span class="tech-tag">MySQL5.7</span>
+                        <span class="tech-tag">Redis5.0</span>
                         <span class="tech-tag">React</span>
                         <span class="tech-tag">RocketMQ</span>
                         <span class="tech-tag">Supervisor</span>
@@ -462,17 +505,37 @@
                 <div class="project">
                     <h4>北京市职业技能提升行动管理平台</h4>
                     <div class="link"><a href="https://www.bjjnts.cn" target="_blank">bjjnts.cn</a> · 千万级学员</div>
-                    <div class="section-label">亮点</div>
-                    <p class="card-desc">性能 150QPS → 200QPS / 服务器 35台 → 28台 / MySQL索引锁事务解决并发支付</p>
-                    <div class="section-label">职责</div>
-                    <p class="card-desc">直播点播API规范 / 10余家点播课程对接 / 腾讯乐享、钉钉直播接入 / 京训钉小程序</p>
-                    <div class="section-label">技术</div>
-                    <div class="tech-tags">
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">Redis</span>
+                    <div class="label">项目描述</div>
+                    <p class="card-desc">为北京市人社局打造的千万级学员职业技能培训公共服务平台，形成 "1+X" 平台管理服务模式，支撑线上线下技能培训、补贴申报、课程资源对接全流程</p>
+                    <div class="label">我的职责</div>
+                    <ul class="duty-list">
+                        <li>直播、点播 API 接口规范化设计与落地，完成 10 余家课程资源方、钉钉 / 腾讯乐享等直播能力的对接</li>
+                        <li>负责人社 1540 补贴申报系统 FTP 数据同步、第三方服务商直播数据打通</li>
+                        <li>负责开放平台、京训钉小程序的接口需求梳理、规范制定与研发落地</li>
+                        <li>负责阿里云服务、百度云人脸识别 / OCR、直付通支付分账能力的对接落地</li>
+                    </ul>
+                    <div class="highlight">
+                        <p>
+                            完成底层架构与 PHP 版本升级，系统 QPS 从 150 提升到 200，服务器资源从 35 台精简到 28 台，大幅降低运维成本<br>
+                            通过 MySQL 索引优化、事务与锁机制，解决在线支付并发同步与异步通知问题，平稳支撑千万级学员点播并发<br>
+                            基于 Redis 队列实现削峰填谷、异步任务处理与冷热数据缓存，保障亿级学员学习记录零丢失、无误录
+                        </p>
+                    </div>
+                    <div class="tech-tags" style="margin-top: 12px;">
                         <span class="tech-tag">FTP</span>
-                        <span class="tech-tag">京训钉</span>
-                        <span class="tech-tag">直付通</span>
+                        <span class="tech-tag">国密SM2</span>
+                        <span class="tech-tag">Crontab</span>
+                        <span class="tech-tag">CLI</span>
+                        <span class="tech-tag">阿里云OSS/直播/短信</span>
+                        <span class="tech-tag">OAuth2.0</span>
+                        <span class="tech-tag">Layui</span>
+                        <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">ThinkPHP5</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">RESTful API</span>
+                        <span class="tech-tag">JWT</span>
+                        <span class="tech-tag">人脸识别</span>
+                        <span class="tech-tag">OCR</span>
                     </div>
                 </div>
             </div>
@@ -487,30 +550,36 @@
 
                 <div class="project">
                     <h4>阿麦流媒体平台</h4>
-                    <div class="section-label">描述</div>
-                    <p class="card-desc">基于微信的在线直播系统，面向婚礼公司、大型活动、医院等，720P+ rtmp推流</p>
-                    <div class="section-label">职责</div>
-                    <p class="card-desc">整个直播流媒体系统搭建：Linux、Nginx编译、FFmpeg、Lua脚本</p>
-                    <div class="section-label">技术</div>
-                    <div class="tech-tags">
+                    <div class="label">项目描述</div>
+                    <p class="card-desc">基于微信的在线直播系统，面向婚礼公司、大型活动、医院等，720P+ rtmp推流，支持互动直播与视频点播</p>
+                    <div class="label">我的职责</div>
+                    <p class="card-desc">整个直播流媒体系统搭建：安装 Linux 系统、网络配置、Nginx 编译及相关模块编译安装、Lua 脚本编写、FFmpeg 的 shell 脚本</p>
+                    <div class="tech-tags" style="margin-top: 12px;">
                         <span class="tech-tag">Phalcon</span>
-                        <span class="tech-tag">Nginx-RTMP</span>
-                        <span class="tech-tag">WebSocket</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Shell</span>
+                        <span class="tech-tag">Workerman</span>
                         <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">WebSocket</span>
                     </div>
                 </div>
 
                 <div class="project">
                     <h4>三三集团视频会议直播系统</h4>
-                    <div class="section-label">描述</div>
-                    <p class="card-desc">集团内部培训、视频会议，支持直播录像和在线剪切</p>
-                    <div class="section-label">技术</div>
-                    <div class="tech-tags">
+                    <div class="label">项目描述</div>
+                    <p class="card-desc">集团内部培训、视频会议系统，支持直播录像和在线剪切</p>
+                    <div class="label">我的职责</div>
+                    <p class="card-desc">整个直播流媒体系统搭建：Linux 系统 / Nginx 编译 / Lua 脚本 / FFmpeg / 四层和七层负载均衡</p>
+                    <div class="tech-tags" style="margin-top: 12px;">
+                        <span class="tech-tag">Phalcon</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Redis</span>
                         <span class="tech-tag">Lua</span>
                         <span class="tech-tag">Shell</span>
                         <span class="tech-tag">FFmpeg</span>
                         <span class="tech-tag">Nginx</span>
-                        <span class="tech-tag">四/七层负载均衡</span>
+                        <span class="tech-tag">Linux</span>
+                        <span class="tech-tag">交换机</span>
                     </div>
                 </div>
             </div>
@@ -522,27 +591,30 @@
 
             <div class="github-card">
                 <h4><a href="https://github.com/Tinywan/H5-dash-hls-rtmp-webrtc" target="_blank">H5-dash-hls-rtmp-webrtc</a></h4>
-                <p>HTML5播放器 / M3U8直播点播 / RTMP直播 / WebRTC实时通信</p>
+                <p>传统直播：HTML5播放器、M3U8直播点播、RTMP直播、低延迟、推流播流地址鉴权。实时直播：WebRTC</p>
                 <div class="tech-tags">
                     <span class="tech-tag">HTML5</span>
                     <span class="tech-tag">WebRTC</span>
                     <span class="tech-tag">FFmpeg</span>
+                    <span class="tech-tag">RTMP</span>
+                    <span class="tech-tag">HLS</span>
                 </div>
             </div>
 
             <div class="github-card">
                 <h4><a href="https://github.com/Tinywan/lua-nginx-redis" target="_blank">Lua-nginx-redis</a></h4>
-                <p>OpenResty开发 / Lua脚本案例 / Nginx模块 / Redis应用</p>
+                <p>Redis、Lua、Nginx、OpenResty开发、Lua案例、Nginx基础总结</p>
                 <div class="tech-tags">
                     <span class="tech-tag">Lua</span>
                     <span class="tech-tag">Nginx</span>
                     <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">OpenResty</span>
                 </div>
             </div>
 
             <div class="github-card">
                 <h4><a href="https://github.com/Tinywan/webman-jwt" target="_blank">webman-jwt</a></h4>
-                <p>Webman框架JWT认证插件 / Token刷新 / 多种签名算法</p>
+                <p>支持 JSON Web Token (JWT) for webman 插件的认证库</p>
                 <div class="tech-tags">
                     <span class="tech-tag">PHP</span>
                     <span class="tech-tag">JWT</span>
@@ -552,11 +624,12 @@
 
             <div class="github-card">
                 <h4><a href="https://github.com/php-casbin/webman-permission" target="_blank">webman-permission</a></h4>
-                <p>Casbin授权库Webman插件 / ACL / RBAC / ABAC访问控制</p>
+                <p>授权库，支持访问控制模型，如 ACL、RBAC、ABAC 用于 webman 插件</p>
                 <div class="tech-tags">
                     <span class="tech-tag">PHP</span>
                     <span class="tech-tag">Casbin</span>
                     <span class="tech-tag">RBAC</span>
+                    <span class="tech-tag">ABAC</span>
                 </div>
             </div>
         </div>
